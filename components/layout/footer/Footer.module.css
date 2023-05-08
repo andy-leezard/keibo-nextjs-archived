@@ -1,0 +1,48 @@
+#wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0px;
+  right: 0px;
+  padding: 4px 4px 18px 4px;
+  background-color: var(--footer-background);
+}
+
+#home_icon {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.line,
+.line_division {
+    display: flex;
+    align-items: center;
+}
+
+.line {
+    min-width: 600px;
+    max-width: var(--footer-max-width);
+}
+
+.line_division {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 1rem;
+}
+
+.line_division:last-child {
+    justify-content: flex-end;
+}
+
+.line ul {
+    order: unset;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.line li {
+    list-style-type: none;
+}
