@@ -4,8 +4,17 @@ import Negotiator from "negotiator"
 
 const locales = ["en", "fr", "ko"]
 const defaultLocale = "en"
+const PUBLIC_FILE = /\.(.*)$/
 
 export function middleware(request: NextRequest) {
+  if (
+    /* request.nextUrl.pathname.startsWith('/_next') || */
+    request.nextUrl.pathname.includes("/api/") ||
+    PUBLIC_FILE.test(request.nextUrl.pathname)
+  ) {
+    return
+  }
+
   // Check if there is any supported locale in the pathname
   const pathname = request.nextUrl.pathname
   const pathnameIsMissingLocale = locales.every(
