@@ -1,8 +1,4 @@
-import Image from "next/image"
-import { getDictionary } from "./dictionaries"
-
-// You now have access to the current locale
-// e.g. /en-US/products -> `lang` is "en-US"
+import { getDictionary } from "@/utils/get-dictionary"
 
 type PageProps = {
   params: { lang: SupportedLanguage }
