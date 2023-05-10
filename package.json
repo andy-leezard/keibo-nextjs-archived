@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@adobe/react-spectrum": "^3.26.0",
     "@formatjs/intl-localematcher": "^0.2.32",
     "client-only": "^0.0.1",
     "eslint": "8.40.0",
@@ -20,7 +21,9 @@
     "react-aria": "^3.24.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
-    "server-only": "^0.0.1"
+    "react-stately": "^3.22.0",
+    "server-only": "^0.0.1",
+    "styled-components": "6.0.0-rc.1"
   },
   "devDependencies": {
     "@types/negotiator": "^0.6.1",
