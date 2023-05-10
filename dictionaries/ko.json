@@ -1,5 +1,12 @@
 {
   "Home": {
     "title": "김치 불닭"
+  },
+  "misc": {
+    "language": "언어"
+  },
+  "meta": {
+    "title": "Keibo - 당신의 가계부",
+    "description": "Keibo 공식 웹 애플리케이션"
   }
 }
