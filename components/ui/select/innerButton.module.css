@@ -1,0 +1,26 @@
+.inner_button {
+  background: white;
+  border-color: lightgray;
+  appearance: none;
+  border: 1px solid;
+  padding: 6px 2px 6px 8px;
+  margin-top: 6px;
+  outline: none;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px;
+  text-align: left;
+  font-size: 14px;
+  color: black;
+}
+
+.inner_button.isOpen {
+  background: #eee;
+}
+
+.inner_button.isFocusVisible {
+  border-color: var(--accent-color);
+  /* box-shadow: 0 0 0 3px var(--accent-color-diluted); */
+}

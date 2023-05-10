@@ -1,0 +1,27 @@
+.list_item {
+  font-size: 14px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: default;
+  outline: none;
+  color: #333;
+}
+
+.list_item:not(.isFocused) svg {
+  color: var(--accent-color);
+}
+
+.isFocused svg {
+  color: #ffffff;
+}
+
+.list_item.isFocused {
+  background: var(--accent-color);
+}
+
+.liste_item.isSelected {
+  color: var(--accent-color);
+  font-weight: 600;
+}

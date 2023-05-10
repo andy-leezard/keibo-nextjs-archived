@@ -1,12 +1,11 @@
-"use client"
-
 import Link from "next/link"
-import Image from "next/image"
 import styles from "./Footer.module.css"
 import { FaDiscord, FaLinkedin } from "react-icons/fa"
 import { AiFillTwitterCircle } from "react-icons/ai"
+import { WithLocale } from "@/i18n-config"
+import LocaleSwitcher from "@/components/locale-switcher"
 
-const Footer = () => {
+const Footer = ({ currentLocale }: WithLocale) => {
   return (
     <footer id={styles.wrapper}>
       <div className={styles.line}>
@@ -33,8 +32,11 @@ const Footer = () => {
           </ul>
         </div>
         <div className={styles.line_division}>
-            <span>Keibo ©2023</span>
-            <span></span>
+          <span>Keibo ©2023</span>
+          <LocaleSwitcher
+            currentLocale={currentLocale}
+            placement="top"
+          />
         </div>
       </div>
     </footer>
