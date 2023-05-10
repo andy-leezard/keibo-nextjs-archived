@@ -1,12 +1,10 @@
 import "./globals.css"
-import { Nav, Footer } from "@/components/layout"
+import type { Metadata } from "next/types"
 import { Inter } from "next/font/google"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
-  title: "Keibo - your accounts",
-  description: "The official Keibo web app",
+export const metadata: Metadata = {
   icons: {
     icon: "/logo_64.webp",
     shortcut: "/logo_64.webp",
@@ -23,11 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Nav />
-        {children}
-        <Footer />
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }

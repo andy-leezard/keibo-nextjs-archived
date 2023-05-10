@@ -1,7 +1,8 @@
-import { getDictionary } from "@/utils/get-dictionary"
+import { Locale } from "@/i18n-config"
+import { getDictionary } from "@/utils/server-only/get-dictionary"
 
 type PageProps = {
-  params: { lang: SupportedLanguage }
+  params: { lang: Locale }
   searchParams: SearchParams
 }
 
