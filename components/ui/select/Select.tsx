@@ -16,7 +16,6 @@ import { useRef } from "react"
 import { Label, Wrapper } from "../shared"
 import Popover from "../popover"
 import ListBox from "../listbox"
-import InnerButton from "./InnerButton"
 import AlternativeButton from "./AlternativeButton"
 
 const Value = styled.span`
@@ -35,6 +34,7 @@ const StyledIcon = styled.div`
 export default function Select<T extends object>(
   props: AriaSelectProps<T> & {
     placement?: Placement
+    hideLabel?: boolean
   }
 ) {
   // Create state based on the incoming props
@@ -57,7 +57,7 @@ export default function Select<T extends object>(
 
   return (
     <Wrapper>
-      <Label {...labelProps}>{props.label}</Label>
+      {!props.hideLabel ? <Label {...labelProps}>{props.label}</Label> : <></>}
       <HiddenSelect
         state={state}
         triggerRef={ref}

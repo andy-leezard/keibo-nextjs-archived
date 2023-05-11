@@ -32,10 +32,11 @@ const Footer = ({ currentLocale }: WithLocale) => {
           </ul>
         </div>
         <div className={styles.line_division}>
-          <span>Keibo ©2023</span>
+          <span style={{ minWidth: "102px" }}>Keibo ©2023</span>
           <LocaleSwitcher
             currentLocale={currentLocale}
             placement="top"
+            hideLabel
           />
         </div>
       </div>

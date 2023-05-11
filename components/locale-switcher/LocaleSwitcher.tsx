@@ -20,11 +20,15 @@ const localeDisplayName = (locale: Locale) => {
   }
 }
 
-type LocaleSwitcherProps = WithLocale & { placement?: Placement }
+type LocaleSwitcherProps = WithLocale & {
+  placement?: Placement
+  hideLabel?: boolean
+}
 
 export default function LocaleSwitcher({
   currentLocale,
   placement,
+  hideLabel,
 }: LocaleSwitcherProps) {
   const router = useRouter()
   const pathName = usePathname()
@@ -42,6 +46,7 @@ export default function LocaleSwitcher({
   return (
     <SSRProvider>
       <Select
+        hideLabel={hideLabel}
         defaultSelectedKey={currentLocale}
         label={t(currentLocale, { en: "Language", fr: "Langue", ko: "언어" })}
         items={i18n.locales.map((locale) => ({
