@@ -16,7 +16,7 @@ import { useRef } from "react"
 import { Label, Wrapper } from "../shared"
 import Popover from "../popover"
 import ListBox from "../listbox"
-import AlternativeButton from "./AlternativeButton"
+import InnerButton from "./InnerButton"
 
 const Value = styled.span`
   display: inline-flex;
@@ -64,15 +64,11 @@ export default function Select<T extends object>(
         label={props.label}
         name={props.name}
       />
-      <AlternativeButton
+      <InnerButton
         ref={ref}
         ariaProps={ariaProps}
         isOpen={state.isOpen}
         isFocusVisible={isFocusVisible}
-        /* buttonProps={{
-          isOpen: state.isOpen,
-          isFocusVisible: isFocusVisible,
-        }} */
       >
         <Value {...valueProps}>
           {state.selectedItem
@@ -82,7 +78,7 @@ export default function Select<T extends object>(
         <StyledIcon>
           <HiSelector />
         </StyledIcon>
-      </AlternativeButton>
+      </InnerButton>
       {state.isOpen && (
         <Popover
           state={state}

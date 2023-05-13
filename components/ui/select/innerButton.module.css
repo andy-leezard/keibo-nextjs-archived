@@ -13,7 +13,6 @@
   width: 200px;
   text-align: left;
   font-size: 14px;
-  color: black;
 }
 
 .inner_button.isOpen {
@@ -23,4 +22,14 @@
 .inner_button.isFocusVisible {
   border-color: var(--accent-color);
   /* box-shadow: 0 0 0 3px var(--accent-color-diluted); */
+}
+
+@media (prefers-color-scheme: dark) {
+  .inner_button {
+    background: #2c2c2c;
+    border-color: rgb(67, 67, 67);
+  }
+  .inner_button.isOpen {
+    background: #1c1c1c;
+  }
 }

@@ -1,6 +1,12 @@
 "use client"
 
-import { ForwardedRef, forwardRef, RefObject } from "react"
+import {
+  ButtonHTMLAttributes,
+  CSSProperties,
+  ForwardedRef,
+  forwardRef,
+  RefObject,
+} from "react"
 import {
   AriaButtonProps,
   useButton,
@@ -10,19 +16,41 @@ import {
 import styles from "./Button.module.css"
 
 const ButtonRef = (
-  props: AriaButtonProps,
+  props: AriaButtonProps<"button"> & {
+    corner: "capsule" | "rounded"
+    theme?: "reddish" | "blueish"
+    transparency?: boolean
+    style?: CSSProperties
+    className?: string
+    overrideType?: ButtonHTMLAttributes<HTMLButtonElement>["type"]
+  },
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
-  const { buttonProps } = useButton(props, ref as RefObject<HTMLButtonElement>)
+  const {
+    corner,
+    theme,
+    style,
+    className,
+    transparency,
+    overrideType,
+    ...rest
+  } = props
+  const { buttonProps } = useButton(rest, ref as RefObject<HTMLButtonElement>)
   const { focusProps, isFocusVisible } = useFocusRing()
 
   return (
     <button
       {...mergeProps(buttonProps, focusProps)}
       ref={ref}
-      className={`${styles.button} ${isFocusVisible ? styles.focus_ring : ""}`}
+      type={overrideType ?? "button"}
+      className={`${styles.base} ${transparency ? styles.transparency : ""} ${
+        styles[corner]
+      } ${theme ? styles[theme] : styles.default} ${
+        isFocusVisible ? styles.focus_ring : ""
+      } ${className ?? ""}`}
+      style={style}
     >
-      {props.children}
+      {rest.children}
     </button>
   )
 }

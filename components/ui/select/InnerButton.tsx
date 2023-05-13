@@ -1,59 +1,40 @@
-import {
-  ButtonHTMLAttributes,
-  DOMAttributes,
-  ForwardedRef,
-  ReactNode,
-  forwardRef,
-} from "react"
-import styles from "./innerButton.module.css"
+// Button.tsx
+import React, { ButtonHTMLAttributes, DOMAttributes, ForwardedRef } from "react"
+import styles from "./InnerButton.module.css"
 
 interface ButtonProps {
+  ariaProps: DOMAttributes<FocusableElement> & ButtonHTMLAttributes<HTMLButtonElement>
+  children: React.ReactNode
   isOpen?: boolean
   isFocusVisible?: boolean
 }
 
-type InnerButtonRefProps<T> = {
-  ariaButtonProps: T
-  buttonProps: ButtonProps
-  children: ReactNode
-}
-
-const InnerButtonRef = <T,>(
-  props: InnerButtonRefProps<T>,
+const InnerButtonRef = (
+  {
+    children,
+    isOpen = false,
+    isFocusVisible = false,
+    ariaProps,
+  }: ButtonProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
+
+  const { isFocused, isSelected, ...rest } = ariaProps as any
+
   return (
     <button
+      {...rest}
       ref={ref}
-      className={`${styles.inner_button} ${
-        props.buttonProps.isOpen ? styles.isOpen : ""
-      } ${props.buttonProps.isFocusVisible ? styles.isFocusVisible : ""}`}
+      type="button"
+      className={`${styles.inner_button} ${isOpen ? styles.isOpen : ""} ${
+        isFocusVisible ? styles.isFocusVisible : ""
+      }`}
     >
-      {props.children}
+      {children}
     </button>
   )
 }
 
-/* type GenericComponentRenderFunction<T> = ForwardRefRenderFunction<
-  InnerButtonRefProps<T> & HTMLButtonElement
-> */
-
-// eslint-disable-next-line react/display-name
-const InnerButton = forwardRef((props: any, ref: any) => (
-  <InnerButtonRef<ButtonHTMLAttributes<HTMLButtonElement> & DOMAttributes<any>>
-    {...props}
-    ref={ref}
-  />
-))
-
-/* 
-const InnerButton = <T,>(
-  props: InnerButtonRefProps<T> & { ref: ForwardedRef<HTMLButtonElement> },
-) => {
-  const Component = forwardRef(InnerButtonRef<T>)
-  const { ref, ...rest } = props
-  return <Component {...rest} ref={props.ref} />
-}
-*/
+const InnerButton = React.forwardRef<HTMLButtonElement, ButtonProps>(InnerButtonRef)
 
 export default InnerButton

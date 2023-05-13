@@ -12,6 +12,9 @@ declare global {
   type RequiredAttributes<T> = {
     [K in keyof T as T[K] extends Required<T>[K] ? K : never]: T[K]
   }
+
+  /** Undefined DOM Attributes */
+  type FocusableElement = any
 }
 
 /** export any type to declare this file */

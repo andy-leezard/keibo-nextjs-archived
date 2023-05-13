@@ -9,6 +9,12 @@
   color: #333;
 }
 
+@media (prefers-color-scheme: dark) {
+  .list_item {
+    color: #dadada;
+  }
+}
+
 .list_item:not(.isFocused) svg {
   color: var(--accent-color);
 }

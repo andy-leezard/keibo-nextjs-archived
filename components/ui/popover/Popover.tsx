@@ -21,10 +21,16 @@ const Wrapper = styled.div<{ placement?: Placement }>`
   position: absolute;
   z-index: 1;
   width: 200px;
-  border: 1px solid lightgray;
   border-radius: 4px;
   margin-top: 6px;
+
+  
   background: white;
+  border: 1px solid lightgray;
+  @media (prefers-color-scheme: dark) {
+    background: #444444;
+    border: 1px solid #222222;
+  }
 
   /* Conditional styles based on isOpen and isFocusVisible props */
   ${({ placement }) => css`
