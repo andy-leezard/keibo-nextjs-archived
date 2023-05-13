@@ -1,7 +1,7 @@
 import { Nav, Footer } from "@/components/layout"
 import { Locale, WithLocaleParam, i18n } from "../../i18n-config"
 import type { Metadata, ResolvingMetadata } from "next/types"
-import { getDictionary } from "@/utils/server-only/get-dictionary"
+import { getDictionary } from "@/utils/server/get-dictionary"
 
 export async function generateMetadata(
   { params, searchParams }: WithLocaleParam & WithSearchParams,

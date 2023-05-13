@@ -1,3 +1,4 @@
+import Form from "@/components/auth-form"
 import { Locale } from "@/i18n-config"
 import { getDictionary } from "@/utils/server/get-dictionary"
 
@@ -10,7 +11,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const dict = await getDictionary(params.lang) // en
   return (
     <main style={{ display: "flex", flex: 1 }}>
-      <span>{dict.Home.title}</span>
+      <Form currentLocale={params.lang} />
     </main>
   )
 }
