@@ -2,6 +2,9 @@
   --accent-color: #28b1d7;
   --accent-color-diluted: #28b1d786;
 
+  --reddish-color: #f14c4c;
+  --reddish-color-diluted:rgba(241, 76, 76, 0.483)c;
+
   --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
