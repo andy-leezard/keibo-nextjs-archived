@@ -2,8 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import { useRouter } from "next/navigation"
-import { Locale, WithLocale, i18n } from "../../i18n-config"
-import { t } from "@/utils"
+import { Locale, WithLocale, i18n, t } from "../../i18n-config"
 import { Item, Select } from "../ui"
 import { Key } from "react"
 import { Placement, SSRProvider } from "react-aria"
