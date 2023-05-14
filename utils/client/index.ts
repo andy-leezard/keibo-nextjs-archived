@@ -1,3 +1,5 @@
+"use client"
+
 const RN_LOG_LEVEL = {
   debug: 0,
   warn: 1,
