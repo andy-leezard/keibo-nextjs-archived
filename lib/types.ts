@@ -1,3 +1,5 @@
+import { ReactNode } from "react"
+
 declare global {
   /** Layout */
   type SearchParams = Record<string, string>
@@ -15,6 +17,9 @@ declare global {
 
   /** Undefined DOM Attributes */
   type FocusableElement = any
+
+  /** React utils */
+  type WithChildren = { children: ReactNode }
 }
 
 /** export any type to declare this file */
