@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -11,8 +11,11 @@
   "dependencies": {
     "@adobe/react-spectrum": "^3.26.0",
     "@formatjs/intl-localematcher": "^0.2.32",
+    "@next-auth/firebase-adapter": "^2.0.1",
     "client-only": "^0.0.1",
+    "encoding": "^0.1.13",
     "firebase": "^9.22.0",
+    "firebase-admin": "^11.8.0",
     "negotiator": "^0.6.3",
     "next": "13.4.2",
     "next-auth": "^4.22.1",
