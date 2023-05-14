@@ -1,3 +1,5 @@
+"use client"
+
 import { Locale, t } from "@/i18n-config"
 
 export type FirebaseAuthErrorType =

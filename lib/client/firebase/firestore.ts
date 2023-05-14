@@ -1,3 +1,5 @@
+"use client"
+
 import { isOdd } from "@/utils"
 import { DocumentData, doc, updateDoc } from "firebase/firestore"
 import { fdb } from "./firebase"
