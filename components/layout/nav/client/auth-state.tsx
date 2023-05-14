@@ -3,17 +3,12 @@
 import Button from "@/components/ui/button"
 import { WithLocale, t } from "@/i18n-config"
 import Image from "next/image"
-import { auth } from "@/lib/client/firebase"
-import { updateFirestore } from "@/lib/client/firebase/firestore"
-import { log } from "@/utils/client"
-import { User } from "firebase/auth"
 import { signIn, signOut, useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
 import { useRouter } from "next/navigation"
-import { Key, useEffect, useState } from "react"
+import { Key } from "react"
 import { MenuButton } from "@/components/ui/menu/Menu"
 import { Section, Item } from "react-stately"
-import { SSRProvider } from "react-aria"
 
 export const AuthState = ({ currentLocale }: WithLocale) => {
   const session =
@@ -61,36 +56,35 @@ export const AuthState = ({ currentLocale }: WithLocale) => {
   }
 
   return (
-    <SSRProvider>
+    <>
       {session ? (
         <>
-          <SSRProvider>
-            <MenuButton
-              label={
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  {session.data?.user?.image ? (
-                    <Image
-                      src={session.data.user.image}
-                      width={28}
-                      height={28}
-                      style={{ borderRadius: "4px" }}
-                      alt={session.data.user?.name ?? "profile"}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                  <span>
-                    {session.data?.user?.name ??
-                      session.data?.user?.email ??
-                      "User"}
-                  </span>
-                </div>
-              }
-              onAction={handleSessionMenu}
-            >
-              {/* <Section>
+          <MenuButton
+            label={
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                {session.data?.user?.image ? (
+                  <Image
+                    src={session.data.user.image}
+                    width={28}
+                    height={28}
+                    style={{ borderRadius: "4px" }}
+                    alt={session.data.user?.name ?? "profile"}
+                  />
+                ) : (
+                  <></>
+                )}
+                <span>
+                  {session.data?.user?.name ??
+                    session.data?.user?.email ??
+                    "User"}
+                </span>
+              </div>
+            }
+            onAction={handleSessionMenu}
+          >
+            {/* <Section>
                 <Item key="edit">Edit…</Item>
                 <Item key="duplicate">Duplicate</Item>
               </Section>
@@ -98,18 +92,17 @@ export const AuthState = ({ currentLocale }: WithLocale) => {
                 <Item key="move">Move…</Item>
                 <Item key="rename">Rename…</Item>
               </Section> */}
-              <Section>
-                {/* <Item key="archive">Archive</Item> */}
-                <Item key="signout">
-                  {t(currentLocale, {
-                    en: "Sign out",
-                    fr: "Se deconnecter",
-                    ko: "로그아웃",
-                  })}
-                </Item>
-              </Section>
-            </MenuButton>
-          </SSRProvider>
+            <Section>
+              {/* <Item key="archive">Archive</Item> */}
+              <Item key="signout">
+                {t(currentLocale, {
+                  en: "Sign out",
+                  fr: "Se deconnecter",
+                  ko: "로그아웃",
+                })}
+              </Item>
+            </Section>
+          </MenuButton>
         </>
       ) : (
         <Button
@@ -128,6 +121,6 @@ export const AuthState = ({ currentLocale }: WithLocale) => {
           })}
         </Button>
       )}
-    </SSRProvider>
+    </>
   )
 }

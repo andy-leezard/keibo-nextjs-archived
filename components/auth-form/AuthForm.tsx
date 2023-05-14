@@ -6,7 +6,11 @@ import Link from "next/link"
 import { ChangeEvent, FormEvent, useCallback, useRef, useState } from "react"
 import { Button } from "../ui"
 import { isValidEmailAddress } from "@/utils"
-import { signInWithEmailAndPassword } from "firebase/auth"
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth"
 import { auth } from "@/lib/client/firebase"
 import {
   FirebaseAuthErrorState,
@@ -15,6 +19,7 @@ import {
 } from "@/lib/client/firebase/utils"
 import { ColorfulSpinner } from "../ui/loaders"
 import { log } from "@/utils/client"
+import { useSession, signIn, signOut } from "next-auth/react"
 
 type AuthFormProps = WithLocale
 
@@ -75,6 +80,43 @@ const AuthForm = ({ currentLocale }: AuthFormProps) => {
     [currentLocale, processing]
   )
 
+  /* const testFunc = async () => {
+    const googleAuthProvider = new GoogleAuthProvider()
+    try {
+      const result = await test()
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      const token = credential?.accessToken
+      // The signed-in user info.
+      const user = result?.user
+      // IdP data available using getAdditionalUserInfo(result)
+      console.log({
+        user,
+        token,
+      })
+      return {
+        user,
+        token,
+      }
+    } catch (_error) {
+      // Handle Errors here.
+      const error = _error as any
+      const errorCode = error?.code
+      const errorMessage = error?.message
+      // The email of the user's account used.
+      const email = error?.customData.email
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error)
+      // ...
+      console.log({
+        error,
+        errorCode,
+        errorMessage,
+        email,
+      })
+    }
+  } */
+
   return (
     <form className={styles.form_base} onSubmit={onSubmit}>
       <p className={styles.title}>Welcome</p>
@@ -133,6 +175,9 @@ const AuthForm = ({ currentLocale }: AuthFormProps) => {
             ko: "로그인",
           })
         )}
+      </Button>
+      <Button corner="rounded" onPress={() => signIn()}>
+        Sign in with Google
       </Button>
       {currentLocale === "ko" ? (
         <span>

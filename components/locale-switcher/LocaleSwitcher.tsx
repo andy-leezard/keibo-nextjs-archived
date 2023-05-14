@@ -43,20 +43,18 @@ export default function LocaleSwitcher({
   }
 
   return (
-    <SSRProvider>
-      <Select
-        hideLabel={hideLabel}
-        defaultSelectedKey={currentLocale}
-        label={t(currentLocale, { en: "Language", fr: "Langue", ko: "언어" })}
-        items={i18n.locales.map((locale) => ({
-          id: locale,
-          name: localeDisplayName(locale),
-        }))}
-        onSelectionChange={redirectedPathName}
-        placement={placement}
-      >
-        {(item) => <Item key={item.id}>{item.name}</Item>}
-      </Select>
-    </SSRProvider>
+    <Select
+      hideLabel={hideLabel}
+      defaultSelectedKey={currentLocale}
+      label={t(currentLocale, { en: "Language", fr: "Langue", ko: "언어" })}
+      items={i18n.locales.map((locale) => ({
+        id: locale,
+        name: localeDisplayName(locale),
+      }))}
+      onSelectionChange={redirectedPathName}
+      placement={placement}
+    >
+      {(item) => <Item key={item.id}>{item.name}</Item>}
+    </Select>
   )
 }
