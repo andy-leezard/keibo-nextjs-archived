@@ -2,20 +2,31 @@
 
 import Button from "@/components/ui/button"
 import { WithLocale, t } from "@/i18n-config"
+import Image from "next/image"
 import { auth } from "@/lib/client/firebase"
 import { updateFirestore } from "@/lib/client/firebase/firestore"
 import { log } from "@/utils/client"
 import { User } from "firebase/auth"
+import { signIn, signOut, useSession } from "next-auth/react"
 import { usePathname } from "next/navigation"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Key, useEffect, useState } from "react"
+import { MenuButton } from "@/components/ui/menu/Menu"
+import { Section, Item } from "react-stately"
+import { SSRProvider } from "react-aria"
 
 export const AuthState = ({ currentLocale }: WithLocale) => {
-  const [user, setUser] = useState<User | null>(null)
+  const session =
+    useSession(/* {
+    required: true,
+    onUnauthenticated(){
+      redirect('/signin?callback=/here')
+    }
+  } */)
   const router = useRouter()
   const pathname = usePathname()
 
-  useEffect(() => {
+  /* useEffect(() => {
     const auth_unsubscribe = auth.onAuthStateChanged(async (user) => {
       log("AuthWrapper.tsx - defining user status...")
       log(user ? `USER : ${JSON.stringify(user.uid)}` : "NOT SIGNED IN")
@@ -32,39 +43,91 @@ export const AuthState = ({ currentLocale }: WithLocale) => {
     return () => {
       auth_unsubscribe()
     }
-  }, [])
+  }, []) */
+
+  const handleSessionMenu = (key: Key) => {
+    switch (key) {
+      case "signout":
+        signOut()
+        break
+      default:
+        console.error(`Unhandled menu key ${key}`)
+        break
+    }
+  }
 
   if (pathname.includes("auth")) {
     return <></>
   }
 
-  if (user) {
-    return <span onClick={() => auth.signOut()}>{user.email}</span>
-  }
-
   return (
-    <Button
-      /* onPressStart={() => console.log("on press START")}
+    <SSRProvider>
+      {session ? (
+        <>
+          <SSRProvider>
+            <MenuButton
+              label={
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
+                  {session.data?.user?.image ? (
+                    <Image
+                      src={session.data.user.image}
+                      width={28}
+                      height={28}
+                      style={{ borderRadius: "4px" }}
+                      alt={session.data.user?.name ?? "profile"}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  <span>
+                    {session.data?.user?.name ??
+                      session.data?.user?.email ??
+                      "User"}
+                  </span>
+                </div>
+              }
+              onAction={handleSessionMenu}
+            >
+              {/* <Section>
+                <Item key="edit">Edit…</Item>
+                <Item key="duplicate">Duplicate</Item>
+              </Section>
+              <Section>
+                <Item key="move">Move…</Item>
+                <Item key="rename">Rename…</Item>
+              </Section> */}
+              <Section>
+                {/* <Item key="archive">Archive</Item> */}
+                <Item key="signout">
+                  {t(currentLocale, {
+                    en: "Sign out",
+                    fr: "Se deconnecter",
+                    ko: "로그아웃",
+                  })}
+                </Item>
+              </Section>
+            </MenuButton>
+          </SSRProvider>
+        </>
+      ) : (
+        <Button
+          /* onPressStart={() => console.log("on press START")}
       onPressEnd={() => console.log("on press END")} */
-      transparency
-      corner="capsule"
-      aria-label="Authenticate"
-      onPress={() => {
-        const segments = pathname.split("/")
-        if (segments.length <= 2) {
-          router.push(`${currentLocale}/auth`)
-        } else {
-          segments[2] = "auth"
-          router.push(segments.slice(0, 3).join("/"))
-        }
-      }}
-      /* theme="blueish" */
-    >
-      {t(currentLocale, {
-        en: "Sign in",
-        fr: "Se connecter",
-        ko: "로그인",
-      })}
-    </Button>
+          transparency
+          corner="capsule"
+          aria-label="Authenticate"
+          onPress={() => signIn()}
+          /* theme="blueish" */
+        >
+          {t(currentLocale, {
+            en: "Sign in",
+            fr: "Se connecter",
+            ko: "로그인",
+          })}
+        </Button>
+      )}
+    </SSRProvider>
   )
 }
