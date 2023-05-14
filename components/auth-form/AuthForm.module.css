@@ -2,7 +2,6 @@
   margin: auto;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.06);
   padding: 3rem;
   border-left: 1px solid rgba(255, 255, 255, 0.3);
   border-top: 1px solid rgba(255, 255, 255, 0.3);
@@ -24,10 +23,12 @@
   max-width: 400px;
 }
 
-@media (prefers-color-scheme: dark) {
-  .form_base {
-    background: rgba(55, 55, 55, 0.33);
-  }
+[data-theme='light'] .form_base {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme='dark'].form_base {
+  background: rgba(55, 55, 55, 0.33);
 }
 
 .title {

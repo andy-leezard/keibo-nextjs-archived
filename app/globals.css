@@ -9,28 +9,24 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 214, 219, 220;
-
-  --footer-background: #CCCCCC;
   --navbar-max-width: 1280px;
   --footer-max-width: 1280px;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-rgb: 40, 40, 40;
-    --footer-background: #000000;
-  }
   html {
     color-scheme: dark;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background-color: rgb(var(--background-rgb));
+[data-theme='light'] body {
+  color: rgb(0, 0, 0);
+  background-color: rgb(214, 219, 220);
+}
+
+[data-theme='dark'] body {
+  color: rgb(255, 255, 255);
+  background-color: rgb(40, 40, 40);
 }
 
 main {

@@ -1,0 +1,51 @@
+.menu_button {
+  display: flex;
+  color: #fff; /* text-white */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 600; /* font-semibold */
+  padding: 0.5rem 0.5rem; /* py-2 px-4 */
+  border-radius: 0.25rem; /* rounded */
+  cursor: default; /* cursor-default */
+  outline: none; /* focus:outline-none */
+  transition-property: background-color, border-color, color, fill, stroke,
+    opacity, box-shadow, transform; /* transition */
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* transition */
+  transition-duration: 150ms; /* transition */
+}
+
+.menu_button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus_ring {
+  border-color: #26b2d0;
+  box-shadow: 0 0 0 1px #26b2d0;
+}
+
+[data-theme='light'] .menu_button {
+    background: white;
+    color: #333333;
+}
+
+[data-theme='dark'] .menu_button {
+    background: #343434;
+    color: #dddddd;
+}
+
+[data-theme='light'] .pressed {
+    background: rgb(211, 211, 211);
+}
+
+[data-theme='dark'] .pressed {
+    background: #2c2c2c;
+}
+
+[data-theme='light'] .disabled {
+    background: rgb(176, 176, 176);
+}
+
+[data-theme='dark'] .disabled {
+    background: #1b1b1b;
+
+}

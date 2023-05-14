@@ -8,31 +8,34 @@
   appearance: none;
   font-weight: bold;
 }
-.base.transparency {
+
+[data-theme='light'] .base.transparency {
   background-color: rgba(255, 255, 255, 0.5);
 }
-.base.transparency:hover {
+[data-theme='light'] .base.transparency:hover {
   background-color: rgba(200, 200, 200, 0.75);
 }
-.base:not(.transparency) {
+[data-theme='light'] .base:not(.transparency) {
   background-color: rgb(235, 235, 235);
 }
-.base:not(.transparency):hover {
+[data-theme='light'] .base:not(.transparency):hover {
   background-color: rgb(198, 198, 198);
 }
-@media (prefers-color-scheme: dark) {
-  .base.transparency {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  .base.transparency:hover {
-    background-color: rgba(50, 50, 50, 0.75);
-  }
-  .base:not(.transparency) {
-    background-color: rgb(46, 46, 46);
-  }
-  .base:not(.transparency):hover {
-    background-color: rgb(40, 40, 40);
-  }
+
+[data-theme='dark'] .base.transparency {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='dark'] .base.transparency:hover {
+  background-color: rgba(50, 50, 50, 0.75);
+}
+
+[data-theme='dark'] .base:not(.transparency) {
+  background-color: rgb(46, 46, 46);
+}
+
+[data-theme='dark'] .base:not(.transparency):hover {
+  background-color: rgb(40, 40, 40);
 }
 
 .capsule {
@@ -54,30 +57,20 @@
   -o-border-radius: 4px;
 }
 
-.default {
+/* .default {
   box-shadow: 0 0 2px #ddd;
-}
+} */
 .default:hover {
   box-shadow: 0px 0px 8px 2px #ddd;
 }
 
 .reddish {
-  /* background-color: rgba(255, 116, 116, 0.5); */
   box-shadow: 0 0 2px #ce3458;
   color: #ce3458;
 }
 .reddish:hover {
-  /* background-color: rgba(255, 131, 131, 0.75); */
   box-shadow: 0px 0px 8px 2px #ce3458;
 }
-/* @media (prefers-color-scheme: dark) {
-  .reddish {
-    background-color: rgba(218, 96, 96, 0.5);
-  }
-  .reddish:hover {
-    background-color: rgba(169, 62, 62, 0.75);
-  }
-} */
 
 .blueish {
   box-shadow: 0 0 2px #26b2d0;
@@ -86,14 +79,6 @@
 .blueish:hover {
   box-shadow: 0px 0px 8px 2px #26b2d0;
 }
-/* @media (prefers-color-scheme: dark) {
-  .blueish {
-    background-color: rgba(136, 251, 255, 0.5);
-  }
-  .blueish:hover {
-    background-color: rgba(135, 223, 255, 0.75);
-  }
-} */
 
 .default.focus_ring {
   border-color: var(--accent-color);

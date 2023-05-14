@@ -6,13 +6,14 @@
   justify-content: space-between;
   cursor: default;
   outline: none;
+}
+
+[data-theme='light'] .list_item {
   color: #333;
 }
 
-@media (prefers-color-scheme: dark) {
-  .list_item {
-    color: #dadada;
-  }
+[data-theme='dark'] .list_item {
+  color: #dadada;
 }
 
 .list_item:not(.isFocused) svg {

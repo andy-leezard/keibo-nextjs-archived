@@ -1,0 +1,20 @@
+.popover {
+  position: absolute;
+  z-index: 1;
+  width: 200px;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: none;
+  outline: none;
+}
+
+[data-theme="light"] .popover {
+  background: white;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .popover {
+  background: #555555;
+  box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+}

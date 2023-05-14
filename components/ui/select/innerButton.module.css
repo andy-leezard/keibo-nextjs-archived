@@ -1,6 +1,4 @@
 .inner_button {
-  background: white;
-  border-color: lightgray;
   appearance: none;
   border: 1px solid;
   padding: 6px 2px 6px 8px;
@@ -15,21 +13,25 @@
   font-size: 14px;
 }
 
-.inner_button.isOpen {
-  background: #eee;
-}
-
 .inner_button.isFocusVisible {
   border-color: var(--accent-color);
   /* box-shadow: 0 0 0 3px var(--accent-color-diluted); */
 }
 
-@media (prefers-color-scheme: dark) {
-  .inner_button {
-    background: #2c2c2c;
-    border-color: rgb(67, 67, 67);
-  }
-  .inner_button.isOpen {
-    background: #1c1c1c;
-  }
+[data-theme='light'] .inner_button {
+  background: white;
+  border-color: lightgray;
+}
+
+[data-theme='light'] .inner_button.isOpen {
+  background: #eee;
+}
+
+[data-theme='dark'] .inner_button {
+  background: #2c2c2c;
+  border-color: rgb(67, 67, 67);
+}
+
+[data-theme='dark'] .inner_button.isOpen {
+  background: #1c1c1c;
 }

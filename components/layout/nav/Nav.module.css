@@ -5,10 +5,21 @@
   align-items: center;
   left: 0px;
   right: 0px;
-  padding: 12px 4px 4px 4px;
+  padding: 12px 4px 12px 4px;
+  border-bottom: 1px solid #fff;
+}
+
+@media (orientation: portrait) {
+  [data-theme='light'] #wrapper {
+    background-color: rgba(204, 204, 204, 0.776);
+  }
+  [data-theme='dark'] #wrapper {
+    background-color: #000000a7;
+  }
 }
 
 #container {
+  justify-content: space-between;
   display: flex;
   gap: 1rem;
   max-width: var(--navbar-max-width);
