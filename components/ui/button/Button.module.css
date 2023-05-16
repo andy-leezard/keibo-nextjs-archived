@@ -57,9 +57,9 @@
   -o-border-radius: 4px;
 }
 
-/* .default {
+.default {
   box-shadow: 0 0 2px #ddd;
-} */
+}
 .default:hover {
   box-shadow: 0px 0px 8px 2px #ddd;
 }
