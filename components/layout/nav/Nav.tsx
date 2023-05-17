@@ -3,11 +3,13 @@ import Image from "next/image"
 import styles from "./Nav.module.css"
 import { AuthState } from "./client/auth-state"
 import { WithLocale } from "@/i18n-config"
-import ThemeState from "./client/theme-state"
+import { Session } from "next-auth"
 
-type NavProps = WithLocale
+type NavProps = WithLocale & {
+  session: Session | null
+}
 
-const Nav = ({ currentLocale }: NavProps) => {
+const Nav = ({ currentLocale, session }: NavProps) => {
   return (
     <nav id={styles.wrapper}>
       <div id={styles.aurora} />
@@ -15,8 +17,7 @@ const Nav = ({ currentLocale }: NavProps) => {
         <Link href={`/${currentLocale}`} id={styles.home_icon}>
           <Image src="/letter_64.png" width={36} height={36} alt="Home" />
         </Link>
-        <ThemeState />
-        <AuthState currentLocale={currentLocale} />
+        <AuthState currentLocale={currentLocale} session={session}/>
       </div>
     </nav>
   )
