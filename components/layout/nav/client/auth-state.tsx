@@ -9,36 +9,15 @@ import { useRouter } from "next/navigation"
 import { Key } from "react"
 import { MenuButton } from "@/components/ui/menu/Menu"
 import { Section, Item } from "react-stately"
+import { Session } from "next-auth"
 
-export const AuthState = ({ currentLocale }: WithLocale) => {
-  const session =
-    useSession(/* {
-    required: true,
-    onUnauthenticated(){
-      redirect('/signin?callback=/here')
-    }
-  } */)
+type AuthStateProps = WithLocale & {
+  session: Session | null
+}
+
+export const AuthState = ({ currentLocale, session }: AuthStateProps) => {
   const router = useRouter()
   const pathname = usePathname()
-
-  /* useEffect(() => {
-    const auth_unsubscribe = auth.onAuthStateChanged(async (user) => {
-      log("AuthWrapper.tsx - defining user status...")
-      log(user ? `USER : ${JSON.stringify(user.uid)}` : "NOT SIGNED IN")
-      if (user) {
-        if (user.email) {
-          await updateFirestore("users", [user.email, "platform", "web"], {
-            lastActivity: new Date().toUTCString(),
-            lastActivityUnix: new Date().getTime(),
-          })
-        }
-      }
-      setUser(user)
-    })
-    return () => {
-      auth_unsubscribe()
-    }
-  }, []) */
 
   const handleSessionMenu = (key: Key) => {
     switch (key) {
@@ -64,21 +43,19 @@ export const AuthState = ({ currentLocale }: WithLocale) => {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "8px" }}
               >
-                {session.data?.user?.image ? (
+                {session.user?.image ? (
                   <Image
-                    src={session.data.user.image}
+                    src={session.user.image}
                     width={28}
                     height={28}
                     style={{ borderRadius: "4px" }}
-                    alt={session.data.user?.name ?? "profile"}
+                    alt={session.user?.name ?? "profile"}
                   />
                 ) : (
                   <></>
                 )}
                 <span>
-                  {session.data?.user?.name ??
-                    session.data?.user?.email ??
-                    "User"}
+                  {session.user?.name ?? session.user?.email ?? "User"}
                 </span>
               </div>
             }
@@ -107,7 +84,7 @@ export const AuthState = ({ currentLocale }: WithLocale) => {
       ) : (
         <Button
           /* onPressStart={() => console.log("on press START")}
-      onPressEnd={() => console.log("on press END")} */
+          onPressEnd={() => console.log("on press END")} */
           transparency
           corner="capsule"
           aria-label="Authenticate"
