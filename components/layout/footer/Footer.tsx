@@ -4,6 +4,7 @@ import { FaDiscord, FaLinkedin } from "react-icons/fa"
 import { AiFillTwitterCircle } from "react-icons/ai"
 import { WithLocale } from "@/i18n-config"
 import LocaleSwitcher from "@/components/locale-switcher"
+import ThemeState from "./client/theme-state"
 
 const Footer = ({ currentLocale }: WithLocale) => {
   return (
@@ -33,6 +34,7 @@ const Footer = ({ currentLocale }: WithLocale) => {
         </div>
         <div className={styles.line_division}>
           <span style={{ minWidth: "102px" }}>Keibo ©2023</span>
+          <ThemeState />
           <LocaleSwitcher
             currentLocale={currentLocale}
             placement="top"
