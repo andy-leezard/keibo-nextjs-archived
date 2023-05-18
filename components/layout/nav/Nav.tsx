@@ -11,15 +11,15 @@ type NavProps = WithLocale & {
 
 const Nav = ({ currentLocale, session }: NavProps) => {
   return (
-    <nav id={styles.wrapper}>
+    <header id={styles.wrapper}>
       <div id={styles.aurora} />
-      <div id={styles.container}>
+      <nav id={styles.container}>
         <Link href={`/${currentLocale}`} id={styles.home_icon}>
           <Image src="/letter_64.png" width={36} height={36} alt="Home" />
         </Link>
         <AuthState currentLocale={currentLocale} session={session}/>
-      </div>
-    </nav>
+      </nav>
+    </header>
   )
 }
 
