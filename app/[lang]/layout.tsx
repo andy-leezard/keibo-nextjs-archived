@@ -18,9 +18,9 @@ export async function generateMetadata(
 }
 
 /** [lang] parameter will match one of these */
-export async function generateStaticParams() {
+/* export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }))
-}
+} */
 
 export default async function HomeLayout({
   children,
