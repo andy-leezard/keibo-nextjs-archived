@@ -42,3 +42,15 @@ export const log = (
   }
   println(message)
 }
+
+export function isTouchDevice() {
+  return "ontouchstart" in window && navigator.maxTouchPoints > 0
+}
+
+export const shuffleArray = (unshuffled: any) => {
+  if (!(unshuffled instanceof Array)) return unshuffled
+  return unshuffled
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+}

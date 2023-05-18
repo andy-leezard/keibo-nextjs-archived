@@ -3,6 +3,7 @@ import { getDictionary } from "@/utils/server/get-dictionary"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../api/auth/[...nextauth]/route"
 import Image from "next/image"
+import BanalceSynthesis from "@/components/balanceSynthesis"
 
 type PageProps = {
   params: { lang: Locale }
@@ -33,7 +34,7 @@ export default async function Page({ params, searchParams }: PageProps) {
           {session.user.name ? <span>{session.user.name}</span> : <></>}
         </div>
       ) : (
-        <span>{dict.Home.title}</span>
+        <BanalceSynthesis currentLocale={params.lang} />
       )}
     </main>
   )

@@ -1,0 +1,14 @@
+.typing_text {
+  opacity: 1;
+}
+
+.typing_text span {
+  opacity: 0;
+  /* color: rgba(0, 0, 0, 0); */
+}
+
+.button {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
