@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
       clientEmail: process.env.FIREBASE_ADMIN_CONFIG_client_email,
       privateKey: process.env.FIREBASE_ADMIN_CONFIG_private_key,
     }),
-    namingStrategy: "snake_case"
+    namingStrategy: "snake_case",
   }),
   pages: {
     /* signIn: "auth", */
@@ -45,6 +45,14 @@ export const authOptions: NextAuthOptions = {
      * newUser:
      * "/welcome", // If set, new users will be directed here on first sign in,
      */
+  },
+  callbacks: {
+    session: async ({ session, token, user }) => {
+      if (session?.user) {
+        ;(session.user as any).id = user.id
+      }
+      return session
+    },
   },
   // A database is optional, but required to persist accounts in a database
 }
