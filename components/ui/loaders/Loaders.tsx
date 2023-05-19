@@ -60,6 +60,7 @@ const Spinner = styled.div`
   border-bottom-color: transparent;
   animation: ${spin} 3s infinite;
   transition-duration: 700ms;
+  user-select: none;
 `
 
 export const ColorfulSpinner = ({

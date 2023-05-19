@@ -29,15 +29,6 @@
   background-color: rgb(40, 40, 40);
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6rem;
-  min-height: calc(100dvh - 105px);
-}
-
 /* Simplest CSS Reset to prevent headaches */
 *,
 *::before,
@@ -49,6 +40,15 @@ main {
 
 html {
   scroll-behavior: smooth;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem;
+  min-height: calc(100vh - 137px);
 }
 
 html,
