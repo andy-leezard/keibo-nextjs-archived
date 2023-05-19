@@ -1,11 +1,10 @@
 "use client"
 
-import { usePathname } from "next/navigation"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { Locale, WithLocale, i18n, t } from "../../i18n-config"
 import { Item, Select } from "../ui"
 import { Key } from "react"
-import { Placement, SSRProvider } from "react-aria"
+import { Placement } from "react-aria"
 
 const localeDisplayName = (locale: Locale) => {
   switch (locale) {
