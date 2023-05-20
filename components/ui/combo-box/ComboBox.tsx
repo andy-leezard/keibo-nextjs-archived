@@ -29,8 +29,6 @@ const InputGroup = styled.div<StyleProps>`
   margin-top: 4px;
   border-radius: 4px;
   width: 200px;
-  box-shadow: ${(props) =>
-    props.isFocused ? "0 0 0 3px rgba(143, 188, 143, 0.5)" : ""};
 `
 
 const Input = styled.input<StyleProps>`
@@ -41,8 +39,9 @@ const Input = styled.input<StyleProps>`
   font-size: 16px;
   border: 1px solid;
   border-right: none;
-  border-color: ${(props) => (props.isFocused ? "seagreen" : "lightgray")};
+  border-color: ${(props) => (props.isFocused ? "var(--accent-color)" : "lightgray")};
   border-radius: 4px 0 0 4px;
+  color: white;
   margin: 0;
   flex: 1;
   width: 0;
@@ -51,7 +50,7 @@ const Input = styled.input<StyleProps>`
 const Button = styled.button`
   appearance: none;
   border: none;
-  background: seagreen;
+  background: var(--accent-color);
   color: white;
   margin: 0;
 `
