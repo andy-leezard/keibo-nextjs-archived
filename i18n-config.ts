@@ -6,15 +6,13 @@ export const i18n = {
 export type Locale = (typeof i18n)["locales"][number]
 export type WithLocale = { currentLocale: Locale }
 export type WithLocaleParam = { params: { lang: Locale } }
+export type PDictionary = PartiallyRequired<
+  Partial<Record<Locale, string>>,
+  (typeof i18n)["defaultLocale"]
+>
 
 /** Takes a dictionary and conditionally return the corresponding output */
-export const t = (
-  locale: Locale,
-  dictionary: PartiallyRequired<
-    Partial<Record<Locale, string>>,
-    (typeof i18n)["defaultLocale"]
-  >
-):string => {
+export const t = (locale: Locale, dictionary: PDictionary): string => {
   if (Object.prototype.hasOwnProperty.call(dictionary, locale)) {
     return dictionary[locale] as string
   }
