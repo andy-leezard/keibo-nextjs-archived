@@ -50,6 +50,19 @@ declare global {
     platform?: string // "web" | "ios" | "android"
     wallets?: string[]
   }
+
+  /** Core */
+  type FiatCurrency = "usd" | "eur" | "krw"
+  type Wallet = {
+    /**
+     * Define the platform (which bank? which crypto/stock platform?) and the name.
+     * @example bnp-paribas | binance | coinbase | ledger-wallet | undetermined
+     */
+    provider: string
+    category: "cash" | "equity" | "crypto" | "fund" | "other"
+    display_name: string
+    cash_input: Record<FiatCurrency, number>
+  }
 }
 
 /** export any type to declare this file */
