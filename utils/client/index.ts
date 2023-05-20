@@ -54,3 +54,7 @@ export const shuffleArray = (unshuffled: any) => {
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value)
 }
+
+export const indexIsValidForArray = (arr: Array<any>, index: number) => {
+  return arr.length && index >= 0 && arr.length > index
+}
