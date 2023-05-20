@@ -53,7 +53,7 @@ declare global {
 
   /** Core */
   type FiatCurrency = "usd" | "eur" | "krw"
-  type Wallet = {
+  type WalletConstructor = {
     /**
      * Define the platform (which bank? which crypto/stock platform?) and the name.
      * @example bnp-paribas | binance | coinbase | ledger-wallet | undetermined
@@ -61,7 +61,22 @@ declare global {
     provider: string
     category: "cash" | "equity" | "crypto" | "fund" | "other"
     display_name: string
-    cash_input: Record<FiatCurrency, number>
+    cash_input?: Partial<Record<FiatCurrency, number>>
+    /**
+     * people who have access to the wallet
+     * @example { [user_uid:string]: 'admin' }
+     */
+    participants?: Partial<Record<string, "viewer" | "editor" | "admin">>
+  }
+  type Wallet = {
+    uid: string
+
+    // metadata
+    created_at: ISODateString
+    created_at_unix: number
+
+    // ownership
+    owner_id: string
   }
 }
 
