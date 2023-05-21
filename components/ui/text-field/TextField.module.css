@@ -1,0 +1,35 @@
+.wrapper {
+    display: inline-flex;
+    position: relative;
+}
+
+.input_group {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row;
+    overflow: hidden;
+    margin-top: 4px;
+    border-radius: 4px;
+    padding: 6px 8px;
+}
+
+.input_group input {
+    appearance: none;
+    background: none;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    margin: 0;
+    flex: 1;
+}
+
+[data-theme='light'] .input_group {
+    color: #333;
+    border: 1px solid #d3d3d3;
+}
+
+[data-theme='dark'] .input_group {
+    color: #dadada;
+    border: 1px solid #434343;
+}
