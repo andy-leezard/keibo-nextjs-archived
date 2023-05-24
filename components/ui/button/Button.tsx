@@ -17,8 +17,8 @@ import styles from "./Button.module.css"
 
 const ButtonRef = (
   props: AriaButtonProps<"button"> & {
-    corner: "capsule" | "rounded"
-    theme?: "reddish" | "blueish"
+    corner?: "capsule" | "rounded"
+    theme?: "reddish" | "blueish" | "none"
     transparency?: boolean
     style?: CSSProperties
     className?: string
@@ -43,11 +43,13 @@ const ButtonRef = (
       {...mergeProps(buttonProps, focusProps)}
       ref={ref}
       type={overrideType ?? "button"}
-      className={`${styles.base} ${transparency ? styles.transparency : ""} ${
-        styles[corner]
-      } ${theme ? styles[theme] : styles.default} ${
-        isFocusVisible ? styles.focus_ring : ""
-      } ${className ?? ""}`}
+      className={`${theme !== "none" ? styles.base : ""} ${
+        transparency ? styles.transparency : ""
+      } ${corner ? styles[corner] : ""} ${
+        theme === "none" ? "" : theme ? styles[theme] : styles.default
+      } ${props.isDisabled ? styles.disabled : ""} ${
+        theme !== "none" && !props.isDisabled ? styles.box_shadow : ""
+      } ${isFocusVisible ? styles.focus_ring : ""} ${className ?? ""}`}
       style={style}
     >
       {rest.children}
