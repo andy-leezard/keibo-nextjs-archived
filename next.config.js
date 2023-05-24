@@ -19,8 +19,12 @@ const nextConfig = {
     FIREBASE_STORAGEBUCKET: process.env.FIREBASE_STORAGEBUCKET,
   },
   images: {
-    domains: ['lh3.googleusercontent.com']
-  }
+    domains: [
+      "lh3.googleusercontent.com",
+      "upload.wikimedia.org",
+      "s3-symbol-logo.tradingview.com",
+    ],
+  },
 }
 
 module.exports = nextConfig
