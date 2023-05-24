@@ -11,6 +11,36 @@
 
   --navbar-max-width: 1280px;
   --footer-max-width: 1280px;
+
+
+  /* UTILITY THEME */
+  --crimson-light: #ff7070;
+  /* known as 'dot color' */
+  --crimson: #b53f1f;
+  --pinegreen: #018440;
+  --teal: #4ec9b0;
+  --mercury: #e3e7e8;
+  --light-gray: #DBDBDB;
+  --ash-gray: #BABABA;
+  --dark-gray: #424545;
+  --deep-sea: #242626;
+  --midnight: #1d1e1f;
+
+  /* OFFICIAL THEME */
+  --back-pearl: #091114;
+  --deep-teal: #223f4a;
+  --chathams-blue: #2a5e73;
+  --teal-blue: #22779a;
+  --topaz: #40b9bd;
+  --mint: #8DE7EB;
+  --white-mint: #defffc;
+  --white: #f7f7f7;
+
+  /* FINANCE THEME */
+  --sell-light: #FF4330;
+  --buy-light: #23ad42;
+  --sell-dark: #FF5A4A;
+  --buy-dark: #42B95D;
 }
 
 @media (prefers-color-scheme: dark) {
