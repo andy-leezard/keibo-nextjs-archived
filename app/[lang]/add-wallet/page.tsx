@@ -2,7 +2,7 @@ import { Locale } from "@/i18n-config"
 import { getDictionary } from "@/utils/server/get-dictionary"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../../api/auth/[...nextauth]/route"
-import SequentialBox from "@/components/sequential-box/SequentialBox"
+import WalletCreator from "@/components/wallet-creator/WalletCreator"
 
 type PageProps = {
   params: { lang: Locale }
@@ -14,7 +14,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const dict = await getDictionary(params.lang) // en
   return (
     <main style={{ display: "flex", flex: 1 }}>
-      <SequentialBox currentLocale={params.lang} session={session} />
+      <WalletCreator currentLocale={params.lang} session={session} />
     </main>
   )
 }

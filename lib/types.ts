@@ -59,6 +59,12 @@ declare global {
      * @example bnp-paribas | binance | coinbase | ledger-wallet | undetermined
      */
     provider: string
+    /**
+     * Define the asset (which currency? which cryptocurrency?)
+     * @example usd, eur, krw, jpy, bitcoin, ethereum...
+     */
+    asset_id: string
+    asset_quantity: number
     category: "cash" | "equity" | "crypto" | "fund" | "other"
     display_name: string
     cash_input?: Partial<Record<FiatCurrency, number>>

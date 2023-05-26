@@ -1,0 +1,30 @@
+.flex_grid_container {
+    margin: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 635px;
+    /* justify-content: space-between; */
+    gap: 1rem;
+}
+
+.flex_grid_item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex_grid_item {
+    width: 200px;
+    height: 200px;
+}
+
+.flex_grid_item svg {
+    width: 64px;
+    height: 64px;
+}
+
+.current_item {
+    box-shadow: 0px 0px 4px var(--accent-color);
+    color: var(--accent-color);
+}
