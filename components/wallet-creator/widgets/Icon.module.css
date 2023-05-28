@@ -3,7 +3,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    white-space: nowrap;
+    max-width: 100px;
+}
+
+.flex_grid_item label {
+    text-align: center;
 }
 
 .big_size svg {

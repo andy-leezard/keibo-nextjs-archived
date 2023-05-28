@@ -1,11 +1,11 @@
 "use client"
 
 import Image from "next/image"
-import { Label } from "@/components/ui/listbox/ListBox"
 import { PDictionary, WithLocale, t } from "@/i18n-config"
 import { ReactNode } from "react"
 import styles from "./Icon.module.css"
 import globalStyles from "../WalletCreator.module.css"
+import { Label } from "@/components/ui/shared"
 
 type RowIconProps = WithLocale & {
   image?: string | ReactNode
