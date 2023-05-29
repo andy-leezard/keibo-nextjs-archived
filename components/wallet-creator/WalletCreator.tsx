@@ -6,7 +6,12 @@ import styles from "./WalletCreator.module.css"
 import { useMemo, useState } from "react"
 import { indexIsValidForArray } from "@/utils/client"
 import { display_messages } from "./constants"
-import { Category, WalletProvider, AssetSelection } from "./components"
+import {
+  Category,
+  WalletProvider,
+  AssetSelection,
+  MetadataCreator,
+} from "./components"
 import {
   WalletCreationContext,
   WalletCreationContextInterface,
@@ -73,6 +78,8 @@ const WalletCreator = ({ currentLocale, session }: WalletCreatorProps) => {
           <WalletProvider currentLocale={currentLocale} />
         ) : category && provider && !asset ? (
           <AssetSelection currentLocale={currentLocale} />
+        ) : category && provider && asset ? (
+          <MetadataCreator currentLocale={currentLocale} />
         ) : (
           <></>
         )}

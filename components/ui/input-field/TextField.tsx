@@ -1,9 +1,9 @@
 "use client"
 
-import { ForwardedRef, ReactNode, RefObject, forwardRef, useRef } from "react"
+import { ForwardedRef, ReactNode, RefObject, forwardRef } from "react"
 import type { AriaTextFieldProps } from "react-aria"
 import { useTextField } from "react-aria"
-import styles from "./TextField.module.css"
+import styles from "./InputField.module.css"
 import { Label, Wrapper } from "../shared"
 
 // eslint-disable-next-line react/display-name
@@ -29,7 +29,7 @@ const TextField = forwardRef(
         }}
       >
         {label ? <Label {...labelProps}>{label}</Label> : <></>}
-        <div className={styles.input_group}>
+        <div className={`${styles.input_group} ${styles.text_input_group}`}>
           <input
             {...inputProps}
             ref={ref}

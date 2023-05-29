@@ -3,7 +3,6 @@
 import { PDictionary, WithLocale, t } from "@/i18n-config"
 import { useContext, useEffect, useMemo, useState } from "react"
 import { WalletCreationContext } from "../context"
-import sharedStyles from "../WalletCreator.module.css"
 import { FaPlus } from "react-icons/fa"
 import RowIcon from "../widgets/RowIcon"
 import { BsBank } from "react-icons/bs"
@@ -15,6 +14,7 @@ import { BiPound, BiRuble, BiWon } from "react-icons/bi"
 import { TbCoinRupee } from "react-icons/tb"
 import { normalize } from "@/utils"
 import { Button } from "@/components/ui"
+import sharedStyles from "../WalletCreator.module.css"
 
 type AssetSelectionProps = WithLocale & {}
 
@@ -50,6 +50,7 @@ const currencies: Array<TAsset> = [
   {
     value: "usd",
     symbol: "usd",
+    sign: "$",
     quantity: 0,
     image: <IoLogoUsd />,
     display_name: { en: "US Dollar", fr: "Dollar américain", ko: "미국 달러" },
@@ -57,6 +58,7 @@ const currencies: Array<TAsset> = [
   {
     value: "eur",
     symbol: "eur",
+    sign: "€",
     quantity: 0,
     image: <IoLogoEuro />,
     display_name: { en: "Euro", ko: "유럽연합 유로" },
@@ -64,6 +66,7 @@ const currencies: Array<TAsset> = [
   {
     value: "chf",
     symbol: "chf",
+    sign: "₣",
     quantity: 0,
     image: <MdCurrencyFranc />,
     display_name: {
@@ -75,6 +78,7 @@ const currencies: Array<TAsset> = [
   {
     value: "gbp",
     symbol: "gbp",
+    sign: "£",
     quantity: 0,
     image: <BiPound />,
     display_name: {
@@ -86,6 +90,7 @@ const currencies: Array<TAsset> = [
   {
     value: "jpy",
     symbol: "jpy",
+    sign: "¥",
     quantity: 0,
     image: <IoLogoYen />,
     display_name: { en: "Japan Yen", fr: "Yen japonais", ko: "일본 엔화" },
@@ -93,6 +98,7 @@ const currencies: Array<TAsset> = [
   {
     value: "rub",
     symbol: "rub",
+    sign: "₽",
     quantity: 0,
     image: <BiRuble />,
     display_name: {
@@ -104,6 +110,7 @@ const currencies: Array<TAsset> = [
   {
     value: "krw",
     symbol: "krw",
+    sign: "₩",
     quantity: 0,
     image: <BiWon />,
     display_name: { en: "Korean won", fr: "Won coréen", ko: "대한민국 원화" },
@@ -111,6 +118,7 @@ const currencies: Array<TAsset> = [
   {
     value: "cny",
     symbol: "cny",
+    sign: "¥",
     quantity: 0,
     image: <IoLogoYen />,
     display_name: {
@@ -122,6 +130,7 @@ const currencies: Array<TAsset> = [
   {
     value: "cad",
     symbol: "cad",
+    sign: "$",
     quantity: 0,
     image: <IoLogoUsd />,
     display_name: {
@@ -133,6 +142,7 @@ const currencies: Array<TAsset> = [
   {
     value: "inr",
     symbol: "inr",
+    sign: "₹",
     quantity: 0,
     image: <TbCoinRupee />,
     display_name: {

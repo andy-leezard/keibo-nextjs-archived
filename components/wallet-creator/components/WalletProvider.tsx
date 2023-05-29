@@ -1,7 +1,7 @@
 "use client"
 
 import { PDictionary, WithLocale, t } from "@/i18n-config"
-import { useContext, useMemo, useRef, useState } from "react"
+import { useContext, useMemo, useState } from "react"
 import sharedStyles from "../WalletCreator.module.css"
 import { Button } from "../../ui"
 import { normalize } from "@/utils"
@@ -135,7 +135,6 @@ const wallet_providers: Array<TWalletProvider> = [
 
 const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
   const { category, update } = useContext(WalletCreationContext)
-  const inputRef = useRef<HTMLInputElement>(null)
   const [current, setCurrent] = useState<TWalletProvider | null>(null)
   const [keyword, setKeyword] = useState("")
 

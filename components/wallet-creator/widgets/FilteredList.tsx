@@ -1,11 +1,8 @@
 import React, { ReactNode, useRef } from "react"
-import TextField from "../../ui/text-field"
 import { PDictionary, WithLocale, t } from "@/i18n-config"
 import { FiSearch } from "react-icons/fi"
-import { Button } from "../../ui"
+import { Button, TextField } from "../../ui"
 import { FilterableItem } from "../type"
-import Image from "next/image"
-import globalStyles from "../WalletCreator.module.css"
 import styles from "./FilteredList.module.css"
 
 type FilteredListProps<T> = WithLocale & {
