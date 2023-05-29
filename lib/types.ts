@@ -52,7 +52,18 @@ declare global {
   }
 
   /** Core */
-  type FiatCurrency = "usd" | "eur" | "krw"
+  type FiatCurrency =
+    | "usd"
+    | "eur"
+    | "krw"
+    | "chf"
+    | "gbp"
+    | "jpy"
+    | "rub"
+    | "krw"
+    | "cny"
+    | "cad"
+    | "inr"
   type WalletConstructor = {
     /**
      * Define the platform (which bank? which crypto/stock platform?) and the name.
