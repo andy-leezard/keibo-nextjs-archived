@@ -16,3 +16,6 @@ export const normalize = (
   }
   return res
 }
+export function isNoneArrayObject<T>(value: T): boolean {
+  return typeof value === 'object' && !Array.isArray(value) && value !== null;
+}
