@@ -77,7 +77,7 @@ main {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
+  padding: 1rem;
   min-height: calc(100vh - 137px);
 }
 
