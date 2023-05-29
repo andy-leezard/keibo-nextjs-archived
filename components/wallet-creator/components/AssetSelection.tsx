@@ -1,7 +1,14 @@
 "use client"
 
 import { PDictionary, WithLocale, t } from "@/i18n-config"
-import { useContext, useEffect, useMemo, useState } from "react"
+import {
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { WalletCreationContext } from "../context"
 import { FaPlus } from "react-icons/fa"
 import RowIcon from "../widgets/RowIcon"
@@ -12,9 +19,10 @@ import { IoLogoEuro, IoLogoUsd, IoLogoYen } from "react-icons/io"
 import { FilteredList, IconRenderer } from "../widgets"
 import { BiPound, BiRuble, BiWon } from "react-icons/bi"
 import { TbCoinRupee } from "react-icons/tb"
-import { normalize } from "@/utils"
+import { isNoneArrayObject, normalize } from "@/utils"
 import { Button } from "@/components/ui"
 import sharedStyles from "../WalletCreator.module.css"
+import { AwaitedData, fetchNewData } from "../utils"
 
 type AssetSelectionProps = WithLocale & {}
 
@@ -46,145 +54,59 @@ const placeholders: Record<WalletConstructor["category"], PDictionary> = {
   },
 }
 
-const currencies: Array<TAsset> = [
-  {
-    value: "usd",
-    symbol: "usd",
-    sign: "$",
-    quantity: 0,
-    image: <IoLogoUsd />,
-    display_name: { en: "US Dollar", fr: "Dollar américain", ko: "미국 달러" },
-  },
-  {
-    value: "eur",
-    symbol: "eur",
-    sign: "€",
-    quantity: 0,
-    image: <IoLogoEuro />,
-    display_name: { en: "Euro", ko: "유럽연합 유로" },
-  },
-  {
-    value: "chf",
-    symbol: "chf",
-    sign: "₣",
-    quantity: 0,
-    image: <MdCurrencyFranc />,
-    display_name: {
-      en: "Swiss Franc",
-      fr: "Franc suisse",
-      ko: "스위스 프랑",
-    },
-  },
-  {
-    value: "gbp",
-    symbol: "gbp",
-    sign: "£",
-    quantity: 0,
-    image: <BiPound />,
-    display_name: {
-      en: "British Pound Sterling",
-      fr: "Livre sterling britannique",
-      ko: "영국 파운드",
-    },
-  },
-  {
-    value: "jpy",
-    symbol: "jpy",
-    sign: "¥",
-    quantity: 0,
-    image: <IoLogoYen />,
-    display_name: { en: "Japan Yen", fr: "Yen japonais", ko: "일본 엔화" },
-  },
-  {
-    value: "rub",
-    symbol: "rub",
-    sign: "₽",
-    quantity: 0,
-    image: <BiRuble />,
-    display_name: {
-      en: "Russian ruble",
-      fr: "Rouble russe",
-      ko: "러시아 루블",
-    },
-  },
-  {
-    value: "krw",
-    symbol: "krw",
-    sign: "₩",
-    quantity: 0,
-    image: <BiWon />,
-    display_name: { en: "Korean won", fr: "Won coréen", ko: "대한민국 원화" },
-  },
-  {
-    value: "cny",
-    symbol: "cny",
-    sign: "¥",
-    quantity: 0,
-    image: <IoLogoYen />,
-    display_name: {
-      en: "Chinese yuan",
-      fr: "Yuan chinois",
-      ko: "중국 위안화",
-    },
-  },
-  {
-    value: "cad",
-    symbol: "cad",
-    sign: "$",
-    quantity: 0,
-    image: <IoLogoUsd />,
-    display_name: {
-      en: "Canadian Dollar",
-      fr: "Dollar canadien",
-      ko: "캐나다 달러",
-    },
-  },
-  {
-    value: "inr",
-    symbol: "inr",
-    sign: "₹",
-    quantity: 0,
-    image: <TbCoinRupee />,
-    display_name: {
-      en: "Indian Rupee",
-      fr: "roupie indienne",
-      ko: "호주 달러",
-    },
-  },
-]
+const iconMap: Map<string, Function> = new Map([
+  ["usd", IoLogoUsd],
+  ["eur", IoLogoEuro],
+  ["chf", MdCurrencyFranc],
+  ["gbp", BiPound],
+  ["jpy", IoLogoYen],
+  ["rub", BiRuble],
+  ["krw", BiWon],
+  ["cny", IoLogoYen],
+  ["cad", IoLogoUsd],
+  ["inr", TbCoinRupee],
+])
 
 const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
   const { category, provider, update } = useContext(WalletCreationContext)
   const [current, setCurrent] = useState<TAsset | null>(null)
   const [keyword, setKeyword] = useState("")
-  const [data, setData] = useState<Array<TAsset>>([])
+  const [currentPage, setCurrentPage] = useState(0)
+  const [pageEnded, setPageEnded] = useState(false)
+  const [displayData, setDisplayData] = useState<AwaitedData<Array<TAsset>>>({
+    metadata: {
+      page_ended: false,
+    },
+    data: [],
+  })
+  const maxKnownPage = useRef<number>(0)
 
   useEffect(() => {
-    switch (category?.value) {
-      case "cash":
-        setData(currencies)
-        break
-      default:
-        break
+    let mounted = true
+    const fetchData = async () => {
+      if (
+        !category?.value ||
+        (category.value !== "crypto" && category.value !== "cash")
+      )
+        return
+      const [res, _error] = await fetchNewData<Array<TAsset>>(
+        `http://localhost:${process.env.PORT ?? 3000}/api/assets/${
+          category.value
+        }?size=5&page=${currentPage}&keyword=${keyword}`
+      )
+      if (res && mounted) {
+        if (currentPage > maxKnownPage.current && res.data.length) {
+          maxKnownPage.current = currentPage
+        }
+        /* const { metadata, data } = res */
+        setDisplayData(res)
+      }
     }
-  }, [category])
-
-  const displayData = useMemo(() => {
-    if (!data?.length) {
-      return []
+    fetchData()
+    return () => {
+      mounted = false
     }
-    const normalized_keyword = normalize(keyword, "lowercase")
-    return data.filter(
-      (i) =>
-        !keyword.trim() ||
-        normalize(t(currentLocale, i.display_name), "lowercase").includes(
-          normalized_keyword
-        ) ||
-        normalize(t(currentLocale, i.symbol), "lowercase").includes(
-          normalized_keyword
-        )
-    )
-  }, [currentLocale, data, keyword])
+  }, [category, currentPage, keyword])
 
   return (
     <div className={sharedStyles.flex_col_container}>
@@ -228,33 +150,34 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
           <></>
         )}
       </div>
-      {data?.length ? (
-        <FilteredList<TAsset>
-          currentLocale={currentLocale}
-          placeholders={category ? placeholders[category.value] : undefined}
-          label={{
-            en: "Name of the asset (currency)",
-            fr: "Nom de l'actif (devise)",
-            ko: "자산 및 화폐명",
-          }}
-          data={displayData}
-          current={current}
-          onSelect={setCurrent}
-          setKeyword={setKeyword}
-          renderItem={({ image, display_name, symbol }) => {
-            return (
-              <>
-                <IconRenderer image={image} />
-                <span>{symbol.toUpperCase()}</span>
-                <span>({t(currentLocale, display_name)})</span>
-                <></>
-              </>
-            )
-          }}
-        />
-      ) : (
-        <></>
-      )}
+      <FilteredList<TAsset>
+        currentLocale={currentLocale}
+        placeholders={category ? placeholders[category.value] : undefined}
+        label={{
+          en: "Name of the asset (currency)",
+          fr: "Nom de l'actif (devise)",
+          ko: "자산 및 화폐명",
+        }}
+        data={displayData.data}
+        page={currentPage}
+        maxKnownPage={maxKnownPage.current}
+        pageEnded={displayData.metadata.page_ended}
+        onPage={setCurrentPage}
+        onNextPage={() => setCurrentPage((prev) => prev + 1)}
+        current={current}
+        onSelect={setCurrent}
+        setKeyword={setKeyword}
+        renderItem={({ image, display_name, symbol }) => {
+          return (
+            <>
+              <IconRenderer image={image} />
+              <span>{symbol.toUpperCase()}</span>
+              <span>({t(currentLocale, display_name)})</span>
+              <></>
+            </>
+          )
+        }}
+      />
       <div className={sharedStyles.buttons_container}>
         <Button
           /* isDisabled={Boolean(

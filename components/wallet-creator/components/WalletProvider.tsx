@@ -1,16 +1,17 @@
 "use client"
 
 import { PDictionary, WithLocale, t } from "@/i18n-config"
-import { useContext, useMemo, useState } from "react"
+import { useContext, useEffect, useMemo, useRef, useState } from "react"
 import sharedStyles from "../WalletCreator.module.css"
 import { Button } from "../../ui"
-import { normalize } from "@/utils"
+import { isNoneArrayObject, normalize } from "@/utils"
 import { BsBank } from "react-icons/bs"
 import { TWalletProvider } from "../type"
 import { FaPlus } from "react-icons/fa"
 import { WalletCreationContext } from "../context"
 import RowIcon from "../widgets/RowIcon"
 import { FilteredList, IconRenderer } from "../widgets"
+import { AwaitedData, fetchNewData } from "../utils"
 
 type WalletProviderProps = WithLocale & {}
 
@@ -42,128 +43,46 @@ const placeholders: Record<WalletConstructor["category"], PDictionary> = {
   },
 }
 
-const wallet_providers: Array<TWalletProvider> = [
-  {
-    value: "bank_of_america",
-    image: "/icons/bank_of_america.svg",
-    supported_categories: ["cash", "equity", "fund"],
-    display_name: { en: "Bank of America", ko: "뱅크 오브 아메리카" },
-  },
-  {
-    value: "binance",
-    image: "/icons/binance.svg",
-    supported_categories: ["cash", "crypto"],
-    display_name: { en: "Binance", ko: "바이낸스" },
-  },
-  {
-    value: "bnp_paribas",
-    image: "/icons/bnp.svg",
-    supported_categories: ["cash", "equity", "fund"],
-    display_name: { en: "BNP Paribas" },
-  },
-  {
-    value: "boursorama",
-    image:
-      "https://groupe.boursorama.fr/theme_front/theme_front_1/image/bandeau/logo-forme.svg",
-    supported_categories: ["cash", "equity", "fund"],
-    display_name: { en: "Boursorama" },
-  },
-  {
-    value: "citibank",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Citi.svg/300px-Citi.svg.png?20210120214333",
-    supported_categories: ["cash", "equity", "fund"],
-    display_name: { en: "Citibank", ko: "씨티은행" },
-  },
-  {
-    value: "coinbase",
-    image: "/icons/coinbase.svg",
-    supported_categories: ["cash", "crypto"],
-    display_name: { en: "Coinbase", ko: "코인베이스" },
-  },
-  {
-    value: "credit_agricole",
-    image: "/icons/credit_agricole.svg",
-    supported_categories: ["cash", "equity", "fund"],
-    display_name: { en: "Crédit Agricole", ko: "크레디 아그리콜" },
-  },
-  {
-    value: "jp_morgan_chase",
-    image: "/icons/jp_morgan_chase.webp",
-    supported_categories: ["cash", "equity", "fund"],
-    display_name: { en: "JPMorgan Chase & Co", ko: "체이스 은행" },
-  },
-  {
-    value: "kakao_bank",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/5/52/Kakao_Bank_of_Korea_Logo.jpg?20200417085722",
-    supported_categories: ["cash"],
-    display_name: { en: "Kakao Bank", ko: "카카오뱅크" },
-  },
-  {
-    value: "orange_bank",
-    image:
-      "https://upload.wikimedia.org/wikipedia/fr/thumb/0/09/Orange_Bank_2017.png/600px-Orange_Bank_2017.png?20171101143914",
-    supported_categories: ["cash"],
-    display_name: { en: "Orange Bank" },
-  },
-  {
-    value: "ledger",
-    supported_categories: ["crypto"],
-    display_name: { en: "Ledger", ko: "레저" },
-  },
-  {
-    value: "shinhan_bank",
-    image: "https://s3-symbol-logo.tradingview.com/shinhan-financial--big.svg",
-    supported_categories: ["cash"],
-    display_name: { en: "Shinhan Bank", ko: "신한은행" },
-  },
-  {
-    value: "societe_generale",
-    image: "/icons/societe_generale.svg",
-    supported_categories: ["cash", "equity", "fund"],
-    display_name: { en: "Société Générale", ko: "소시에테 제네랄" },
-  },
-  {
-    value: "wells_fargo",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Wells_Fargo_Bank.svg/302px-Wells_Fargo_Bank.svg.png?20200414151837",
-    supported_categories: ["cash", "equity", "fund"],
-    display_name: { en: "Wells Fargo", ko: "웰스 파고" },
-  },
-]
-
 const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
   const { category, update } = useContext(WalletCreationContext)
   const [current, setCurrent] = useState<TWalletProvider | null>(null)
   const [keyword, setKeyword] = useState("")
+  const [currentPage, setCurrentPage] = useState(0)
+  const [processing, setProcessing] = useState(false)
+  const [displayData, setDisplayData] = useState<
+    AwaitedData<Array<TWalletProvider>>
+  >({
+    metadata: {
+      page_ended: false,
+    },
+    data: [],
+  })
+  const maxKnownPage = useRef<number>(0)
 
-  const providers = useMemo(() => {
-    if (!category) {
-      return []
-    }
-    const normalized_keyword = normalize(keyword, "lowercase")
-    if (category.value === "other") {
-      return wallet_providers.filter(
-        (wp) =>
-          !keyword.trim() ||
-          normalize(t(currentLocale, wp.display_name), "lowercase").includes(
-            normalized_keyword
-          )
+  useEffect(() => {
+    let mounted = true
+    const fetchData = async () => {
+      if (!category?.value) return
+      const [res, _error] = await fetchNewData<Array<TWalletProvider>>(
+        `http://localhost:${
+          process.env.PORT ?? 3000
+        }/api/wallet-providers?category=${
+          category.value
+        }&size=5&page=${currentPage}&keyword=${keyword}`
       )
-    } else {
-      return wallet_providers.filter(
-        (wp) =>
-          wp.supported_categories.includes(
-            category.value as Exclude<WalletConstructor["category"], "other">
-          ) &&
-          (!keyword.trim() ||
-            normalize(t(currentLocale, wp.display_name), "lowercase").includes(
-              normalized_keyword
-            ))
-      )
+      if (res && mounted) {
+        if (currentPage > maxKnownPage.current && res.data.length) {
+          maxKnownPage.current = currentPage
+        }
+        /* const { metadata, data } = res */
+        setDisplayData(res)
+      }
     }
-  }, [category, currentLocale, keyword])
+    fetchData()
+    return () => {
+      mounted = false
+    }
+  }, [category, currentPage, keyword])
 
   return (
     <div className={sharedStyles.flex_col_container}>
@@ -191,31 +110,32 @@ const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
           <></>
         )}
       </div>
-      {providers?.length ? (
-        <FilteredList<TWalletProvider>
-          currentLocale={currentLocale}
-          placeholders={category ? placeholders[category.value] : undefined}
-          label={{
-            en: "Name of the financial institution",
-            fr: "Nom de l'institution financière",
-            ko: "금융기관명",
-          }}
-          data={providers}
-          current={current}
-          onSelect={setCurrent}
-          setKeyword={setKeyword}
-          renderItem={({ image, display_name }) => {
-            return (
-              <>
-                <IconRenderer image={image} />
-                <span>{t(currentLocale, display_name)}</span>
-              </>
-            )
-          }}
-        />
-      ) : (
-        <></>
-      )}
+      <FilteredList<TWalletProvider>
+        currentLocale={currentLocale}
+        placeholders={category ? placeholders[category.value] : undefined}
+        label={{
+          en: "Name of the financial institution",
+          fr: "Nom de l'institution financière",
+          ko: "금융기관명",
+        }}
+        data={displayData.data}
+        page={currentPage}
+        maxKnownPage={maxKnownPage.current}
+        pageEnded={displayData.metadata.page_ended}
+        onPage={setCurrentPage}
+        onNextPage={() => setCurrentPage((prev) => prev + 1)}
+        current={current}
+        onSelect={setCurrent}
+        setKeyword={setKeyword}
+        renderItem={({ image, display_name }) => {
+          return (
+            <>
+              <IconRenderer image={image} />
+              <span>{t(currentLocale, display_name)}</span>
+            </>
+          )
+        }}
+      />
       <div className={sharedStyles.buttons_container}>
         <Button
           /* isDisabled={Boolean(

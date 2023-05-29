@@ -1,33 +1,59 @@
-import React, { ReactNode, useRef } from "react"
+import React, { ReactNode, useMemo, useRef } from "react"
 import { PDictionary, WithLocale, t } from "@/i18n-config"
 import { FiSearch } from "react-icons/fi"
 import { Button, TextField } from "../../ui"
 import { FilterableItem } from "../type"
 import styles from "./FilteredList.module.css"
+import { generateNextArray, generatePreviousArray } from "../utils"
 
 type FilteredListProps<T> = WithLocale & {
+  data: Array<T>
+  current: T | null
+  page: number
+  maxKnownPage: number
+  pageEnded: boolean
+  onPage: (page: number) => void
+  onNextPage: () => void
+  setKeyword: (str: string) => void
+  onSelect: (item: T) => void
+
+  // OPTIONAL
+  pageRange?: number
   placeholders?: PDictionary
   fallbackIcon?: ReactNode
   label?: PDictionary
-  data: Array<T>
-  current: T | null
   renderItem?: (props: T) => ReactNode
-  setKeyword: (str: string) => void
-  onSelect: (item: T) => void
 }
 
 const FilteredList = <T extends FilterableItem>({
   currentLocale,
+
+  data,
+  current,
+  page,
+  maxKnownPage,
+  pageEnded,
+  onPage,
+  onNextPage,
+  setKeyword,
+  onSelect,
+
+  pageRange = 3,
   placeholders,
   fallbackIcon,
   label,
-  data,
-  current,
   renderItem,
-  setKeyword,
-  onSelect,
 }: FilteredListProps<T>) => {
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const nextPageArray = useMemo(() => {
+    return generateNextArray(page, Math.max(0, pageRange - 1), maxKnownPage)
+  }, [maxKnownPage, page, pageRange])
+
+  const previousPageArray = useMemo(() => {
+    return generatePreviousArray(page, pageRange)
+  }, [page, pageRange])
+
   return (
     <>
       <TextField
@@ -81,6 +107,82 @@ const FilteredList = <T extends FilterableItem>({
                 ko: "결과 없음",
               })}
             </span>
+          )}
+        </div>
+      </div>
+      {/* INTERFACE */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "16px",
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            justifyContent: "flex-end"
+          }}
+        >
+          {page - pageRange > 0 ? (
+            <Button theme="none" onPress={() => onPage(0)}>
+              1
+            </Button>
+          ) : (
+            <></>
+          )}
+          {previousPageArray?.length ? (
+            previousPageArray.map((p, i) => {
+              return (
+                <Button
+                  key={`prev-${i}`}
+                  theme="none"
+                  onPress={() => onPage(p)}
+                >
+                  {p + 1}
+                </Button>
+              )
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+        <span>{page + 1}</span>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+          }}
+        >
+          {nextPageArray?.length ? (
+            nextPageArray.map((p, i) => {
+              return (
+                <Button
+                  key={`next-${i}`}
+                  theme="none"
+                  onPress={() => onPage(p)}
+                >
+                  {p + 1}
+                </Button>
+              )
+            })
+          ) : (
+            <Button
+              isDisabled={pageEnded}
+              theme="none"
+              onPress={() => {
+                if (pageEnded) return
+                onNextPage()
+              }}
+            >
+              {page + 2}
+            </Button>
           )}
         </div>
       </div>
