@@ -23,6 +23,7 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "upload.wikimedia.org",
       "s3-symbol-logo.tradingview.com",
+      "assets.coingecko.com",
     ],
   },
 }
