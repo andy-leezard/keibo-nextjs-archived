@@ -67,6 +67,7 @@ const data:Array<TWalletProvider> = [
   },
   {
     value: "ledger",
+    image: "/icons/ledger.svg",
     supported_categories: ["crypto"],
     display_name: { en: "Ledger", ko: "레저" },
   },
