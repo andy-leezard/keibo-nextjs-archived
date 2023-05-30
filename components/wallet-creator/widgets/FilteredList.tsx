@@ -91,7 +91,7 @@ const FilteredList = <T extends FilterableItem>({
                     if (inputRef?.current) {
                       inputRef.current.value = t(currentLocale, p.display_name)
                     }
-                    setKeyword(t(currentLocale, p.display_name))
+                    /* setKeyword(t(currentLocale, p.display_name)) */
                     onSelect(p)
                   }}
                 >
