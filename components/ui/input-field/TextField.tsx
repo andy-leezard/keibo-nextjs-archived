@@ -1,6 +1,6 @@
 "use client"
 
-import { ForwardedRef, ReactNode, RefObject, forwardRef } from "react"
+import { ForwardedRef, RefObject, forwardRef } from "react"
 import type { AriaTextFieldProps } from "react-aria"
 import { useTextField } from "react-aria"
 import styles from "./InputField.module.css"
@@ -9,11 +9,11 @@ import { Label, Wrapper } from "../shared"
 // eslint-disable-next-line react/display-name
 const TextField = forwardRef(
   (
-    props: AriaTextFieldProps & {
-      children?: ReactNode
-      width?: number
-      maxWidth?: number
-    },
+    props: AriaTextFieldProps &
+      Partial<WithChildren> & {
+        width?: number
+        maxWidth?: number
+      },
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const { label } = props
