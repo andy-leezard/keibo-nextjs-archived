@@ -99,7 +99,7 @@ const MetadataCreator = ({ currentLocale }: MetadataCreatorProps) => {
         })}
         maxWidth={400}
         onChange={onNameChange}
-      ></TextField>
+      />
       <NumberField
         currentLocale={currentLocale}
         ref={quantityInputRef}
@@ -111,11 +111,19 @@ const MetadataCreator = ({ currentLocale }: MetadataCreatorProps) => {
         })}
         maxWidth={400}
         formatOptions={{
-          style: "currency",
-          maximumFractionDigits: 2,
-          currencyDisplay: "symbol",
-          currency: "USD",
+          ...(asset?.symbol && category?.value !== "crypto"
+            ? {
+                style: "currency",
+                currencyDisplay: "symbol",
+                currency: asset.symbol.toUpperCase(),
+              }
+            : {}),
+          ...{
+            maximumFractionDigits: category?.value === "crypto" ? 8 : 2,
+          },
         }}
+        /* prefix={asset?.symbol ? `${asset?.symbol.toUpperCase()} ` : ""} */
+        suffix={asset?.symbol ? `${asset?.symbol.toUpperCase()} ` : ""}
         minValue={0}
         onChange={onQuantityChange}
       />
@@ -129,7 +137,6 @@ const MetadataCreator = ({ currentLocale }: MetadataCreatorProps) => {
           corner="rounded"
           className={sharedStyles.button}
           onPress={() => {
-            update("provider", null)
             update("asset", null)
           }}
         >
