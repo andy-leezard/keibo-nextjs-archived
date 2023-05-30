@@ -49,8 +49,8 @@ const wallet_categories: Array<TWalletCategory> = [
     value: "crypto",
     image: <FaBitcoin />,
     display_name: {
-      en: "Cryptocurreny & tokens",
-      fr: "Cryptomonnaie & tokens",
+      en: "Cryptocurreny",
+      fr: "Cryptomonnaie",
       ko: "암호화폐 및 토큰",
     },
     description: {
