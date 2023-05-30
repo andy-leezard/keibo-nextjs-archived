@@ -89,6 +89,7 @@
     padding: 2px;
     /* background-color: #ffffff; */
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .image_container,
