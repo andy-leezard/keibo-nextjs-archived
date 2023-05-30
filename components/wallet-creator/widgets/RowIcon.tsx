@@ -23,29 +23,25 @@ const RowIcon = ({
 }: RowIconProps) => {
   return (
     <>
-      {image ? (
-        <div
-          className={`${styles.flex_grid_item} ${
-            size ? styles[size] : styles.big_size
-          }`}
-        >
-          {typeof image === "string" ? (
-            <div className={globalStyles.image_container}>
-              <Image
-                src={image}
-                alt=""
-                width={size === "regular_size" ? 48 : 64}
-                height={size === "regular_size" ? 48 : 64}
-              />
-            </div>
-          ) : (
-            image ?? fallbackIcon ?? <></>
-          )}
-          <Label>{t(currentLocale, displayName)}</Label>
-        </div>
-      ) : (
-        <></>
-      )}
+      <div
+        className={`${styles.flex_grid_item} ${
+          size ? styles[size] : styles.big_size
+        }`}
+      >
+        {typeof image === "string" ? (
+          <div className={globalStyles.image_container}>
+            <Image
+              src={image}
+              alt=""
+              width={size === "regular_size" ? 48 : 64}
+              height={size === "regular_size" ? 48 : 64}
+            />
+          </div>
+        ) : (
+          image ?? fallbackIcon ?? <></>
+        )}
+        <Label>{t(currentLocale, displayName)}</Label>
+      </div>
     </>
   )
 }

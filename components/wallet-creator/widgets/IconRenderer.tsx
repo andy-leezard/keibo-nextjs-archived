@@ -7,10 +7,15 @@ import { ReactNode } from "react"
 
 type IconRendererProps = {
   image: FilterableItem["image"]
+  size?: number
   fallbackIcon?: ReactNode
 }
 
-const IconRenderer = ({ image, fallbackIcon }: IconRendererProps) => {
+const IconRenderer = ({
+  image,
+  size = 32,
+  fallbackIcon,
+}: IconRendererProps) => {
   return (
     <>
       {typeof image === "string" ? (
@@ -18,7 +23,7 @@ const IconRenderer = ({ image, fallbackIcon }: IconRendererProps) => {
           className={globalStyles.image_container}
           style={{ backgroundColor: "#ffffff" }}
         >
-          <Image src={image} alt="" width={32} height={32} />
+          <Image src={image} alt="" width={size} height={size} />
         </div>
       ) : (
         image ?? fallbackIcon ?? <></>
