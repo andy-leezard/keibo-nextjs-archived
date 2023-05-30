@@ -14,13 +14,15 @@ const NumberField = forwardRef(
   (
     props: WithLocale &
       AriaNumberFieldProps & {
+        prefix?: string
+        suffix?: string
         width?: number
         maxWidth?: number
       },
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const { label } = props
-    const { width, maxWidth, currentLocale, ...rest } = props
+    const { prefix, suffix, width, maxWidth, currentLocale, ...rest } = props
     const state = useNumberFieldState({ ...rest, locale: currentLocale })
     const {
       labelProps,
@@ -39,6 +41,7 @@ const NumberField = forwardRef(
       >
         {label ? <Label {...labelProps}>{label}</Label> : <></>}
         <div className={styles.input_group} {...groupProps}>
+          {props.prefix ? <span>{props.prefix}</span> : <></>}
           <input
             {...inputProps}
             ref={ref}
@@ -46,6 +49,11 @@ const NumberField = forwardRef(
               borderRight: "none",
             }}
           />
+          {props.suffix ? (
+            <span style={{ marginRight: "0.5rem" }}>{props.suffix}</span>
+          ) : (
+            <></>
+          )}
           <div className={styles.number_button_container}>
             <Button {...incrementButtonProps} theme="none">
               <BiChevronUp />
