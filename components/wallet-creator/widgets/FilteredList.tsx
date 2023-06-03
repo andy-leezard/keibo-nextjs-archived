@@ -5,52 +5,70 @@ import { Button, TextField } from "../../ui"
 import { FilterableItem } from "../type"
 import styles from "./FilteredList.module.css"
 import { generateNextArray, generatePreviousArray } from "../utils"
+import { isValidEmailAddress } from "@/utils"
 
 type FilteredListProps<T> = WithLocale & {
   data: Array<T>
-  current: T | null
-  page: number
-  maxKnownPage: number
-  pageEnded: boolean
-  onPage: (page: number) => void
-  onNextPage: () => void
   setKeyword: (str: string) => void
-  onSelect: (item: T) => void
 
   // OPTIONAL
-  pageRange?: number
+  searchFormat?: "email" | "text"
+  processing?: boolean
+  height?: number
+  maxWidth?: number
+  current?: T | null
   placeholders?: PDictionary
   fallbackIcon?: ReactNode
   label?: PDictionary
+  onSelect?: (item: T) => void
+  onSearch?: () => void
   renderItem?: (props: T) => ReactNode
+  customElement?: (className: string) => ReactNode
+
+  // PAGE RELATED OPTIONS
+  page?: number
+  pageRange?: number
+  maxKnownPage?: number
+  pageEnded?: boolean
+  onPage?: (page: number) => void
+  onNextPage?: () => void
 }
 
 const FilteredList = <T extends FilterableItem>({
   currentLocale,
 
   data,
-  current,
-  page,
-  maxKnownPage,
-  pageEnded,
-  onPage,
-  onNextPage,
   setKeyword,
-  onSelect,
 
-  pageRange = 3,
+  searchFormat = "text",
+  processing,
+  height,
+  maxWidth = 400,
+  current,
   placeholders,
   fallbackIcon,
   label,
+  onSelect,
+  onSearch,
   renderItem,
+  customElement,
+
+  page,
+  pageRange = 3,
+  maxKnownPage = 0,
+  pageEnded,
+  onPage,
+  onNextPage,
 }: FilteredListProps<T>) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const nextPageArray = useMemo(() => {
+    if (typeof page !== "number") return []
     return generateNextArray(page, Math.max(0, pageRange - 1), maxKnownPage)
   }, [maxKnownPage, page, pageRange])
 
   const previousPageArray = useMemo(() => {
+    if (typeof page !== "number") return []
     return generatePreviousArray(page, pageRange)
   }, [page, pageRange])
 
@@ -64,19 +82,47 @@ const FilteredList = <T extends FilterableItem>({
         label={label ? t(currentLocale, label) : ""}
         maxWidth={400}
         onChange={(str: string) => setKeyword(str)}
+        onKeyDown={(event) => {
+          onSearch && event.key === "Enter" && onSearch()
+        }}
       >
-        <FiSearch />
+        {onSearch ? (
+          <Button
+            corner="rounded"
+            isDisabled={
+              searchFormat === "email"
+                ? !isValidEmailAddress(inputRef?.current?.value ?? "")
+                : !Boolean(inputRef?.current?.value)
+            }
+            onPress={() => onSearch()}
+          >
+            <FiSearch />
+          </Button>
+        ) : (
+          <FiSearch />
+        )}
       </TextField>
       {/* RESULT FIELD */}
-      <div className={styles.filtered_list}>
+      <div
+        className={styles.filtered_list}
+        style={{ height: `${height ?? 300}px` }}
+      >
         <div
           className={styles.filtered_list_container}
           style={{
-            justifyContent: data.length ? "normal" : "center",
-            alignItems: data.length ? "normal" : "center",
+            justifyContent: data.length || customElement ? "normal" : "center",
+            alignItems: data.length || customElement ? "normal" : "center",
           }}
         >
-          {data.length ? (
+          {customElement ? customElement(styles.filtered_list_item) : <></>}
+          {processing ? (
+            Array.from({ length: 5 }, (_, i) => i).map((i) => (
+              <div
+                key={`loader-${i}`}
+                className={styles.filtered_list_item}
+              ></div>
+            ))
+          ) : data.length ? (
             data.map((p, idx) => {
               return (
                 <Button
@@ -88,10 +134,10 @@ const FilteredList = <T extends FilterableItem>({
                   }`}
                   theme="none"
                   onPress={() => {
+                    if (!onSelect) return
                     if (inputRef?.current) {
                       inputRef.current.value = t(currentLocale, p.display_name)
                     }
-                    /* setKeyword(t(currentLocale, p.display_name)) */
                     onSelect(p)
                   }}
                 >
@@ -99,7 +145,7 @@ const FilteredList = <T extends FilterableItem>({
                 </Button>
               )
             })
-          ) : (
+          ) : !customElement ? (
             <span>
               {t(currentLocale, {
                 en: "No result",
@@ -107,85 +153,64 @@ const FilteredList = <T extends FilterableItem>({
                 ko: "결과 없음",
               })}
             </span>
+          ) : (
+            <></>
           )}
         </div>
       </div>
       {/* INTERFACE */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "16px",
-        }}
-      >
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            justifyContent: "flex-end"
-          }}
-        >
-          {page - pageRange > 0 ? (
-            <Button theme="none" onPress={() => onPage(0)}>
-              1
-            </Button>
-          ) : (
-            <></>
-          )}
-          {previousPageArray?.length ? (
-            previousPageArray.map((p, i) => {
-              return (
-                <Button
-                  key={`prev-${i}`}
-                  theme="none"
-                  onPress={() => onPage(p)}
-                >
-                  {p + 1}
-                </Button>
-              )
-            })
-          ) : (
-            <></>
-          )}
+      {typeof page === "number" ? (
+        <div className={styles.page_indicator_container}>
+          <div className={styles.page_indicator}>
+            {previousPageArray?.length && onPage ? (
+              previousPageArray.map((p, i) => {
+                return (
+                  <Button
+                    key={`prev-${i}`}
+                    theme="none"
+                    onPress={() => onPage(p)}
+                  >
+                    {p + 1}
+                  </Button>
+                )
+              })
+            ) : (
+              <></>
+            )}
+            {page - pageRange > 0 && onPage ? (
+              <Button theme="none" onPress={() => onPage(0)}>
+                1...
+              </Button>
+            ) : (
+              <></>
+            )}
+          </div>
+          <span className={styles.current_page_indicator}>{page + 1}</span>
+          <div className={styles.page_indicator}>
+            {onPage && nextPageArray?.length ? (
+              nextPageArray.map((p, i) => {
+                return (
+                  <Button
+                    key={`next-${i}`}
+                    theme="none"
+                    onPress={() => onPage(p)}
+                  >
+                    {p + 1}
+                  </Button>
+                )
+              })
+            ) : !pageEnded && onNextPage ? (
+              <Button theme="none" onPress={() => onNextPage()}>
+                {page + 2}
+              </Button>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
-        <span>{page + 1}</span>
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-          }}
-        >
-          {nextPageArray?.length ? (
-            nextPageArray.map((p, i) => {
-              return (
-                <Button
-                  key={`next-${i}`}
-                  theme="none"
-                  onPress={() => onPage(p)}
-                >
-                  {p + 1}
-                </Button>
-              )
-            })
-          ) : (
-            <Button
-              isDisabled={pageEnded}
-              theme="none"
-              onPress={() => {
-                if (pageEnded) return
-                onNextPage()
-              }}
-            >
-              {page + 2}
-            </Button>
-          )}
-        </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </>
   )
 }

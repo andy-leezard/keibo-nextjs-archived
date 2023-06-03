@@ -4,11 +4,12 @@ import { useContext, useRef, useState } from "react"
 import { WalletCreationContext } from "../context"
 import { WithLocale, t } from "@/i18n-config"
 import sharedStyles from "../WalletCreator.module.css"
-import { RowIcon } from "../widgets"
+import { FilteredList, RowIcon } from "../widgets"
 import { FaPlus } from "react-icons/fa"
 import { BsBank } from "react-icons/bs"
 import { MdOutlineAccountBalanceWallet } from "react-icons/md"
 import { Button, NumberField, TextField } from "@/components/ui"
+import Participants from "./Participants"
 
 type MetadataCreatorProps = WithLocale & {}
 
@@ -18,11 +19,11 @@ const MetadataCreator = ({ currentLocale }: MetadataCreatorProps) => {
   )
   const [displayName, setDisplayName] = useState("")
   const [cashInput, setCashInput] = useState<WalletConstructor["cash_input"]>(
-    {}
+    []
   )
   const [participants, setParticipants] = useState<
     WalletConstructor["participants"]
-  >({})
+  >([])
   const displayNameInputRef = useRef<HTMLInputElement>(null)
   const quantityInputRef = useRef<HTMLInputElement>(null)
 
@@ -128,6 +129,11 @@ const MetadataCreator = ({ currentLocale }: MetadataCreatorProps) => {
         onChange={onQuantityChange}
       />
       <span style={{ textAlign: "center" }}>- - - Optional - - -</span>
+      <Participants
+        currentLocale={currentLocale}
+        participants={participants}
+        setParticipants={setParticipants}
+      />
       <div className={sharedStyles.buttons_container}>
         <Button
           /* isDisabled={Boolean(

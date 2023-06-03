@@ -78,12 +78,18 @@ declare global {
     asset_quantity: number
     category: "cash" | "equity" | "crypto" | "fund" | "other"
     display_name: string
-    cash_input?: Partial<Record<FiatCurrency, number>>
+    cash_input: Array<{
+      currency: FiatCurrency
+      input: number
+    }>
     /**
      * people who have access to the wallet
      * @example { [user_uid:string]: 'admin' }
      */
-    participants?: Partial<Record<string, "viewer" | "editor" | "admin">>
+    participants: Array<{
+      email: string
+      role: "viewer" | "editor" | "admin"
+    }>
   }
   type Wallet = {
     uid: string

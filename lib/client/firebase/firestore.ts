@@ -1,7 +1,16 @@
 "use client"
 
 import { isOdd } from "@/utils"
-import { DocumentData, doc, getDoc, updateDoc } from "firebase/firestore"
+import {
+  DocumentData,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore"
 import { fdb } from "./firebase"
 
 export const docRef = (initialCollection: string, pathSegments: string[]) =>
@@ -15,7 +24,7 @@ export const getFirestore = (
 export const fetchFirestore = async <T>(
   initialCollection: string,
   pathSegments: string[]
-): Promise<T | null> => {
+): Promise<[response: T | null, error: unknown]> => {
   try {
     if (!isOdd(pathSegments.length)) {
       throw new Error(
@@ -30,9 +39,26 @@ export const fetchFirestore = async <T>(
         )} does not exist!`
       )
     }
-    return snapshot.data() as T
-  } catch (e) {
-    return null
+    return [snapshot.data() as T, null]
+  } catch (error) {
+    console.error(error)
+    return [null, error]
+  }
+}
+
+export const searchUsersByEmail = async (
+  keyword: string
+): Promise<[response: Array<FirestoreUser> | null, error: unknown]> => {
+  const q = query(collection(fdb, "users"), where("email", "==", keyword))
+  try {
+    const snapshot = await getDocs(q)
+    const data = snapshot.docs
+      .filter((doc) => doc.exists())
+      .map((doc) => doc.data()) as Array<FirestoreUser>
+    return [data, null]
+  } catch (error) {
+    console.error(error)
+    return [null, error]
   }
 }
 

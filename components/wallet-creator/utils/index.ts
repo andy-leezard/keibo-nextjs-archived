@@ -1,7 +1,7 @@
 import { isNoneArrayObject } from "@/utils"
 
 export function generatePreviousArray(currentPage: number, size: number) {
-  return Array.from({ length: size }, (_, i) => currentPage - size + i).filter(
+  return Array.from({ length: size }, (_, i) => currentPage - 1 - i).filter(
     (i) => i >= 0
   )
 }

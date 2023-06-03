@@ -45,9 +45,10 @@ const BanalceSynthesis = ({
   useLayoutEffect(() => {
     const fetchWallets = async () => {
       if (session?.user?.id) {
-        const kuser = await fetchFirestore<KeiboFirestoreUser>("users", [
-          session.user.id,
-        ])
+        const [kuser, error] = await fetchFirestore<KeiboFirestoreUser>(
+          "users",
+          [session.user.id]
+        )
         if (!kuser) {
           setSessionError(true)
           return
@@ -69,7 +70,7 @@ const BanalceSynthesis = ({
       }
     }
     fetchWallets().then(() => setLoaded(true))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -143,6 +144,32 @@ const BanalceSynthesis = ({
             </Button>
           </>
         )}
+        <Button
+          onPress={() => {
+            fetch(
+              `http://localhost:${
+                process.env.PORT ?? 3000
+              }/api/crypto?size=10&page=2`
+            )
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Network response was not ok")
+                }
+                return response.json()
+              })
+              .then((data) => {
+                // You can work with your data here
+                console.log(data)
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          }}
+          style={{ marginTop: "0.5rem" }}
+          corner="rounded"
+        >
+          API TEST
+        </Button>
       </div>
     </div>
   )

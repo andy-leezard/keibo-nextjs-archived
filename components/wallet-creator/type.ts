@@ -10,7 +10,7 @@ export type TWalletCategory = {
 
 export type FilterableItem = {
   value: string
-  image?: string | ReactNode
+  image?: string
   display_name: string | PDictionary
   description?: PDictionary
 }
