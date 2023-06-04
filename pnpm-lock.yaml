@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@adobe/react-spectrum':
@@ -9,7 +13,7 @@ dependencies:
     version: 0.2.32
   '@next-auth/firebase-adapter':
     specifier: ^2.0.1
-    version: 2.0.1(firebase-admin@11.8.0)(next-auth@4.22.1)
+    version: 2.0.1(firebase-admin@11.9.0)(next-auth@4.22.1)
   client-only:
     specifier: ^0.0.1
     version: 0.0.1
@@ -20,8 +24,8 @@ dependencies:
     specifier: ^9.22.1
     version: 9.22.1(encoding@0.1.13)
   firebase-admin:
-    specifier: ^11.8.0
-    version: 11.8.0(encoding@0.1.13)
+    specifier: ^11.9.0
+    version: 11.9.0(encoding@0.1.13)
   negotiator:
     specifier: ^0.6.3
     version: 0.6.3
@@ -1996,8 +2000,8 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@google-cloud/firestore@6.5.0(encoding@0.1.13):
-    resolution: {integrity: sha512-U0QwG6pEQxO5c0v0eUylswozmuvlvz7iXSW+I18jzqR2hAFrUq2Weu1wm3NaH8wGD4ZL7W9Be4cMHG5CYU8LuQ==}
+  /@google-cloud/firestore@6.6.1(encoding@0.1.13):
+    resolution: {integrity: sha512-Z41j2h0mrgBH9qNIVmbRLqGKc6XmdJtWipeKwdnGa/bPTP1gn2SGTrYyWnpfsLMEtzKSYieHPSkAFp5kduF2RA==}
     engines: {node: '>=12.0.0'}
     requiresBuild: true
     dependencies:
@@ -2188,13 +2192,13 @@ packages:
     dev: false
     optional: true
 
-  /@next-auth/firebase-adapter@2.0.1(firebase-admin@11.8.0)(next-auth@4.22.1):
+  /@next-auth/firebase-adapter@2.0.1(firebase-admin@11.9.0)(next-auth@4.22.1):
     resolution: {integrity: sha512-4bQTa+IU8/I/mSOQcnrpQ9BYM6Xpk5BJx1TrxDpk4xKl2z0ZKE7Un+yl+U/9crmfpTvCoLOh6j9axmJMacJV2w==}
     peerDependencies:
       firebase-admin: ^11.4.1
       next-auth: ^4
     dependencies:
-      firebase-admin: 11.8.0(encoding@0.1.13)
+      firebase-admin: 11.9.0(encoding@0.1.13)
       next-auth: 4.22.1(next@13.4.4)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
@@ -6214,8 +6218,8 @@ packages:
       path-exists: 4.0.0
     dev: true
 
-  /firebase-admin@11.8.0(encoding@0.1.13):
-    resolution: {integrity: sha512-RxO0wWDnuqVikXExhVjnhVaaXpziKCad4D1rOX5c1WJdk1jAu9hfE4rbrFKZQZgF1okZS04kgCBIFJro7xn8NQ==}
+  /firebase-admin@11.9.0(encoding@0.1.13):
+    resolution: {integrity: sha512-My7qrInVZFmImX8aTulrp9kgY6d88Wn+ie8UIXKzZ3SJqQQhDwFT7Q3pgQXK9RfdsUtcxJJ3rCK7MWBm4GGtuw==}
     engines: {node: '>=14'}
     dependencies:
       '@fastify/busboy': 1.2.1
@@ -6227,7 +6231,7 @@ packages:
       node-forge: 1.3.1
       uuid: 9.0.0
     optionalDependencies:
-      '@google-cloud/firestore': 6.5.0(encoding@0.1.13)
+      '@google-cloud/firestore': 6.6.1(encoding@0.1.13)
       '@google-cloud/storage': 6.10.1(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding

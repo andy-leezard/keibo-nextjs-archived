@@ -15,7 +15,7 @@
     "client-only": "^0.0.1",
     "encoding": "^0.1.13",
     "firebase": "^9.22.1",
-    "firebase-admin": "^11.8.0",
+    "firebase-admin": "^11.9.0",
     "negotiator": "^0.6.3",
     "next": "13.4.4",
     "next-auth": "^4.22.1",
