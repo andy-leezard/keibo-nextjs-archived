@@ -6,6 +6,7 @@ import {
   AuthSessionProvider,
   NextThemeProvider,
 } from "@/lib/client"
+import CustomReduxProvider from "@/redux/provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -27,11 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <NextThemeProvider>
-          <AuthSessionProvider>
-            <AriaSSRProvider>{children}</AriaSSRProvider>
-          </AuthSessionProvider>
-        </NextThemeProvider>
+        <CustomReduxProvider>
+          <NextThemeProvider>
+            <AuthSessionProvider>
+              <AriaSSRProvider>{children}</AriaSSRProvider>
+            </AuthSessionProvider>
+          </NextThemeProvider>
+        </CustomReduxProvider>
       </body>
     </html>
   )
