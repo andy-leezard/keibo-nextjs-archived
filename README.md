@@ -12,23 +12,10 @@ yarn dev
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Using `RTK Query` and `async-mutex`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This web app leverages `RTK Query`'s re-authorization feature.
+That means, every time a user hits a 401-unauthorized response, it will automatically trigger the refresh endpoint that should provide a new access token (as long as the refresh token has not expired) and retry the previous request to which the 401 response was returned.
+It will also be using `async-mutex` to prevent multiple calls to refresh when they fail.
+For more details, see [RTK Query Overview](https://redux-toolkit.js.org/rtk-query/overview) and search for 're-authorization'.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

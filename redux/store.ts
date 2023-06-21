@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit"
+import { apiSlice } from "./services/apiSlice"
 /** isauthSlice = default export is the reducer itself */
 import authReducer from "./features/authSlice"
 
 export const makeStore = () =>
   configureStore({
-    reducer: {},
+    reducer: {
+      [apiSlice.reducerPath]: apiSlice.reducer,
+      auth: authReducer,
+    },
     devTools: process.env.NODE_ENV !== "production",
   })
 

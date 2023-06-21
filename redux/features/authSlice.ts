@@ -14,18 +14,18 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuth: (state, action) => {
+    setAuth: (state/* , action */) => {
       state.isAuthenticated = true
     },
-    logout: (state, action) => {
+    logout: (state/* , action */) => {
       state.isAuthenticated = false
     },
-    finishInitialLoad: (state, action) => {
+    finishInitialLoad: (state/* , action */) => {
       state.isLoading = false
     },
   },
 })
 
 export const { setAuth, logout, finishInitialLoad } = authSlice.actions
-/** is authSlice = default export is the reducer itself */
+
 export default authSlice.reducer
