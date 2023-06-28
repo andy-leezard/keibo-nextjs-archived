@@ -5,7 +5,7 @@ interface AuthState {
   isLoading: boolean
 }
 
-const initialState = {
+const initialState:AuthState = {
   isAuthenticated: false,
   isLoading: true,
 }

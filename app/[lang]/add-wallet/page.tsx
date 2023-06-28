@@ -1,8 +1,6 @@
 import { Locale } from "@/i18n-config"
-import { getDictionary } from "@/utils/server/get-dictionary"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "../../api/auth/[...nextauth]/route"
 import WalletCreator from "@/components/wallet-creator/WalletCreator"
+// import { getDictionary } from "@/utils/server/get-dictionary"
 
 type PageProps = {
   params: { lang: Locale }
@@ -10,11 +8,12 @@ type PageProps = {
 }
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const session = await getServerSession(authOptions)
-  const dict = await getDictionary(params.lang) // en
+  // const dict = await getDictionary(params.lang)
   return (
     <main style={{ display: "flex", flex: 1 }}>
-      <WalletCreator currentLocale={params.lang} session={session} />
+      <WalletCreator
+        currentLocale={params.lang}
+      />
     </main>
   )
 }

@@ -1,13 +1,14 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Button } from "@/components/ui"
 import ThemeSVG from "./ThemeSVG"
 
 type Props = {}
 
 const ThemeState = (props: Props) => {
+  const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
 
   const initializeTheme = () => {
@@ -33,8 +34,14 @@ const ThemeState = (props: Props) => {
 
   useEffect(() => {
     initializeTheme()
+    /** work-around for avoiding Hydration Mismatch  */
+    setMounted(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (!mounted) {
+    return <></>
+  }
 
   return (
     <Button

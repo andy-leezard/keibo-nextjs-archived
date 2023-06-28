@@ -41,6 +41,8 @@ const baseQueryWithReauth: BaseQueryFn<
         } else {
           api.dispatch(logout())
         }
+      } catch (e) {
+        console.error(e)
       } finally {
         // release must be called once the mutex should be released again.
         release()

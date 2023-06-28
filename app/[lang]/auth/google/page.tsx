@@ -1,11 +1,18 @@
-import React from 'react'
+"use client"
 
-type Props = {}
+import { useSocialAuthenticateMutation } from "@/redux/features/authApiSlice"
+import { useSocialAuth } from "@/hooks"
+import { Spinner } from "@/components/common"
 
-function Page({}: Props) {
+export default function Page() {
+  const [googleAuthenticate] = useSocialAuthenticateMutation()
+  useSocialAuth(googleAuthenticate, "google-oauth2")
+
   return (
-    <main><h1>Google</h1></main>
+    <main>
+      <div className="my-8">
+        <Spinner lg />
+      </div>
+    </main>
   )
 }
-
-export default Page

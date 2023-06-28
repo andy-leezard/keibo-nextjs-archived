@@ -1,12 +1,9 @@
 import "./globals.css"
 import type { Metadata } from "next/types"
 import { Inter } from "next/font/google"
-import {
-  AriaSSRProvider,
-  AuthSessionProvider,
-  NextThemeProvider,
-} from "@/lib/client"
+import { AriaSSRProvider, NextThemeProvider } from "@/lib/client"
 import CustomReduxProvider from "@/redux/provider"
+import { Setup } from "@/components/utils"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -26,15 +23,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <CustomReduxProvider>
-          <NextThemeProvider>
-            <AuthSessionProvider>
-              <AriaSSRProvider>{children}</AriaSSRProvider>
-            </AuthSessionProvider>
-          </NextThemeProvider>
-        </CustomReduxProvider>
+    <html lang="en" /* suppressHydrationWarning */>
+      <body className={`fixed inset-0 flex flex-col ${inter.className}`}>
+        <div className="relative flex flex-1 flex-col overflow-y-auto max-h-screen">
+          <CustomReduxProvider>
+            <NextThemeProvider>
+              <AriaSSRProvider>
+                <Setup />
+                {children}
+              </AriaSSRProvider>
+            </NextThemeProvider>
+          </CustomReduxProvider>
+        </div>
       </body>
     </html>
   )

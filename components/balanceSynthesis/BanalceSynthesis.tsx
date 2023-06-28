@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useLayoutEffect, useState } from "react"
-import { signIn } from "next-auth/react"
 import styles from "./BalanceSynthesis.module.css"
 import { shuffleArray } from "@/utils/client"
 import { TypingText } from "./TypingText"
@@ -10,18 +9,14 @@ import { WithLocale, t } from "@/i18n-config"
 import { slogans } from "./constants"
 import { ColorfulSpinner } from "../ui/loaders"
 import { usePathname, useRouter } from "next/navigation"
-import {
-  fetchFirestore,
-  updateFirestore,
-} from "@/lib/client/firebase/firestore"
 import Warning from "../warning/Warning"
+import Link from "next/link"
+import { useRetrieveUserQuery } from "@/redux/features/authApiSlice"
 
-type banalceSynthesisProps = WithLocale & WithSession & {}
+type banalceSynthesisProps = WithLocale & {}
 
-const BanalceSynthesis = ({
-  currentLocale,
-  session,
-}: banalceSynthesisProps) => {
+const BanalceSynthesis = ({ currentLocale }: banalceSynthesisProps) => {
+  const { data: user, isLoading, isFetching } = useRetrieveUserQuery()
   const router = useRouter()
   const pathname = usePathname()
   const [wallets, setWallets] = useState<any | null>(null)
@@ -44,7 +39,7 @@ const BanalceSynthesis = ({
 
   useLayoutEffect(() => {
     const fetchWallets = async () => {
-      if (session?.user?.id) {
+      /* if (session?.user?.id) {
         const [kuser, error] = await fetchFirestore<KeiboFirestoreUser>(
           "users",
           [session.user.id]
@@ -67,16 +62,19 @@ const BanalceSynthesis = ({
         await updateFirestore("users", [session.user.id], update_payload)
       } else {
         setWallets(null)
-      }
+      } */
     }
     fetchWallets().then(() => setLoaded(true))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  console.log({ user, isLoading, isFetching })
+
   return (
     <div id={styles.wrapper}>
       <div id={styles.container}>
-        {session ? (
+        {process.env.NEXT_PUBLIC_HOST}
+        {user ? (
           <>
             {loaded ? (
               <>
@@ -131,17 +129,16 @@ const BanalceSynthesis = ({
               </span>
               <TypingText texts={textList} waitbt={50} wait={3000} speed={27} />
             </div>
-            <Button
-              onPress={() => signIn()}
-              style={{ marginTop: "0.5rem" }}
-              corner="rounded"
+            <Link
+              href="/auth/login"
+              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               {t(currentLocale, {
                 en: "Sign in",
                 fr: "Se connecter",
                 ko: "로그인",
               })}
-            </Button>
+            </Link>
           </>
         )}
         <Button

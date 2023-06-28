@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import { makeStore } from "./store"
-import { Provider } from "react-redux"
+import { store } from './store';
+import { Provider } from 'react-redux';
 
 interface Props {
-  children: React.ReactNode
+	children: React.ReactNode;
 }
 
-export default function CustomReduxProvider({ children }: Props) {
-  return <Provider store={makeStore()}>{children}</Provider>
+export default function CustomProvider({ children }: Props) {
+	return <Provider store={store}>{children}</Provider>;
 }

@@ -16,11 +16,13 @@ import {
   WalletCreationContext,
   WalletCreationContextInterface,
 } from "./context"
+import { useRetrieveUserQuery } from "@/redux/features/authApiSlice"
 
-type WalletCreatorProps = WithLocale & WithSession & {}
+type WalletCreatorProps = WithLocale
 // TODO : Add histories backwards.
 
-const WalletCreator = ({ currentLocale, session }: WalletCreatorProps) => {
+const WalletCreator = ({ currentLocale }: WalletCreatorProps) => {
+  const { data: user, isLoading, isFetching } = useRetrieveUserQuery()
   const [category, setCategory] =
     useState<WalletCreationContextInterface["category"]>(null)
   const [provider, setProvider] =
@@ -54,7 +56,7 @@ const WalletCreator = ({ currentLocale, session }: WalletCreatorProps) => {
     return 5
   }, [category, provider, asset])
 
-  if (!session) {
+  if (!user) {
     return <Warning currentLocale={currentLocale} />
   }
   return (

@@ -5,10 +5,6 @@ import { FilterableItem } from "../type"
 import { Button } from "@/components/ui"
 import { useEffect, useState } from "react"
 import { isValidEmailAddress } from "@/utils"
-import {
-  fetchFirestore,
-  searchUsersByEmail,
-} from "@/lib/client/firebase/firestore"
 
 type Role = WalletConstructor["participants"][number]["role"]
 
@@ -28,7 +24,7 @@ const Participant = ({
 }: ParticipantProps) => {
   const [fetchedImage, setFetchedImage] = useState("")
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchImage = async () => {
       if (image || fetchedImage || !isValidEmailAddress(value)) return
       const [data, error] = await searchUsersByEmail(value)
@@ -40,7 +36,7 @@ const Participant = ({
       }
     }
     fetchImage()
-  }, [fetchedImage, image, value])
+  }, [fetchedImage, image, value]) */
 
   return (
     <>
