@@ -13,13 +13,16 @@ function Page({ params }: PageProps) {
   return (
     <div className="flex flex-col p-4 m-auto">
       <div className="flex flex-col items-center">
-        <Image
-          className="mx-auto"
-          width={64}
-          height={64}
-          src="/letter_64.png"
-          alt="Logo"
-        />
+        <Link href={`/${params.lang}`}>
+          <Image
+            className="mx-auto"
+            width={64}
+            height={64}
+            src="/letter_64.png"
+            alt="Logo"
+            title="Home"
+          />
+        </Link>
         <h2 className="mt-10 text-center text-xl sm:text-2xl font-bold leading-9 tracking-tight">
           {t(params.lang, {
             en: "Sign in to your account",
