@@ -84,10 +84,10 @@ export default function Navbar({ currentLocale }: NavBarProps) {
     <Disclosure as="nav" className="sticky top-0 z-10 bg-gray-800">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               {/* MOBILE SCREEN DROPDOWN ICON */}
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+              <div className="flex sm:hidden items-center">
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">
                     {t(currentLocale, {
@@ -104,19 +104,19 @@ export default function Navbar({ currentLocale }: NavBarProps) {
                 </Disclosure.Button>
               </div>
               {/* REGULAR ITEMS */}
-              <div className="flex flex-1 items-center sm:justify-between justify-center">
-                <Link href={`/${currentLocale}`}>
-                  <Image
-                    src="/letter_64.png"
-                    width={32}
-                    height={32}
-                    alt="Home"
-                  />
-                </Link>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
-                    {isAuthenticated ? authLinks(false) : guestLinks(false)}
-                  </div>
+              <div className="flex flex-1 justify-between gap-4">
+                <div className="flex flex-1 justify-center sm:justify-start items-center">
+                  <Link href={`/${currentLocale}`}>
+                    <Image
+                      src="/letter_64.png"
+                      width={32}
+                      height={32}
+                      alt="Home"
+                    />
+                  </Link>
+                </div>
+                <div className="hidden sm:flex flex-1 items-center gap-2 justify-end">
+                  {isAuthenticated ? authLinks(false) : guestLinks(false)}
                 </div>
               </div>
             </div>
