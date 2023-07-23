@@ -1,6 +1,6 @@
 'use client';
 
-import { useRegister } from '@/hooks';
+import { useRegister } from '@/hooks/redux';
 import { Form } from '@/components/auth-forms';
 
 export default function RegisterForm() {

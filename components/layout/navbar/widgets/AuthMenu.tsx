@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation"
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
 import { useLogoutMutation } from "@/redux/features/authApiSlice"
 import { logout as setLogout } from "@/redux/features/authSlice"
+import { getLastPath } from "@/utils"
 
 type AuthMenuProps = WithLocale & {
   /** sm */
@@ -21,7 +22,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
 
   const { isAuthenticated } = useAppSelector((state) => state.auth)
 
-  const isSelected = (path: string) => (pathname === path ? true : false)
+  const isSelected = (path: string) => Boolean(getLastPath(pathname) === path)
   const handleLogout = () => {
     logout(undefined)
       .unwrap()
@@ -30,13 +31,13 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
       })
   }
   return (
-    <div>
+    <>
       {isAuthenticated ? (
         <>
           <NavLink
-            isSelected={isSelected("/dashboard")}
+            isSelected={isSelected("dashboard")}
             isMobile={isMobile}
-            href="/dashboard"
+            href="/my/dashboard"
           >
             {t(currentLocale, {
               en: "Dashboard",
@@ -54,7 +55,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
       ) : (
         <>
           <NavLink
-            isSelected={isSelected("/auth/login")}
+            isSelected={isSelected("login")}
             isMobile={isMobile}
             href="/auth/login"
           >
@@ -65,7 +66,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
             })}
           </NavLink>
           <NavLink
-            isSelected={isSelected("/auth/register")}
+            isSelected={isSelected("register")}
             isMobile={isMobile}
             href="/auth/register"
           >
@@ -77,7 +78,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
           </NavLink>
         </>
       )}
-    </div>
+    </>
   )
 }
 

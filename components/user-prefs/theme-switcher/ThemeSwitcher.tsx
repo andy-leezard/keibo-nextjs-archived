@@ -1,14 +1,17 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import React, { useEffect, useState } from "react"
-import { Button } from "@/components/ui"
+import React, { CSSProperties, useEffect } from "react"
+import styles from "./ThemeSVG.module.css"
 import ThemeSVG from "./ThemeSVG"
 
-type Props = {}
+type ThemeSwitcherProps = {
+  style?: CSSProperties
+  className?: string
+  size?: number
+}
 
-const ThemeState = (props: Props) => {
-  const [mounted, setMounted] = useState(false)
+const ThemeSwitcher = ({ style, className, size }: ThemeSwitcherProps) => {
   const { theme, setTheme } = useTheme()
 
   const initializeTheme = () => {
@@ -35,27 +38,20 @@ const ThemeState = (props: Props) => {
   useEffect(() => {
     initializeTheme()
     /** work-around for avoiding Hydration Mismatch  */
-    setMounted(true)
+    // setMounted(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!mounted) {
-    return <></>
-  }
-
   return (
-    <Button
-      corner="rounded"
-      onPress={() => toggleTheme()}
-      style={{
-        flexShrink: 0,
-        width: "44px",
-        backgroundColor: theme === "light" ? "#ffffff" : "#343434",
-      }}
+    <button
+      type="button"
+      className={`${styles.theme_btn} ${className}`}
+      onClick={() => toggleTheme()}
+      style={style}
     >
-      <ThemeSVG size={32} />
-    </Button>
+      <ThemeSVG size={18} />
+    </button>
   )
 }
 
-export default ThemeState
+export default ThemeSwitcher

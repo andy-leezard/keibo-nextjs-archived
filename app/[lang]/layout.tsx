@@ -1,6 +1,7 @@
 import { Locale, WithLocaleParam } from "../../i18n-config"
 import type { Metadata, ResolvingMetadata } from "next/types"
 import { getDictionary } from "@/utils/server/get-dictionary"
+import { Setup } from "@/components/utils"
 
 export async function generateMetadata(
   { params, searchParams }: WithLocaleParam & WithSearchParams,
@@ -26,5 +27,10 @@ export default async function HomeLayout({
   children: React.ReactNode
   // params: { lang: Locale }
 }) {
-  return <>{children}</>
+  return (
+    <>
+      <Setup />
+      {children}
+    </>
+  )
 }

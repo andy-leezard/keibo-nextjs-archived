@@ -3,8 +3,26 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useAppDispatch } from "@/redux/hooks"
 import { setAuth } from "@/redux/features/authSlice"
 import { toast } from "react-toastify"
+import type { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks"
+import type {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  MutationDefinition,
+} from "@reduxjs/toolkit/dist/query"
 
-export default function useSocialAuth(authenticate: any, provider: string) {
+export default function useSocialAuth(
+  authenticate: MutationTrigger<
+    MutationDefinition<
+      any,
+      BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>,
+      never,
+      any,
+      "api"
+    >
+  >,
+  provider: string
+) {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -31,6 +49,6 @@ export default function useSocialAuth(authenticate: any, provider: string) {
     return () => {
       initialized.current = true
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticate, provider])
 }

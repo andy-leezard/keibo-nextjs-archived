@@ -1,9 +1,8 @@
 import "./globals.css"
 import type { Metadata } from "next/types"
 import { Inter } from "next/font/google"
-import { AriaSSRProvider, NextThemeProvider } from "@/lib/client"
+import { NextThemeProvider } from "@/lib/client"
 import CustomReduxProvider from "@/redux/provider"
-import { Setup } from "@/components/utils"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -28,10 +27,9 @@ export default function RootLayout({
         <div className="relative flex flex-1 flex-col overflow-y-auto max-h-screen">
           <CustomReduxProvider>
             <NextThemeProvider>
-              <AriaSSRProvider>
-                <Setup />
-                {children}
-              </AriaSSRProvider>
+              {/* <AriaSSRProvider> */}
+              {children}
+              {/* </AriaSSRProvider> */}
             </NextThemeProvider>
           </CustomReduxProvider>
         </div>

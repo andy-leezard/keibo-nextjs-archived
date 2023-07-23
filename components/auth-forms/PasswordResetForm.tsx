@@ -1,6 +1,6 @@
 "use client"
 
-import { useResetPassword } from "@/hooks"
+import { useResetPassword } from "@/hooks/redux"
 import { Form } from "@/components/auth-forms"
 
 export default function PasswordResetForm() {

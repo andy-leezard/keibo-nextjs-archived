@@ -19,3 +19,19 @@ export const normalize = (
 export function isNoneArrayObject<T>(value: T): boolean {
   return typeof value === 'object' && !Array.isArray(value) && value !== null;
 }
+export function getLastPath(pathname: string): string {
+  // Remove trailing slashes (if any)
+  pathname = pathname.replace(/\/+$/, '');
+
+  // Split the pathname by "/"
+  const paths = pathname.split('/');
+
+  // Handle the special case where the path ends with "/"
+  if (pathname.endsWith('/')) {
+    // Return the second-to-last element as the last path
+    return paths[paths.length - 2];
+  } else {
+    // Return the last element as the last path
+    return paths[paths.length - 1];
+  }
+}

@@ -1,14 +1,19 @@
-.theme_btn_svg {
-  transition: stroke 400ms;
+.theme_btn {
+  flex-shrink: 0;
 }
 
-[data-theme='light'] .theme_btn_svg {
-  stroke: #3f54d1;
+.theme_btn_svg {
+  transition: stroke 400ms;
+  stroke: #ffd13b;
+}
+
+/* [data-theme='light'] .theme_btn_svg {
+  stroke: #ffd13b;
 }
 
 [data-theme='dark'] .theme_btn_svg {
   stroke: #ffd13b;
-}
+} */
 
 .moon {
   stroke-dasharray: 0px 1px;

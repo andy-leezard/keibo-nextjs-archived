@@ -1,6 +1,6 @@
 "use client"
 
-import { useResetPasswordConfirm } from "@/hooks"
+import { useResetPasswordConfirm } from "@/hooks/redux"
 import { Form } from "@/components/auth-forms"
 
 interface Props {

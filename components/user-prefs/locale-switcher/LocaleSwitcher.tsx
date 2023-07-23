@@ -1,8 +1,8 @@
 "use client"
 
 import { useRouter, usePathname } from "next/navigation"
-import { Locale, WithLocale, i18n, t } from "../../i18n-config"
-import { Item, Select } from "../ui"
+import { Locale, WithLocale, i18n, t } from "../../../i18n-config"
+import { Item, Select } from "../../ui"
 import { Key } from "react"
 import { Placement } from "react-aria"
 

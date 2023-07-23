@@ -1,10 +1,8 @@
 import Link from "next/link"
 import styles from "./Footer.module.css"
-import { FaDiscord, FaLinkedin } from "react-icons/fa"
+import { FaDiscord, FaGithubSquare, FaLinkedin } from "react-icons/fa"
 import { AiFillTwitterCircle } from "react-icons/ai"
 import { WithLocale } from "@/i18n-config"
-import LocaleSwitcher from "@/components/locale-switcher"
-import ThemeState from "./client/theme-state"
 
 const Footer = ({ currentLocale }: WithLocale) => {
   return (
@@ -16,30 +14,35 @@ const Footer = ({ currentLocale }: WithLocale) => {
           </Link>
           <ul>
             <li>
-              <a href="">
+              <a href="https://www.linkedin.com/in/andy-lee-4b913719a/">
                 <FaLinkedin size={22} />
               </a>
             </li>
             <li>
-              <a href="">
-                <AiFillTwitterCircle size={22} />
+              <a href="https://github.com/AndyLeezard">
+                <FaGithubSquare size={22} />
               </a>
             </li>
             <li>
+              <a href="https://twitter.com/andyleedev">
+                <AiFillTwitterCircle size={22} />
+              </a>
+            </li>
+            {/* <li>
               <a href="">
                 <FaDiscord size={22} />
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className={styles.line_division}>
           <span style={{ minWidth: "102px" }}>Keibo ©2023</span>
-          <ThemeState />
-          <LocaleSwitcher
+          {/* <ThemeState /> */}
+          {/* <LocaleSwitcher
             currentLocale={currentLocale}
             placement="top"
             hideLabel
-          />
+          /> */}
         </div>
       </div>
     </footer>
