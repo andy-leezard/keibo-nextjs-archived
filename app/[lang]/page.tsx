@@ -1,8 +1,7 @@
 import { Locale } from "@/i18n-config"
 import { getDictionary } from "@/utils/server/get-dictionary"
 import BanalceSynthesis from "@/components/balanceSynthesis"
-import { Navbar } from "@/components/common"
-import { Footer } from "@/components/layout"
+import { Navbar, Footer } from "@/components/layout"
 
 type PageProps = {
   params: { lang: Locale }

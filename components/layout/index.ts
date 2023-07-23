@@ -1,4 +1,2 @@
-import Nav from "./nav"
-import Footer from "./footer"
-
-export { Nav, Footer }
+export { Footer } from "./footer"
+export { Navbar } from "./navbar"
