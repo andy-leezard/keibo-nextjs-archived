@@ -15,23 +15,24 @@ const ThemeSwitcher = ({ style, className, size }: ThemeSwitcherProps) => {
   const { theme, setTheme } = useTheme()
 
   const initializeTheme = () => {
+    const currentTheme = Boolean(
+      window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+    )
+      ? "light"
+      : "dark"
     if (!theme || theme === "system") {
-      setTheme(
-        Boolean(
-          window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches
-        )
-          ? "light"
-          : "dark"
-      )
+      setTheme(currentTheme)
     }
   }
 
   const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark"
     if (theme && theme !== "system") {
-      setTheme(theme === "dark" ? "light" : "dark")
+      setTheme(newTheme)
       return
     }
+    // localStorage.theme = newTheme
     initializeTheme()
   }
 

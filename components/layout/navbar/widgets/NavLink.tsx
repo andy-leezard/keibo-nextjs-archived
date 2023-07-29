@@ -28,7 +28,7 @@ export default function NavLink({
     {
       "text-white": !isSelected,
       "bg-gray-900 text-gray-300 pointer-events-none": isSelected,
-      "hover:bg-gray-800 hover:stroke-cyan-700": !isSelected && !isBanner,
+      "hover:bg-slate-500 dark:hover:bg-slate-800": !isSelected && !isBanner,
       "block text-base": isMobile,
       "text-sm": !isMobile,
       "text-gray-300": isBanner,

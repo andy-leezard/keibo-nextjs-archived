@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { AuthMenu, BurgerButton } from "./widgets"
 import { useState } from "react"
-import ThemeSwitcher from "@/components/user-prefs/theme-switcher/ThemeSwitcher"
+import ThemeSwitcher from "@/components/user-prefs/theme/ThemeSwitcher"
 
 type NavBarProps = WithLocale & {}
 
@@ -31,6 +31,7 @@ export default function Navbar({ currentLocale }: NavBarProps) {
         </div>
         <div className="hidden sm:flex flex-1 gap-4 justify-end">
           <AuthMenu currentLocale={currentLocale} isMobile={false} />
+
           <ThemeSwitcher />
         </div>
       </div>

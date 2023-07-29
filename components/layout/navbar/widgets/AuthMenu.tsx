@@ -43,12 +43,10 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
           <DropdownMenu
             mode="hover"
             disableMiddleAnchor
-            thresholdWidth={180}
-            thresholdHeight={180}
+            thresholdWidth={200}
+            thresholdHeight={200}
             displayNode={<FaCircleUser color="white" size={28} style={{margin: "4px"}}/>}
-            dropdownClassName={"bg-slate-700"}
-            marginX={10}
-            marginY={18}
+            dropdownClassName={"bg-slate-700 dark:bg-slate-900"}
           >
             <NavLink
               isSelected={isSelected("dashboard")}
