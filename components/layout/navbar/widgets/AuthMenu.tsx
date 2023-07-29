@@ -8,6 +8,9 @@ import { useAppSelector, useAppDispatch } from "@/redux/hooks"
 import { useLogoutMutation } from "@/redux/features/authApiSlice"
 import { logout as setLogout } from "@/redux/features/authSlice"
 import { getLastPath } from "@/utils"
+import { FaCircleUser } from "react-icons/fa6"
+import { GiExitDoor } from "react-icons/gi"
+import { DropdownMenu } from "@/components/ui/dropdown-menu"
 
 type AuthMenuProps = WithLocale & {
   /** sm */
@@ -20,7 +23,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
 
   const [logout] = useLogoutMutation()
 
-  const { isAuthenticated } = useAppSelector((state) => state.auth)
+  const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth)
 
   const isSelected = (path: string) => Boolean(getLastPath(pathname) === path)
   const handleLogout = () => {
@@ -30,27 +33,51 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
         dispatch(setLogout())
       })
   }
+  if (isLoading) {
+    return <></>
+  }
   return (
     <>
       {isAuthenticated ? (
         <>
-          <NavLink
-            isSelected={isSelected("dashboard")}
-            isMobile={isMobile}
-            href="/my/dashboard"
+          <DropdownMenu
+            mode="hover"
+            disableMiddleAnchor
+            thresholdWidth={180}
+            thresholdHeight={180}
+            displayNode={<FaCircleUser color="white" size={28} style={{margin: "4px"}}/>}
+            dropdownClassName={"bg-slate-700"}
+            marginX={10}
+            marginY={18}
           >
-            {t(currentLocale, {
-              en: "Dashboard",
-              ko: "대시보드",
-            })}
-          </NavLink>
-          <NavLink isMobile={isMobile} onClick={handleLogout}>
-            {t(currentLocale, {
-              en: "Sign out",
-              fr: "Se déconnecter",
-              ko: "로그아웃",
-            })}
-          </NavLink>
+            <NavLink
+              isSelected={isSelected("dashboard")}
+              isMobile={isMobile}
+              href="/my/dashboard"
+            >
+              <div className="flex gap-2">
+                <FaCircleUser size={16} />
+                <span>
+                  {t(currentLocale, {
+                    en: "Dashboard",
+                    ko: "대시보드",
+                  })}
+                </span>
+              </div>
+            </NavLink>
+            <NavLink isMobile={isMobile} onClick={handleLogout}>
+              <div className="flex gap-2">
+                <GiExitDoor size={16} />
+                <span>
+                  {t(currentLocale, {
+                    en: "Sign out",
+                    fr: "Se déconnecter",
+                    ko: "로그아웃",
+                  })}
+                </span>
+              </div>
+            </NavLink>
+          </DropdownMenu>
         </>
       ) : (
         <>

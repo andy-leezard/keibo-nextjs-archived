@@ -1,0 +1,11 @@
+.nav_link {
+  min-width: 180px;
+}
+
+.nav_link:hover svg {
+  color: var(--mint);
+}
+
+.nav_link * {
+  flex-shrink: 0;
+}

@@ -14,28 +14,24 @@ export default function Navbar({ currentLocale }: NavBarProps) {
 
   return (
     <nav className="sticky top-0 z-10 bg-gray-800">
-      <div className="px-2 sm:px-6">
-        <div className="relative flex h-16 items-center justify-between">
-          {/* MOBILE SCREEN DROPDOWN ICON */}
-          <div className="absolute flex items-center">
-            <BurgerButton
-              currentLocale={currentLocale}
-              setOpen={setOpen}
-              open={open}
-            />
-          </div>
-          {/* REGULAR ITEMS */}
-          <div className="flex flex-1 justify-between gap-4">
-            <div className="flex flex-1 justify-center sm:justify-start items-center">
-              <Link href={`/${currentLocale}`}>
-                <Image src="/letter_64.png" width={32} height={32} alt="Home" />
-              </Link>
-            </div>
-            <div className="hidden sm:flex flex-1 items-center gap-2 justify-end">
-              <AuthMenu currentLocale={currentLocale} isMobile={false} />
-              <ThemeSwitcher />
-            </div>
-          </div>
+      <div className="relative flex h-16 justify-between px-2 sm:px-6">
+        {/* MOBILE SCREEN DROPDOWN ICON */}
+        <div className="absolute flex items-center">
+          <BurgerButton
+            currentLocale={currentLocale}
+            setOpen={setOpen}
+            open={open}
+          />
+        </div>
+        {/* REGULAR ITEMS */}
+        <div className="flex flex-1 justify-center sm:justify-start">
+          <Link href={`/${currentLocale}`} className="flex items-center">
+            <Image src="/letter_64.png" width={32} height={32} alt="Home" />
+          </Link>
+        </div>
+        <div className="hidden sm:flex flex-1 gap-4 justify-end">
+          <AuthMenu currentLocale={currentLocale} isMobile={false} />
+          <ThemeSwitcher />
         </div>
       </div>
 
