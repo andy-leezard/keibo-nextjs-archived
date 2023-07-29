@@ -1,0 +1,5 @@
+.dropdown_menu {
+  z-index: 100;
+  backdrop-filter: blur(4px);
+  scrollbar-width: thin;
+}
