@@ -146,7 +146,7 @@ const BanalceSynthesis = ({ currentLocale }: banalceSynthesisProps) => {
             fetch(
               `http://localhost:${
                 process.env.PORT ?? 3000
-              }/api/crypto?size=10&page=2`
+              }/api/assets/crypto?size=10&page=2`
             )
               .then((response) => {
                 if (!response.ok) {
