@@ -49,7 +49,7 @@ const ThemeSwitcher = ({ style, className, size }: ThemeSwitcherProps) => {
       onClick={() => toggleTheme()}
       style={style}
     >
-      <ThemeSVG size={18} />
+      <ThemeSVG size={24} />
     </button>
   )
 }
