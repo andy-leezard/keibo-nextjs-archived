@@ -6,6 +6,7 @@ import Link from "next/link"
 import { AuthMenu, BurgerButton } from "./widgets"
 import { useState } from "react"
 import ThemeSwitcher from "@/components/user-prefs/theme/ThemeSwitcher"
+import { LocaleSwitcher } from "@/components/user-prefs"
 
 type NavBarProps = WithLocale & {}
 
@@ -13,8 +14,8 @@ export default function Navbar({ currentLocale }: NavBarProps) {
   const [open, setOpen] = useState(false)
 
   return (
-    <nav className="sticky top-0 z-10 bg-gray-800">
-      <div className="relative flex h-16 justify-between px-2 sm:px-6">
+    <header className="sticky top-0 z-10 bg-gray-800">
+      <nav className="relative flex h-16 justify-between px-2 sm:px-6">
         {/* MOBILE SCREEN DROPDOWN ICON */}
         <div className="absolute flex items-center">
           <BurgerButton
@@ -31,10 +32,10 @@ export default function Navbar({ currentLocale }: NavBarProps) {
         </div>
         <div className="hidden sm:flex flex-1 gap-4 justify-end">
           <AuthMenu currentLocale={currentLocale} isMobile={false} />
-
+          {/* <LocaleSwitcher currentLocale={currentLocale} /> */}
           <ThemeSwitcher />
         </div>
-      </div>
+      </nav>
 
       {/* MOBILE SCREEN DROPDOWN ITEMS */}
       {open ? (
@@ -44,6 +45,6 @@ export default function Navbar({ currentLocale }: NavBarProps) {
       ) : (
         <></>
       )}
-    </nav>
+    </header>
   )
 }

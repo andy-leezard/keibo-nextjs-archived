@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" /* suppressHydrationWarning */>
       <body className={`fixed inset-0 flex flex-col ${inter.className}`}>
-        <div className="relative flex flex-1 flex-col overflow-y-auto max-h-screen">
+        <div className="relative flex flex-1 flex-col overflow-y-auto">
           <CustomReduxProvider>
             <NextThemeProvider>
               <TailwinThemeApplicant />
