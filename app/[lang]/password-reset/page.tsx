@@ -1,5 +1,5 @@
 import { PasswordResetForm } from "@/components/auth-forms"
-import { WithLocaleParam } from "@/i18n-config"
+import { Locale, WithLocaleParam, t } from "@/i18n-config"
 import { getDictionary } from "@/utils/server/get-dictionary"
 import type { Metadata, ResolvingMetadata } from "next"
 import Image from "next/image"
@@ -11,17 +11,17 @@ export async function generateMetadata(
   const dict = await getDictionary(params.lang)
   const { meta, routes } = dict
   return {
-    title: `${meta.title} ${routes.reset_pw}`,
+    title: `${routes.reset_pw} | ${meta.title}`,
     description: `${meta.description}`,
   }
 }
 
-export const metadata: Metadata = {
-  title: "Full Auth | Password Reset",
-  description: "Full Auth password reset page",
+type PageProps = {
+  params: { lang: Locale }
+  searchParams: SearchParams
 }
 
-export default function Page() {
+export default function Page({ params, searchParams }: PageProps) {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -33,12 +33,15 @@ export default function Page() {
           alt="Logo"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Reset your password
+          {t(params.lang, {
+            en: "Reset your password",
+            fr: "Réinitialiser le mot de passe",
+            ko: "비밀번호 재설정",
+          })}
         </h2>
       </div>
-
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <PasswordResetForm />
+        <PasswordResetForm currentLocale={params.lang} />
       </div>
     </div>
   )

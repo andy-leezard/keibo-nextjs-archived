@@ -2,8 +2,9 @@
 
 import { useResetPassword } from "@/hooks/redux"
 import { Form } from "@/components/auth-forms"
+import { WithLocale, t } from "@/i18n-config"
 
-export default function PasswordResetForm() {
+export default function PasswordResetForm({ currentLocale }: WithLocale) {
   const { email, isLoading, onChange, onSubmit } = useResetPassword()
 
   const config = [
@@ -21,7 +22,11 @@ export default function PasswordResetForm() {
     <Form
       config={config}
       isLoading={isLoading}
-      btnText="Request password reset"
+      btnText={t(currentLocale, {
+        en: "Request email verification",
+        fr: "Demander la vérification par mail",
+        ko: "인증 이메일 받기",
+      })}
       onChange={onChange}
       onSubmit={onSubmit}
     />

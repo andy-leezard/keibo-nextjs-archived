@@ -8,6 +8,7 @@
   },
   "routes": {
     "dashboard": "Dashboard",
-    "reset_pw": "Mot de passe"
+    "reset_pw": "Mot de passe oublié",
+    "new_pw": "Nouveau mot de passe"
   }
 }

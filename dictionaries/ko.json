@@ -8,6 +8,7 @@
   },
   "routes": {
     "dashboard": "Dashboard",
-    "reset_pw": "비번 되찾기"
+    "reset_pw": "비번 되찾기",
+    "new_pw": "비번 재설정"
   }
 }

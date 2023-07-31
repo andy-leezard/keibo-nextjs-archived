@@ -2,13 +2,19 @@
 
 import { useResetPasswordConfirm } from "@/hooks/redux"
 import { Form } from "@/components/auth-forms"
+import { Locale, t } from "@/i18n-config"
 
 interface Props {
+  currentLocale: Locale
   uid: string
   token: string
 }
 
-export default function PasswordResetConfirmForm({ uid, token }: Props) {
+export default function PasswordResetConfirmForm({
+  currentLocale,
+  uid,
+  token,
+}: Props) {
   const { new_password, re_new_password, isLoading, onChange, onSubmit } =
     useResetPasswordConfirm(uid, token)
 
@@ -35,7 +41,11 @@ export default function PasswordResetConfirmForm({ uid, token }: Props) {
     <Form
       config={config}
       isLoading={isLoading}
-      btnText="Request password reset"
+      btnText={t(currentLocale, {
+        en: "Confirm",
+        fr: "Confirmer",
+        ko: "확인"
+      })}
       onChange={onChange}
       onSubmit={onSubmit}
     />
