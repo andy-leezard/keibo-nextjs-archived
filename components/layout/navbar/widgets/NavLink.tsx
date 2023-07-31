@@ -34,7 +34,7 @@ export default function NavLink({
       "text-white": !isSelected,
       "pointer-events-none": isSelected,
       "text-gray-300": isBanner || isSelected,
-      "bg-gray-900": isSelected && !nested,
+      "bg-gray-900 dark:bg-cyan-950": nested && isSelected && !isBanner,
       "hover:bg-slate-500 dark:hover:bg-slate-800": nested && !isSelected && !isBanner,
       "block text-base": isMobile,
       "text-sm": !isMobile,

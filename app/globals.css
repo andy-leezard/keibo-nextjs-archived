@@ -46,17 +46,6 @@
   --buy-dark: #42b95d;
 }
 
-/* this project uses the dark-mode by default */
-body {
-  color: rgb(249 250 251);
-  background-color: rgb(30, 30, 30);
-}
-
-[data-theme="light"] body {
-  color: rgb(31 41 55);
-  background-color: rgb(214, 219, 220);
-}
-
 /* Simplest CSS Reset to prevent headaches */
 *,
 *::before,

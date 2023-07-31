@@ -35,7 +35,7 @@ export default function Input({
         {link && (
           <div className="text-sm">
             <Link
-              className="font-semibold text-indigo-600 hover:text-indigo-500"
+              className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
               href={link.linkUrl}
             >
               {link.linkText}

@@ -10,7 +10,7 @@ type FooterProps = WithLocale & {
 
 const Footer = ({ currentLocale, discreet }: FooterProps) => {
   return (
-    <footer className="relative flex justify-center items-center left-0 right-0 pt-2 pb-2 pl-1 pr-1 bg-gray-400 dark:bg-black">
+    <footer className="relative flex justify-center items-center left-0 right-0 pt-2 pb-2 pl-1 pr-1 bg-gray-400 dark:bg-gray-800">
       {discreet ? (
         <span>Keibo ©2023</span>
       ) : (

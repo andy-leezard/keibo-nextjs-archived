@@ -1,6 +1,20 @@
 import { PasswordResetForm } from "@/components/auth-forms"
-import type { Metadata } from "next"
+import { WithLocaleParam } from "@/i18n-config"
+import { getDictionary } from "@/utils/server/get-dictionary"
+import type { Metadata, ResolvingMetadata } from "next"
 import Image from "next/image"
+
+export async function generateMetadata(
+  { params, searchParams }: WithLocaleParam & WithSearchParams,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const dict = await getDictionary(params.lang)
+  const { meta, routes } = dict
+  return {
+    title: `${meta.title} ${routes.reset_pw}`,
+    description: `${meta.description}`,
+  }
+}
 
 export const metadata: Metadata = {
   title: "Full Auth | Password Reset",

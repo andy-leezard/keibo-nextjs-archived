@@ -1,4 +1,4 @@
-import { Spinner } from '@/components/common';
+import { ColorfulSpinner } from '../ui/loaders';
 
 interface Config {
 	label: string;
@@ -21,7 +21,7 @@ export default function List({ config }: Props) {
 					</div>
 					<div>
 						<p className='text-sm font-semibold leading-6'>
-							{value || <Spinner sm />}
+							{value ?? <ColorfulSpinner size={64} withShadow />}
 						</p>
 					</div>
 				</li>

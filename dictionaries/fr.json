@@ -1,12 +1,13 @@
 {
-  "Home": {
-    "title": "Baguette Fromage"
-  },
   "misc": {
     "language": "Langue"
   },
   "meta": {
     "title": "Keibo - votre comptes",
     "description": "La web app officielle de Keibo"
+  },
+  "routes": {
+    "dashboard": "Dashboard",
+    "reset_pw": "Mot de passe"
   }
 }

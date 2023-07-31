@@ -1,7 +1,7 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import React, { CSSProperties, useEffect } from "react"
+import React, { CSSProperties, useEffect, useState } from "react"
 import styles from "./ThemeSVG.module.css"
 import ThemeSVG from "./ThemeSVG"
 
@@ -13,6 +13,7 @@ type ThemeSwitcherProps = {
 
 const ThemeSwitcher = ({ style, className, size }: ThemeSwitcherProps) => {
   const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
   const initializeTheme = () => {
     const currentTheme = Boolean(
@@ -37,11 +38,16 @@ const ThemeSwitcher = ({ style, className, size }: ThemeSwitcherProps) => {
   }
 
   useEffect(() => {
-    initializeTheme()
     /** work-around for avoiding Hydration Mismatch  */
-    // setMounted(true)
+    setMounted(true)
+    
+    initializeTheme()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (!mounted) {
+    return <></>
+  }
 
   return (
     <button

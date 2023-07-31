@@ -17,6 +17,7 @@ export default function Spinner({ sm, md, lg }: Props) {
 	return (
 		<div role='status'>
 			<ImSpinner3 className={className} />
+			{/* screen reader only */}
 			<span className='sr-only'>Loading...</span>
 		</div>
 	);

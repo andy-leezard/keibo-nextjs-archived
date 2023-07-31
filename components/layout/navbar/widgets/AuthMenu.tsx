@@ -45,12 +45,15 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
             disableMiddleAnchor
             thresholdWidth={200}
             thresholdHeight={200}
-            displayNode={<FaCircleUser color="white" size={28} style={{margin: "4px"}}/>}
+            displayNode={
+              <FaCircleUser color="white" size={28} style={{ margin: "4px" }} />
+            }
             dropdownClassName={"bg-slate-700 dark:bg-slate-900"}
           >
             <NavLink
               isSelected={isSelected("dashboard")}
               isMobile={isMobile}
+              nested
               href="/my/dashboard"
             >
               <div className="flex gap-2">
@@ -63,7 +66,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
                 </span>
               </div>
             </NavLink>
-            <NavLink isMobile={isMobile} onClick={handleLogout}>
+            <NavLink isMobile={isMobile} nested onClick={handleLogout}>
               <div className="flex gap-2">
                 <GiExitDoor size={16} />
                 <span>

@@ -24,7 +24,7 @@ export default function HomeLayout({
           </span>
         </span>
       </div>
-      {children}
+      <main className="flex flex-col p-4 m-auto">{children}</main>
     </>
   )
 }

@@ -4,14 +4,23 @@ import { WithLocale } from "@/i18n-config"
 import Image from "next/image"
 import Link from "next/link"
 import { AuthMenu, BurgerButton } from "./widgets"
-import { useState } from "react"
+import { useLayoutEffect, useState } from "react"
 import ThemeSwitcher from "@/components/user-prefs/theme/ThemeSwitcher"
-import { LocaleSwitcher } from "@/components/user-prefs"
+import { usePathname, useSearchParams } from "next/navigation"
 
 type NavBarProps = WithLocale & {}
 
 export default function Navbar({ currentLocale }: NavBarProps) {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
   const [open, setOpen] = useState(false)
+
+  useLayoutEffect(() => {
+    searchParams.get("")
+    if(pathname.endsWith("google")){
+
+    }
+  }, [])
 
   return (
     <header className="sticky top-0 z-10 bg-gray-800">

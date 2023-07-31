@@ -1,4 +1,8 @@
+"use client"
+
+import React from "react"
 import styled, { keyframes } from "styled-components"
+import styles from "./Loaders.module.css"
 
 type Inherit = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -60,18 +64,30 @@ const Spinner = styled.div`
   border-bottom-color: transparent;
   animation: ${spin} 3s infinite;
   transition-duration: 700ms;
-  user-select: none;
 `
 
 export const ColorfulSpinner = ({
+  id,
+  className,
   style,
-  size,
+  size = 32,
+  withShadow,
 }: Inherit & {
-  size: number
+  size?: number
+  withShadow?: boolean
 }) => {
+  const { width, height, ...rest } = style ?? {}
   return (
     <Spinner
-      style={{ width: `${size}px`, height: `${size}px`, ...(style ?? {}) }}
-    />
+      id={id}
+      className={`${className} ${withShadow ? styles.with_shadow : ""}`}
+      style={{
+        width: `${width ?? size}px`,
+        height: `${height ?? size}px`,
+        ...rest,
+      }}
+    >
+      <span className="sr-only">Loading...</span>
+    </Spinner>
   )
 }

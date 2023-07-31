@@ -1,6 +1,5 @@
 import { RequireAuth } from "@/components/utils"
 import { WithLocaleParam } from "@/i18n-config"
-import { Navbar } from "@/components/layout"
 
 interface LayoutProps extends WithLocaleParam {
   children: React.ReactNode
@@ -8,9 +7,8 @@ interface LayoutProps extends WithLocaleParam {
 
 export default async function Layout({ children, params }: LayoutProps) {
   return (
-    <RequireAuth>
-      <Navbar currentLocale={params.lang} />
-      {children}
-    </RequireAuth>
+    <main className="flex flex-col flex-1 p-4 m-auto">
+      <RequireAuth>{children}</RequireAuth>
+    </main>
   )
 }
