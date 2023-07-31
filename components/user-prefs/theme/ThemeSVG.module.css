@@ -1,19 +1,7 @@
 .theme_btn {
-  flex-shrink: 0;
-}
-
-.theme_btn_svg {
   transition: stroke 400ms;
   stroke: #ffd13b;
 }
-
-/* [data-theme='light'] .theme_btn_svg {
-  stroke: #ffd13b;
-}
-
-[data-theme='dark'] .theme_btn_svg {
-  stroke: #ffd13b;
-} */
 
 .moon {
   stroke-dasharray: 0px 1px;
@@ -27,12 +15,12 @@
   transition: stroke-dasharray 0.5s ease-in, opacity 300ms ease-in;
 }
 
-[data-theme='dark'] .moon {
+.dark.moon {
   stroke-dasharray: 1px 1px;
   opacity: 1;
 }
 
-[data-theme='dark'] .sun {
+.dark.sun {
   stroke-dasharray: 0px 1px;
   opacity: 0;
 }

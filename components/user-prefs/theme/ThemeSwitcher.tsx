@@ -11,7 +11,7 @@ type ThemeSwitcherProps = {
   size?: number
 }
 
-const ThemeSwitcher = ({ style, className, size }: ThemeSwitcherProps) => {
+const ThemeSwitcher = ({ style, className, size = 24 }: ThemeSwitcherProps) => {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -40,7 +40,7 @@ const ThemeSwitcher = ({ style, className, size }: ThemeSwitcherProps) => {
   useEffect(() => {
     /** work-around for avoiding Hydration Mismatch  */
     setMounted(true)
-    
+
     initializeTheme()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -52,11 +52,11 @@ const ThemeSwitcher = ({ style, className, size }: ThemeSwitcherProps) => {
   return (
     <button
       type="button"
-      className={`${styles.theme_btn} ${className}`}
+      className={`${className} flex-shrink-0`}
       onClick={() => toggleTheme()}
       style={style}
     >
-      <ThemeSVG size={24} />
+      <ThemeSVG size={size} theme={theme} />
     </button>
   )
 }
