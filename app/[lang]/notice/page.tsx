@@ -6,8 +6,7 @@ type PageProps = {
   searchParams: SearchParams
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
-  const dict = await getDictionary(params.lang) // en
+export default function Page({ params, searchParams }: PageProps) {
   return (
     <main style={{ display: "flex", flex: 1 }}>
       Notice

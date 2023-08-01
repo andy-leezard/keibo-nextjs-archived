@@ -1,5 +1,4 @@
 import { Locale } from "@/i18n-config"
-import { getDictionary } from "@/utils/server/get-dictionary"
 import BanalceSynthesis from "@/components/balanceSynthesis"
 
 type PageProps = {
@@ -7,8 +6,7 @@ type PageProps = {
   searchParams: SearchParams
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
-  const dict = await getDictionary(params.lang) // en
+export default function Page({ params, searchParams }: PageProps) {
   return (
     <>
       <main className="relative flex flex-1 flex-col">

@@ -21,14 +21,11 @@ export async function generateMetadata(
   return i18n.locales.map((locale) => ({ lang: locale }))
 } */
 
-export default function HomeLayout({
-  children,
-  params,
-}: // params,
-{
+interface HomeLayoutProps extends WithLocaleParam {
   children: React.ReactNode
-  params: { lang: Locale }
-}) {
+}
+
+export default function HomeLayout({ children, params }: HomeLayoutProps) {
   return (
     <>
       <Navbar currentLocale={params.lang} />

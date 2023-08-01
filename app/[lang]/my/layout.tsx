@@ -1,3 +1,4 @@
+import { MyPageSidebar } from "@/components/layout/sidebar"
 import { RequireAuth } from "@/components/utils"
 import { WithLocaleParam } from "@/i18n-config"
 
@@ -7,7 +8,8 @@ interface LayoutProps extends WithLocaleParam {
 
 export default async function Layout({ children, params }: LayoutProps) {
   return (
-    <main className="flex flex-col flex-1 p-4 m-auto">
+    <main className="flex flex-1 flex-col sm:flex-row">
+      <MyPageSidebar currentLocale={params.lang} />
       <RequireAuth>{children}</RequireAuth>
     </main>
   )

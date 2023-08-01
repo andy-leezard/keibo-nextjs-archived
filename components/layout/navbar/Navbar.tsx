@@ -15,12 +15,13 @@ export default function Navbar({ currentLocale }: NavBarProps) {
   const searchParams = useSearchParams()
   const [open, setOpen] = useState(false)
 
-  useLayoutEffect(() => {
-    searchParams.get("")
-    if(pathname.endsWith("google")){
-
-    }
-  }, [])
+  if (
+    pathname.endsWith("google") &&
+    searchParams.get("state") &&
+    searchParams.get("code")
+  ) {
+    return <></>
+  }
 
   return (
     <header className="sticky top-0 z-10 bg-gray-800">

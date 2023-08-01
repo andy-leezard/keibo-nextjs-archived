@@ -69,7 +69,7 @@ const BanalceSynthesis = ({ currentLocale }: banalceSynthesisProps) => {
   }, [])
 
   return (
-    <div className="p-4 m-auto rounded-md bg-blue-300 dark:bg-sky-800">
+    <div className="p-4 m-auto rounded-md bg-sky-200 dark:bg-indigo-500">
       <div className="flex flex-col items-center justify-center text-center">
         {isLoading || fetchingWallets ? (
           <ColorfulSpinner size={64} withShadow />
