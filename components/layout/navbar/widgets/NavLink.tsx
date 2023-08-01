@@ -1,6 +1,7 @@
 import Link from "next/link"
 import cn from "classnames"
 import styles from "./NavLink.module.css"
+import { Children } from "react"
 
 interface Props {
   isSelected?: boolean
@@ -21,7 +22,7 @@ export default function NavLink({
   nested,
   ...rest
 }: Props) {
-  const numberOfChildren = React.Children.count(children)
+  const numberOfChildren = Children.count(children)
   const className = cn(
     rest.className,
 		styles.nav_link,
