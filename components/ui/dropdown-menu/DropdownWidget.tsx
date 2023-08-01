@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react"
+import { PropsWithChildren } from "react"
 import { DropdownMenuProps, THoverState } from "./types"
 import styles from "./DropdownMenu.module.css"
 import cn from "classnames"

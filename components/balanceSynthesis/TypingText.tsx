@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect } from "react"
 import styles from "./TypingText.module.css"
 
 export const TypingText = (props: {

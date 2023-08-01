@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, useRef } from "react"
+import { ReactNode, useMemo, useRef } from "react"
 import { PDictionary, WithLocale, t } from "@/i18n-config"
 import { FiSearch } from "react-icons/fi"
 import { Button, TextField } from "../../ui"

@@ -1,9 +1,7 @@
 import { RegisterForm } from "@/components/auth-forms"
 import { SocialButtons } from "@/components/common"
 import { Locale, t } from "@/i18n-config"
-import Image from "next/image"
 import Link from "next/link"
-import React from "react"
 
 type PageProps = {
   params: { lang: Locale }

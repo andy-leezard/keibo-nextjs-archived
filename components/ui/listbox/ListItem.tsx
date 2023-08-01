@@ -1,4 +1,4 @@
-import React, { DOMAttributes, ForwardedRef, forwardRef } from "react"
+import { DOMAttributes, ForwardedRef, forwardRef } from "react"
 import styles from "./ListBox.module.css"
 
 type LiProps = {

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { ReactNode, useRef } from "react"
+import { ReactNode, useRef } from "react"
 import {
   MenuTriggerProps,
   TreeState,

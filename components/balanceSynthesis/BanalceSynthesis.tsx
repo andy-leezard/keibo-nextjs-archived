@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useLayoutEffect, useState } from "react"
+import { useLayoutEffect, useState } from "react"
 import { shuffleArray } from "@/utils/client"
 import { TypingText } from "./TypingText"
 import { Button } from "../ui"

@@ -1,5 +1,5 @@
 // Button.tsx
-import React, { ButtonHTMLAttributes, DOMAttributes, ForwardedRef } from "react"
+import { ButtonHTMLAttributes, DOMAttributes, ForwardedRef } from "react"
 import styles from "./InnerButton.module.css"
 
 interface ButtonProps {

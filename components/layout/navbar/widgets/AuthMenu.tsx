@@ -1,6 +1,5 @@
 "use client"
 
-import React from "react"
 import NavLink from "./NavLink"
 import { WithLocale, t } from "@/i18n-config"
 import { usePathname } from "next/navigation"

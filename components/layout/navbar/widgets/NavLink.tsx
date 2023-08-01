@@ -1,6 +1,5 @@
 import Link from "next/link"
 import cn from "classnames"
-import React from "react"
 import styles from "./NavLink.module.css"
 
 interface Props {

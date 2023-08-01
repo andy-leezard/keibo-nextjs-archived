@@ -1,7 +1,6 @@
 "use client"
 
 import { WithLocale } from "@/i18n-config"
-import React from "react"
 import { Sidebar, SidebarItem } from "./core"
 import { usePathname } from "next/navigation"
 import { FaCircleUser } from "react-icons/fa6"

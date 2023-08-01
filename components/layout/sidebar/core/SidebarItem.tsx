@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import React, { PropsWithChildren } from "react"
+import { PropsWithChildren } from "react"
 import cn from "classnames"
 import { usePathname } from "next/navigation"
 

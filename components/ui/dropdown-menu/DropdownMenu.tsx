@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import { useState } from "react"
 import { domRectToStyle } from "./constants"
 import type { DropdownMenuProps, THoverState } from "./types"
 import DropdownWidget from "./DropdownWidget"
