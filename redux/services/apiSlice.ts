@@ -21,36 +21,43 @@ const baseQueryWithReauth: BaseQueryFn<
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock()
   let result = await baseQuery(args, api, extraOptions)
-  if (result.error && result.error.status === 401) {
-    // checking whether the mutex is locked
-    if (!mutex.isLocked()) {
-      const release = await mutex.acquire()
-      try {
-        const refreshResult = await baseQuery(
-          {
-            url: "/jwt/refresh/",
-            method: "POST",
-          },
-          api,
-          extraOptions
-        )
-        if (refreshResult.data) {
-          api.dispatch(setAuth())
-          // retry the initial query
-          result = await baseQuery(args, api, extraOptions)
-        } else {
-          api.dispatch(logout())
+  if (result.error) {
+    const access_expired =
+      typeof args === "object" &&
+      args.url === "/jwt/verify/" &&
+      result.error.status === 400
+    const refresh_expired = result.error.status === 401
+    if (access_expired || refresh_expired) {
+      // checking whether the mutex is locked
+      if (!mutex.isLocked()) {
+        const release = await mutex.acquire()
+        try {
+          const refreshResult = await baseQuery(
+            {
+              url: "/jwt/refresh/",
+              method: "POST",
+            },
+            api,
+            extraOptions
+          )
+          if (refreshResult.data) {
+            api.dispatch(setAuth())
+            // retry the initial query
+            result = await baseQuery(args, api, extraOptions)
+          } else {
+            api.dispatch(logout())
+          }
+        } catch (e) {
+          console.error(e)
+        } finally {
+          // release must be called once the mutex should be released again.
+          release()
         }
-      } catch (e) {
-        console.error(e)
-      } finally {
-        // release must be called once the mutex should be released again.
-        release()
+      } else {
+        // wait until the mutex is available without locking it
+        await mutex.waitForUnlock()
+        result = await baseQuery(args, api, extraOptions)
       }
-    } else {
-      // wait until the mutex is available without locking it
-      await mutex.waitForUnlock()
-      result = await baseQuery(args, api, extraOptions)
     }
   }
   return result
