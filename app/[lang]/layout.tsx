@@ -1,9 +1,9 @@
-import { Nav, Footer } from "@/components/layout"
-import { Locale, WithLocaleParam, i18n } from "../../i18n-config"
+import { PropsWithChildren } from "react"
+import { WithLocaleParam } from "../../i18n-config"
 import type { Metadata, ResolvingMetadata } from "next/types"
 import { getDictionary } from "@/utils/server/get-dictionary"
-import { getServerSession } from "next-auth"
-import { authOptions } from "../api/auth/[...nextauth]/route"
+import { Setup } from "@/components/utils"
+import { Footer, Navbar } from "@/components/layout"
 
 export async function generateMetadata(
   { params, searchParams }: WithLocaleParam & WithSearchParams,
@@ -21,20 +21,14 @@ export async function generateMetadata(
 /* export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }))
 } */
+type HomeLayoutProps = WithLocaleParam & PropsWithChildren
 
-export default async function HomeLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: { lang: Locale }
-}) {
-  const session = await getServerSession(authOptions)
-
+export default function HomeLayout({ children, params }: HomeLayoutProps) {
   return (
     <>
-      <Nav currentLocale={params.lang} session={session} />
+      <Navbar currentLocale={params.lang} />
       {children}
+      <Setup />
       <Footer currentLocale={params.lang} />
     </>
   )

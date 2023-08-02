@@ -1,0 +1,27 @@
+.dropdown_menu {
+  z-index: 100;
+  backdrop-filter: blur(4px);
+  scrollbar-width: thin;
+  overflow-y: auto;
+  overflow-y: overlay;
+}
+
+.dropdown_menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdown_menu::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+[data-theme="light"] .dropdown_menu::-webkit-scrollbar-thumb {
+  background: var(--chathams-blue);
+}
+
+[data-theme="dark"] .dropdown_menu::-webkit-scrollbar-thumb {
+  background: var(--topaz);
+}
+
+.dropdown_menu::-webkit-scrollbar-thumb:hover {
+  background: #0ae1b9;
+}

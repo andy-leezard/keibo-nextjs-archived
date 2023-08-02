@@ -13,12 +13,7 @@ import {
 import { FilterableItem } from "../type"
 import { FaPlus } from "react-icons/fa"
 import { Button, Dialog } from "@/components/ui"
-import {
-  fetchFirestore,
-  searchUsersByEmail,
-} from "@/lib/client/firebase/firestore"
 import { isValidEmailAddress } from "@/utils"
-import { useMediaQuery } from "react-responsive"
 import Participant from "../widgets/Participant"
 
 type ParticipantsProps = WithLocale & {
@@ -39,7 +34,6 @@ const Participants = ({
   const [userKeyword, setUserKeyword] = useState("")
   const [fetching, setFetching] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const alternativeLayout = useMediaQuery({ maxWidth: 449 })
 
   const displayParticipants: Array<Participant> = useMemo(() => {
     if (!participants?.length) return []
@@ -62,7 +56,7 @@ const Participants = ({
   const fetchData = async () => {
     if (!isValidEmailAddress(userKeyword) || fetching) return
     console.log(userKeyword)
-    setFetching(true)
+    /* setFetching(true)
     const [data, error] = await searchUsersByEmail(userKeyword)
     if (data) {
       setFetchedUsers(
@@ -73,7 +67,7 @@ const Participants = ({
         }))
       )
     }
-    setFetching(false)
+    setFetching(false) */
   }
 
   useEffect(() => {
@@ -130,7 +124,7 @@ const Participants = ({
         <FilteredList<FilterableItem>
           currentLocale={currentLocale}
           data={fetchedUsers}
-          height={alternativeLayout ? 100 : 75}
+          height={100}
           maxWidth={600}
           onSearch={fetchData}
           searchFormat="email"

@@ -1,21 +1,3 @@
-#wrapper {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: 0px;
-  right: 0px;
-  padding: 18px 4px 18px 4px;
-}
-
-[data-theme="light"] #wrapper {
-  background-color: #cccccc;
-}
-
-[data-theme="dark"] #wrapper {
-  background-color: #000000;
-}
-
 #home_icon {
   font-size: 1.5rem;
   font-weight: bold;
@@ -28,7 +10,8 @@
 }
 
 .line {
-  min-width: 600px;
+  gap: 48px;
+  min-width: 200px;
   max-width: var(--footer-max-width);
 }
 
@@ -52,4 +35,5 @@
 
 .line li {
   list-style-type: none;
+  flex-shrink: 0;
 }

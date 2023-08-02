@@ -1,5 +1,6 @@
 "use client"
 
+import { RefObject } from "react"
 import type { OverlayTriggerState } from "react-stately"
 import styled, { css } from "styled-components"
 import {
@@ -9,14 +10,14 @@ import {
   Placement,
   usePopover,
 } from "react-aria"
-import { useRef } from "react"
+import { PropsWithChildren, useRef } from "react"
 import styles from "./Popover.module.css"
 
-interface PopoverProps extends Omit<AriaPopoverProps, "popoverRef"> {
-  children: React.ReactNode
-  state: OverlayTriggerState
-  popoverRef?: React.RefObject<HTMLDivElement>
-}
+type PopoverProps = Omit<AriaPopoverProps, "popoverRef"> &
+  PropsWithChildren & {
+    state: OverlayTriggerState
+    popoverRef?: RefObject<HTMLDivElement>
+  }
 
 /* Conditional styles based on isOpen and isFocusVisible props */
 const Wrapper = styled.div<{ placement?: Placement }>`
@@ -44,7 +45,12 @@ export default function Popover(
       {!isNonModal && (
         <div {...underlayProps} style={{ position: "fixed", inset: 0 }} />
       )}
-      <Wrapper className={styles.popover} {...popoverProps} ref={popoverRef} placement={props.placement}>
+      <Wrapper
+        className={styles.popover}
+        {...popoverProps}
+        ref={popoverRef}
+        placement={props.placement}
+      >
         {!isNonModal && <DismissButton onDismiss={state.close} />}
         {children}
         <DismissButton onDismiss={state.close} />

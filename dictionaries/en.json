@@ -1,12 +1,14 @@
 {
-  "Home": {
-    "title": "Hello world!"
-  },
   "misc": {
     "language": "Language"
   },
   "meta": {
     "title": "Keibo - your accounts",
     "description": "The official Keibo web app"
+  },
+  "routes": {
+    "dashboard": "Dashboard",
+    "reset_pw": "Reset Password",
+    "new_pw": "New Password"
   }
 }

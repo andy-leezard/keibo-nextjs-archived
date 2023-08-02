@@ -1,4 +1,6 @@
-import React from "react"
+"use client"
+
+import { useState, useRef, useEffect } from "react"
 import styles from "./TypingText.module.css"
 
 export const TypingText = (props: {
@@ -9,15 +11,15 @@ export const TypingText = (props: {
   speed?: number
   op?: number
 }) => {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     left: "",
     right: "",
     texts: props.texts,
     current: props.texts[0],
   })
-  const stay = React.useRef(false)
-  const staybt = React.useRef(false)
-  const update = React.useCallback(() => {
+  const stay = useRef(false)
+  const staybt = useRef(false)
+  const update = () => {
     const addNextChar = () => {
       setState({
         ...state,
@@ -57,8 +59,8 @@ export const TypingText = (props: {
       if (state.left === "") switchToNextText()
       else deleteLastChar()
     } else addNextChar()
-  }, [stay, staybt, setState, state])
-  React.useEffect(() => {
+  }
+  useEffect(() => {
     setTimeout(
       () => {
         if (state.texts[0].length === 1) stay.current = true

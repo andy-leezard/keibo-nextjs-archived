@@ -1,24 +1,24 @@
 // Button.tsx
-import React, { ButtonHTMLAttributes, DOMAttributes, ForwardedRef } from "react"
+import {
+  ButtonHTMLAttributes,
+  DOMAttributes,
+  ForwardedRef,
+  PropsWithChildren,
+  forwardRef,
+} from "react"
 import styles from "./InnerButton.module.css"
 
-interface ButtonProps {
-  ariaProps: DOMAttributes<FocusableElement> & ButtonHTMLAttributes<HTMLButtonElement>
-  children: React.ReactNode
+type ButtonProps = PropsWithChildren & {
+  ariaProps: DOMAttributes<FocusableElement> &
+    ButtonHTMLAttributes<HTMLButtonElement>
   isOpen?: boolean
   isFocusVisible?: boolean
 }
 
 const InnerButtonRef = (
-  {
-    children,
-    isOpen = false,
-    isFocusVisible = false,
-    ariaProps,
-  }: ButtonProps,
+  { children, isOpen = false, isFocusVisible = false, ariaProps }: ButtonProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
-
   const { isFocused, isSelected, ...rest } = ariaProps as any
 
   return (
@@ -35,6 +35,6 @@ const InnerButtonRef = (
   )
 }
 
-const InnerButton = React.forwardRef<HTMLButtonElement, ButtonProps>(InnerButtonRef)
+const InnerButton = forwardRef<HTMLButtonElement, ButtonProps>(InnerButtonRef)
 
 export default InnerButton

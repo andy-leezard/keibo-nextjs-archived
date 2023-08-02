@@ -1,4 +1,3 @@
-import { ISODateString, Session } from "next-auth"
 import { ReactNode } from "react"
 
 declare global {
@@ -19,8 +18,13 @@ declare global {
   /** Undefined DOM Attributes */
   type FocusableElement = any
 
-  /** Next auth utils */
-  type WithSession = { session: Session | null }
+  /** auth session utils */
+  type User = {
+    first_name: string
+    last_name: string
+    email: string
+  }
+  type TWithSession = { user?: User; isLoading: boolean; isFetching: boolean }
 
   /** React utils */
   type WithChildren = { children: ReactNode }
@@ -45,7 +49,7 @@ declare global {
   }
   type KeiboFirestoreUser = FirestoreUser & {
     /** uid of wallets on realtime database */
-    last_activity?: ISODateString
+    last_activity?: string // ISODateString
     last_activity_unix?: number
     platform?: string // "web" | "ios" | "android"
     wallets?: string[]
@@ -95,7 +99,7 @@ declare global {
     uid: string
 
     // metadata
-    created_at: ISODateString
+    created_at: string // ISODateString
     created_at_unix: number
 
     // ownership

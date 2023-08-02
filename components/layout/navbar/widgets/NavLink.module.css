@@ -1,0 +1,15 @@
+.nav_link.nested {
+  min-width: 180px;
+}
+
+.nav_link:not(.nested):hover {
+  color: var(--mint);
+}
+
+.nav_link.nested:hover svg {
+  color: var(--mint);
+}
+
+.nav_link * {
+  flex-shrink: 0;
+}

@@ -1,0 +1,26 @@
+.theme_btn {
+  transition: stroke 400ms;
+  stroke: #ffd13b;
+}
+
+.moon {
+  stroke-dasharray: 0px 1px;
+  opacity: 0;
+  transition: stroke-dasharray 0.5s ease-in, opacity 300ms ease-in;
+}
+
+.sun {
+  stroke-dasharray: 1px 1px;
+  opacity: 1;
+  transition: stroke-dasharray 0.5s ease-in, opacity 300ms ease-in;
+}
+
+.dark.moon {
+  stroke-dasharray: 1px 1px;
+  opacity: 1;
+}
+
+.dark.sun {
+  stroke-dasharray: 0px 1px;
+  opacity: 0;
+}
