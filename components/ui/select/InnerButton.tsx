@@ -6,7 +6,7 @@ import {
   PropsWithChildren,
   forwardRef,
 } from "react"
-import styles from "./InnerButton.module.css"
+import styles from "./innerButton.module.css"
 
 type ButtonProps = PropsWithChildren & {
   ariaProps: DOMAttributes<FocusableElement> &
