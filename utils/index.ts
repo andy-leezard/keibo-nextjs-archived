@@ -36,6 +36,7 @@ export function getLastPath(pathname: string): string {
   }
 }
 export function formatDateToLiteral(locale = "en-US", unixTimestamp?: number) {
+  const os_locale = Intl.DateTimeFormat().resolvedOptions().locale
   function getDaySuffix(day: number) {
     const isFrench = locale.includes("fr")
     const isEnglish = locale.includes("en")
@@ -67,7 +68,7 @@ export function formatDateToLiteral(locale = "en-US", unixTimestamp?: number) {
   } else if (locale.includes("fr")) {
     // British standard
     return `${day}${getDaySuffix(day)} ${month} ${year}`
-  } else if (locale.includes("en") && !locale.includes("US")) {
+  } else if (locale.includes("en") && !os_locale.includes("US")) {
     // British standard
     return `${day}${getDaySuffix(day)} ${month} ${year}`
   } else {
