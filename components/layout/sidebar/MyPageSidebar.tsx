@@ -1,8 +1,5 @@
-"use client"
-
 import { WithLocale } from "@/i18n-config"
 import { Sidebar, SidebarItem } from "./core"
-import { usePathname } from "next/navigation"
 import { FaCircleUser } from "react-icons/fa6"
 import { MdSecurity } from "react-icons/md"
 import { PiSlidersHorizontalBold } from "react-icons/pi"
@@ -10,8 +7,6 @@ import { PiSlidersHorizontalBold } from "react-icons/pi"
 type MyPageSidebarProps = WithLocale & {}
 
 const MyPageSidebar = (props: MyPageSidebarProps) => {
-  const pathname = usePathname()
-  console.log(pathname)
   return (
     <Sidebar>
       <SidebarItem href={"/my/dashboard"}>
