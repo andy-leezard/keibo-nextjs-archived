@@ -1,6 +1,13 @@
 "use client"
 
-import { createContext, useContext, useRef } from "react"
+import {
+  createContext,
+  useContext,
+  useRef,
+  RefObject,
+  HTMLAttributes,
+  PropsWithChildren,
+} from "react"
 import type { ListState, Node } from "react-stately"
 import { AriaListBoxOptions, useListBox, useOption } from "react-aria"
 import styled from "styled-components"
@@ -8,7 +15,7 @@ import { HiCheck } from "react-icons/hi"
 import ListItem from "./ListItem"
 
 interface ListBoxProps extends AriaListBoxOptions<unknown> {
-  listBoxRef?: React.RefObject<HTMLUListElement>
+  listBoxRef?: RefObject<HTMLUListElement>
   state: ListState<unknown>
 }
 
@@ -47,8 +54,8 @@ export default function ListBox(props: ListBoxProps) {
 }
 
 interface OptionContextValue {
-  labelProps: React.HTMLAttributes<HTMLElement>
-  descriptionProps: React.HTMLAttributes<HTMLElement>
+  labelProps: HTMLAttributes<HTMLElement>
+  descriptionProps: HTMLAttributes<HTMLElement>
 }
 
 const OptionContext = createContext<OptionContextValue>({
@@ -90,7 +97,7 @@ function Option({ item, state }: OptionProps) {
 // described by the description, which makes for better announcements
 // for screen reader users.
 
-export function Label({ children }: { children: React.ReactNode }) {
+export function Label({ children }: PropsWithChildren) {
   let { labelProps } = useContext(OptionContext)
   return <div {...labelProps}>{children}</div>
 }
@@ -100,7 +107,7 @@ const StyledDescription = styled.div`
   font-size: 12px;
 `
 
-export function Description({ children }: { children: React.ReactNode }) {
+export function Description({ children }: PropsWithChildren) {
   let { descriptionProps } = useContext(OptionContext)
   return <StyledDescription {...descriptionProps}>{children}</StyledDescription>
 }

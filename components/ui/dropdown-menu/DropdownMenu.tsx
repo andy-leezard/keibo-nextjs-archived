@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, MouseEvent as ReactMouseEvent } from "react"
 import { domRectToStyle } from "./constants"
 import type { DropdownMenuProps, THoverState } from "./types"
 import DropdownWidget from "./DropdownWidget"
@@ -41,7 +41,7 @@ const DropdownMenu = ({
     clientRectColor = "yellow",
   } = debugOptions ?? {}
 
-  const show = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const show = (e: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const offsetParentRect =
       e.currentTarget.offsetParent?.getBoundingClientRect()

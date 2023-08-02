@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, useRef } from "react"
+import { ReactNode, useRef, Key } from "react"
 import {
   MenuTriggerProps,
   TreeState,
@@ -92,7 +92,7 @@ function Menu<T extends object>(props: MenuProps<T>) {
 interface MenuSectionProps<T> {
   section: Node<T>
   state: TreeState<T>
-  onAction: (key: React.Key) => void
+  onAction: (key: Key) => void
   onClose: () => void
 }
 
@@ -136,13 +136,13 @@ function MenuSection<T>({
 interface MenuItemProps<T> {
   item: Node<T>
   state: TreeState<T>
-  onAction: (key: React.Key) => void
+  onAction: (key: Key) => void
   onClose: () => void
 }
 
 function MenuItem<T>({ item, state, onAction, onClose }: MenuItemProps<T>) {
   // Get props for the menu item element
-  let ref = React.useRef()
+  let ref = useRef()
   let { menuItemProps } = useMenuItem(
     {
       key: item.key,

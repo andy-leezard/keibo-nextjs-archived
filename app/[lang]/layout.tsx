@@ -1,4 +1,5 @@
-import { Locale, WithLocaleParam } from "../../i18n-config"
+import { PropsWithChildren } from "react"
+import { WithLocaleParam } from "../../i18n-config"
 import type { Metadata, ResolvingMetadata } from "next/types"
 import { getDictionary } from "@/utils/server/get-dictionary"
 import { Setup } from "@/components/utils"
@@ -20,10 +21,7 @@ export async function generateMetadata(
 /* export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }))
 } */
-
-interface HomeLayoutProps extends WithLocaleParam {
-  children: React.ReactNode
-}
+type HomeLayoutProps = WithLocaleParam & PropsWithChildren
 
 export default function HomeLayout({ children, params }: HomeLayoutProps) {
   return (

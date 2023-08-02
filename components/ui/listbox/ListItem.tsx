@@ -1,9 +1,13 @@
-import { DOMAttributes, ForwardedRef, forwardRef } from "react"
+import {
+  DOMAttributes,
+  ForwardedRef,
+  PropsWithChildren,
+  forwardRef,
+} from "react"
 import styles from "./ListBox.module.css"
 
-type LiProps = {
+type LiProps = PropsWithChildren & {
   ariaProps: DOMAttributes<any>
-  children: React.ReactNode
   isFocused?: boolean
   isSelected?: boolean
 }

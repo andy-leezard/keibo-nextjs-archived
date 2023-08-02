@@ -1,10 +1,9 @@
 import { MyPageSidebar } from "@/components/layout/sidebar"
 import { RequireAuth } from "@/components/utils"
 import { WithLocaleParam } from "@/i18n-config"
+import { PropsWithChildren } from "react"
 
-interface LayoutProps extends WithLocaleParam {
-  children: React.ReactNode
-}
+type LayoutProps = WithLocaleParam & PropsWithChildren
 
 export default async function Layout({ children, params }: LayoutProps) {
   return (

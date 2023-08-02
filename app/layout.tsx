@@ -1,3 +1,4 @@
+import { PropsWithChildren } from "react"
 import "./globals.css"
 import type { Metadata } from "next/types"
 import { Inter } from "next/font/google"
@@ -18,12 +19,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.className, "fixed inset-0 flex flex-col text-neutral-800 dark:text-gray-200 dark:bg-zinc-900")}>
+      <body
+        className={cn(
+          inter.className,
+          "fixed inset-0 flex flex-col text-neutral-800 dark:text-gray-200 dark:bg-zinc-900"
+        )}
+      >
         <div className="relative flex flex-1 flex-col overflow-y-auto">
           <Providers>
             {/* <AriaSSRProvider> */}

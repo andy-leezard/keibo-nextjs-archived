@@ -1,14 +1,11 @@
-import { Locale } from "@/i18n-config"
+import { WithLocaleParam } from "@/i18n-config"
+import { PropsWithChildren } from "react"
 import { BsFillShieldLockFill } from "react-icons/bs"
 
 export default function HomeLayout({
   children,
   params,
-}: // params,
-{
-  children: React.ReactNode
-  params: { lang: Locale }
-}) {
+}: PropsWithChildren & WithLocaleParam) {
   return (
     <>
       <div className="inline-flex justify-center align-center pt-2 pb-2 gap-2 bg-slate-300 dark:bg-slate-700">

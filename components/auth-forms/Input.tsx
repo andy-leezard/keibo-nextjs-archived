@@ -1,12 +1,11 @@
-import { ChangeEvent } from "react"
+import { ChangeEvent, PropsWithChildren } from "react"
 import Link from "next/link"
 
-interface Props {
+type InputProps = PropsWithChildren & {
   labelId: string
   type: string
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   value: string
-  children: React.ReactNode
   link?: {
     linkText: string
     linkUrl: string
@@ -22,7 +21,7 @@ export default function Input({
   children,
   link,
   required = false,
-}: Props) {
+}: InputProps) {
   return (
     <div>
       <div className="flex justify-between align-center">

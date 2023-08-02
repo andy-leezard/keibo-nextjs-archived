@@ -1,10 +1,11 @@
 "use client"
 
+import { DetailedHTMLProps, HTMLAttributes } from "react"
 import styled, { keyframes } from "styled-components"
 import styles from "./Loaders.module.css"
 
-type Inherit = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
+type Inherit = DetailedHTMLProps<
+  HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 >
 const spin = keyframes`

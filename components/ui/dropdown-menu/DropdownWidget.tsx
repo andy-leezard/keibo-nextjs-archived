@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react"
+import { PropsWithChildren, MouseEvent as ReactMouseEvent } from "react"
 import { DropdownMenuProps, THoverState } from "./types"
 import styles from "./DropdownMenu.module.css"
 import cn from "classnames"
@@ -10,8 +10,8 @@ type DropdownWidgetProps = Required<PropsWithChildren> & {
   style?: DropdownMenuProps["style"]
   thresholdWidth: DropdownMenuProps["thresholdWidth"]
   thresholdHeight: DropdownMenuProps["thresholdHeight"]
-  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-  onMouseLeave?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  onClick?: (e: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void
+  onMouseLeave?: (e: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const DropdownWidget = ({
