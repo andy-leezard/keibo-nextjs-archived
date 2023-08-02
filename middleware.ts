@@ -19,6 +19,9 @@ function getLocale(request: NextRequest): string | undefined {
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
+  // all the url param part
+  const searchParams = request.nextUrl.search
+
   if (
     // Ignore public files
     /\.(.*)$/.test(request.nextUrl.pathname)
@@ -37,7 +40,12 @@ export function middleware(request: NextRequest) {
 
     // e.g. incoming request is /products
     // The new URL is now /en-US/products
-    return NextResponse.redirect(new URL(`/${locale}/${pathname}`, request.url))
+    return NextResponse.redirect(
+      new URL(
+        `/${locale}/${pathname}${searchParams ? `/${searchParams}` : ""}`,
+        request.url
+      )
+    )
   }
 }
 
