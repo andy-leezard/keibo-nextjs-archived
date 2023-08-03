@@ -10,6 +10,7 @@ import { getLastPath } from "@/utils"
 import { FaCircleUser } from "react-icons/fa6"
 import { GiExitDoor } from "react-icons/gi"
 import { DropdownMenu } from "@/components/ui/dropdown-menu"
+import { MdSecurity } from "react-icons/md"
 
 type AuthMenuProps = WithLocale & {
   /** sm */
@@ -43,7 +44,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
             mode="hover"
             disableMiddleAnchor
             thresholdWidth={200}
-            thresholdHeight={200}
+            thresholdHeight={300}
             displayNode={
               <FaCircleUser color="white" size={28} style={{ margin: "4px" }} />
             }
@@ -61,6 +62,40 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
                   {t(currentLocale, {
                     en: "Dashboard",
                     ko: "대시보드",
+                  })}
+                </span>
+              </div>
+            </NavLink>
+            <NavLink
+              isSelected={isSelected("security")}
+              isMobile={isMobile}
+              nested
+              href="/my/security"
+            >
+              <div className="flex gap-2">
+                <MdSecurity size={16} />
+                <span>
+                  {t(currentLocale, {
+                    en: "Security",
+                    fr: "Sécurité",
+                    ko: "보안 설정",
+                  })}
+                </span>
+              </div>
+            </NavLink>
+            <NavLink
+              isSelected={isSelected("settings")}
+              isMobile={isMobile}
+              nested
+              href="/my/settings"
+            >
+              <div className="flex gap-2">
+                <MdSecurity size={16} />
+                <span>
+                  {t(currentLocale, {
+                    en: "Settings",
+                    fr: "Paramètres",
+                    ko: "고급 설정",
                   })}
                 </span>
               </div>

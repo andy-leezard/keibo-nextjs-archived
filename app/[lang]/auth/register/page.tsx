@@ -41,7 +41,7 @@ function Page({ params }: PageProps) {
         </p>
         <div
           className={classNames(
-            "separator",
+            "g-separator",
             "w-full flex flex-row uppercase text-xs font-medium m-0 pb-6"
           )}
         >

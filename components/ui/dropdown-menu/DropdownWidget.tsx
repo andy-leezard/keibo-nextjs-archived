@@ -1,6 +1,6 @@
 import { PropsWithChildren, MouseEvent as ReactMouseEvent } from "react"
 import { DropdownMenuProps, THoverState } from "./types"
-import styles from "./DropdownMenu.module.css"
+import styles from "./DropdownWidget.module.css"
 import cn from "classnames"
 
 type DropdownWidgetProps = Required<PropsWithChildren> & {
@@ -31,6 +31,7 @@ const DropdownWidget = ({
       className={cn(
         styles.dropdown_menu,
         className,
+        "g-scrollbox",
         "fixed flex-col cursor-auto overflow-y-auto text-white text-center text-base leading-4",
         {
           'flex': hoverPos.display,
