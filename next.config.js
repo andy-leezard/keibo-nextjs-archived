@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {},
+  compiler: {
+    // Enables the styled-components SWC transform
+    styledComponents: true
+  },
   images: {
     domains: [
       "lh3.googleusercontent.com",
