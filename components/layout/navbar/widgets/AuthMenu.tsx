@@ -47,7 +47,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
             displayNode={
               <FaCircleUser color="white" size={28} style={{ margin: "4px" }} />
             }
-            dropdownClassName={"bg-slate-700 dark:bg-slate-900"}
+            dropdownClassName={"bg-zinc-700 dark:bg-zinc-800"}
           >
             <NavLink
               isSelected={isSelected("dashboard")}

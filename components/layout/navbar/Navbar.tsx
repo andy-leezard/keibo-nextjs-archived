@@ -25,7 +25,7 @@ export default function Navbar({ currentLocale }: NavBarProps) {
   }
 
   return (
-    <header className="sticky top-0 z-10 bg-gray-800">
+    <header className="sticky top-0 z-10 bg-zinc-800">
       <nav className="relative flex h-16 justify-between px-2 sm:px-6">
         {/* MOBILE SCREEN DROPDOWN ICON */}
         <div className="absolute flex items-center">

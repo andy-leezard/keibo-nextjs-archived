@@ -25,7 +25,7 @@ export default function RootLayout({
       <body
         className={cn(
           inter.className,
-          "fixed inset-0 flex flex-col text-neutral-800 dark:text-gray-200 dark:bg-zinc-900"
+          "fixed inset-0 flex flex-col text-neutral-800 dark:text-gray-200 dark:bg-zinc-950"
         )}
       >
         <div className="relative flex flex-1 flex-col overflow-y-auto">
