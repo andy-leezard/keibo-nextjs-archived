@@ -7,6 +7,7 @@ import { AuthMenu, BurgerButton } from "./widgets"
 import { useLayoutEffect, useState } from "react"
 import ThemeSwitcher from "@/components/user-prefs/theme/ThemeSwitcher"
 import { usePathname, useSearchParams } from "next/navigation"
+import { LocaleSwitcher } from "@/components/user-prefs"
 
 type NavBarProps = WithLocale & {}
 
@@ -40,9 +41,10 @@ export default function Navbar({ currentLocale }: NavBarProps) {
             <Image src="/letter_64.png" width={32} height={32} alt="Home" />
           </Link>
         </div>
-        <div className="hidden sm:flex flex-1 gap-4 justify-end">
+        <div className="hidden sm:flex flex-1 gap-6 justify-end">
           <AuthMenu currentLocale={currentLocale} isMobile={false} />
           {/* <LocaleSwitcher currentLocale={currentLocale} /> */}
+          <LocaleSwitcher currentLocale={currentLocale} />
           <ThemeSwitcher />
         </div>
       </nav>

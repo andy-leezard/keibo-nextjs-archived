@@ -1,0 +1,47 @@
+.dialogWrapper::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.icon_button svg {
+  color: var(--white-mint);
+}
+
+@media screen and (max-width: 767px) {
+  .locale_button {
+    width: calc(33%);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .locale_button {
+    width: calc(25%);
+  }
+}
+
+/* .container {
+  max-width: 100vw;
+  max-width: 100svw;
+  max-height: 100vh;
+  max-height: 100svh;
+} */
+
+.container {
+  width: 60svw;
+  width: 60svw;
+  max-width: 768px;
+  max-height: 768px;
+}
+/* 
+@media screen and (min-width: 768px) {
+  .container {
+    width: 768px;
+  }
+} */
+
+/* @media screen and (max-width: 767px) {
+  .container {
+    height: 60vh;
+    height: 60svh;
+  }
+} */

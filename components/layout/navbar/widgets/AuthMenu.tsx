@@ -81,28 +81,34 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
         </>
       ) : (
         <>
-          <NavLink
-            isSelected={isSelected("login")}
-            isMobile={isMobile}
-            href="/auth/login"
-          >
-            {t(currentLocale, {
-              en: "Sign in",
-              fr: "Se connecter",
-              ko: "로그인",
-            })}
-          </NavLink>
-          <NavLink
-            isSelected={isSelected("register")}
-            isMobile={isMobile}
-            href="/auth/register"
-          >
-            {t(currentLocale, {
-              en: "Sign up",
-              fr: "Créer un compte",
-              ko: "회원가입",
-            })}
-          </NavLink>
+          {pathname.includes("auth") ? (
+            <></>
+          ) : (
+            <>
+              <NavLink
+                isSelected={isSelected("login")}
+                isMobile={isMobile}
+                href="/auth/login"
+              >
+                {t(currentLocale, {
+                  en: "Sign in",
+                  fr: "Se connecter",
+                  ko: "로그인",
+                })}
+              </NavLink>
+              <NavLink
+                isSelected={isSelected("register")}
+                isMobile={isMobile}
+                href="/auth/register"
+              >
+                {t(currentLocale, {
+                  en: "Sign up",
+                  fr: "Créer un compte",
+                  ko: "회원가입",
+                })}
+              </NavLink>
+            </>
+          )}
         </>
       )}
     </>

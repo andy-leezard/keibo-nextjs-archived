@@ -1,6 +1,6 @@
 .theme_btn {
   transition: stroke 400ms;
-  stroke: #ffd13b;
+  stroke: var(--white-mint);
 }
 
 .moon {

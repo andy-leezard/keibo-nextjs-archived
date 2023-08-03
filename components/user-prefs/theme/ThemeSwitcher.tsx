@@ -2,7 +2,6 @@
 
 import { useTheme } from "next-themes"
 import React, { CSSProperties, useEffect, useState } from "react"
-import styles from "./ThemeSVG.module.css"
 import ThemeSVG from "./ThemeSVG"
 
 type ThemeSwitcherProps = {
