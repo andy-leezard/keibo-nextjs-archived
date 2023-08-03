@@ -11,14 +11,15 @@ export default function SocialButton({
   children,
   ...rest
 }: SocialButtonProps) {
-  const className = cn("flex-1 text-white rounded-md px-3 py-2 font-medium", {
-    "bg-red-500 hover:bg-red-400": provider === "google",
-    "bg-blue-500 hover:bg-blue-400": provider === "github",
-  })
+  const className = cn(
+    "flex-1 w-full rounded-md px-3 py-2 font-medium",
+    "border border-solid rounded-md",
+    "hover:bg-neutral-200 dark:hover:bg-zinc-700",
+  )
 
   return (
     <button className={className} {...rest}>
-      <span className="flex justify-start items-center">{children}</span>
+      <div className="flex justify-start items-center">{children}</div>
     </button>
   )
 }

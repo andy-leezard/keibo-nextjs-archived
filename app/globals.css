@@ -91,3 +91,25 @@ p {
   margin: 0;
 }
 
+/* Separator line */
+
+.separator::before {
+  content: "";
+  display: flex;
+  flex: 1;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.separator::after {
+  content: "";
+  display: flex;
+  flex: 1;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.separator span {
+  flex: 0.2 0 auto;
+  translate: 0% 50%;
+}

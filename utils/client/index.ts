@@ -2,6 +2,7 @@
 
 import continueWithSocialAuth, {
   continueWithGoogle,
+  continueWithGithub,
 } from "./continue-with-social-auth"
 
 const RN_LOG_LEVEL = {
@@ -63,4 +64,4 @@ export const indexIsValidForArray = (arr: Array<any>, index: number) => {
   return arr.length && index >= 0 && arr.length > index
 }
 
-export { continueWithSocialAuth, continueWithGoogle }
+export { continueWithSocialAuth, continueWithGoogle, continueWithGithub }

@@ -1,14 +1,35 @@
 "use client"
 
-import { ImGoogle } from "react-icons/im"
+import { VscGithub } from "react-icons/vsc"
+import { FcGoogle } from "react-icons/fc"
 import { SocialButton } from "@/components/common"
-import { continueWithGoogle } from "@/utils/client"
+import { continueWithGoogle, continueWithGithub } from "@/utils/client"
+import { WithLocale, t } from "@/i18n-config"
 
-export default function SocialButtons() {
+type SocialButtonsProps = WithLocale & {}
+
+export default function SocialButtons({ currentLocale }: SocialButtonsProps) {
   return (
-    <div className="flex justify-between items-center gap-2 mt-3">
+    <div className="flex flex-col justify-between items-center gap-2 mt-3">
       <SocialButton provider="google" onClick={continueWithGoogle}>
-        <ImGoogle className="mr-3" /> Google Signin
+        <FcGoogle className="mr-3" size={24} />
+        <span>
+          {t(currentLocale, {
+            en: "Connect with Google",
+            fr: "Se connecter avec Google",
+            ko: "Google 로그인",
+          })}
+        </span>
+      </SocialButton>
+      <SocialButton provider="github" onClick={continueWithGithub}>
+        <VscGithub className="mr-3" size={24} />
+        <span>
+          {t(currentLocale, {
+            en: "Connect with GitHub",
+            fr: "Se connecter avec GitHub",
+            ko: "GitHub 로그인",
+          })}
+        </span>
       </SocialButton>
     </div>
   )

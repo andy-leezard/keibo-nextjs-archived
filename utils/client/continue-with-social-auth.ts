@@ -35,3 +35,6 @@ export default async function continueWithSocialAuth(
 }
 export const continueWithGoogle = () =>
   continueWithSocialAuth("google-oauth2", "google")
+
+export const continueWithGithub = () =>
+  continueWithSocialAuth("github", "github")
