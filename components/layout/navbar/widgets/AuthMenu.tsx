@@ -11,6 +11,11 @@ import { FaCircleUser } from "react-icons/fa6"
 import { GiExitDoor } from "react-icons/gi"
 import { DropdownMenu } from "@/components/ui/dropdown-menu"
 import { MdSecurity } from "react-icons/md"
+import { BiSolidWallet } from "react-icons/bi"
+import { TbReportMoney } from "react-icons/tb"
+import { PiSlidersHorizontalBold } from "react-icons/pi"
+import { PALETTE } from "@/lib/palette"
+import ProfileWidget from "./ProfileWidget"
 
 type AuthMenuProps = WithLocale & {
   /** sm */
@@ -46,10 +51,56 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
             thresholdWidth={200}
             thresholdHeight={300}
             displayNode={
-              <FaCircleUser color="white" size={28} style={{ margin: "4px" }} />
+              <BiSolidWallet
+                color={pathname.includes("accounts") ? PALETTE.MINT : "#ffffff"}
+                size={28}
+                style={{ margin: "4px" }}
+              />
             }
             dropdownClassName={"bg-zinc-700 dark:bg-zinc-800"}
           >
+            <div className="inline-flex font-medium p-2">
+              <span>
+                {t(currentLocale, {
+                  en: "Accounts",
+                  fr: "Comptes",
+                  ko: "계좌 관리",
+                })}
+              </span>
+            </div>
+            <NavLink
+              isSelected={isSelected("overview")}
+              isMobile={isMobile}
+              nested
+              href="/accounts/overview"
+            >
+              <div className="flex gap-2">
+                <TbReportMoney size={16} />
+                <span>
+                  {t(currentLocale, {
+                    en: "Overview",
+                    fr: "Aperçu",
+                    ko: "종합",
+                  })}
+                </span>
+              </div>
+            </NavLink>
+          </DropdownMenu>
+          <DropdownMenu
+            mode="hover"
+            disableMiddleAnchor
+            thresholdWidth={300}
+            thresholdHeight={300}
+            displayNode={
+              <FaCircleUser
+                color={pathname.includes("my") ? PALETTE.MINT : "#ffffff"}
+                size={28}
+                style={{ margin: "4px" }}
+              />
+            }
+            dropdownClassName={"bg-zinc-700 dark:bg-zinc-800"}
+          >
+            <ProfileWidget currentLocale={currentLocale} />
             <NavLink
               isSelected={isSelected("dashboard")}
               isMobile={isMobile}
@@ -90,7 +141,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
               href="/my/settings"
             >
               <div className="flex gap-2">
-                <MdSecurity size={16} />
+                <PiSlidersHorizontalBold size={16} />
                 <span>
                   {t(currentLocale, {
                     en: "Settings",

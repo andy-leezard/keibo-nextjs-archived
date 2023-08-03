@@ -1,11 +1,16 @@
 import { PropsWithChildren } from "react"
 import "./globals.css"
 import type { Metadata } from "next/types"
-import { Inter } from "next/font/google"
+import { Fira_Sans } from "next/font/google"
 import Providers from "./providers"
 import cn from "classnames"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Fira_Sans({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   icons: {
@@ -17,9 +22,7 @@ export const metadata: Metadata = {
   // <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 }
 
-export default function RootLayout({
-  children,
-}: PropsWithChildren) {
+export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
