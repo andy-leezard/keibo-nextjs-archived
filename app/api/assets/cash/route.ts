@@ -84,7 +84,7 @@ const data = [
     display_name: {
       en: "Indian Rupee",
       fr: "roupie indienne",
-      ko: "호주 달러",
+      ko: "인도 루피",
     },
   },
 ]
