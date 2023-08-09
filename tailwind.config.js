@@ -9,6 +9,9 @@ module.exports = {
   theme: {
     darkMode: 'class',
     extend: {
+      flex: {
+        '2': '2 2 0%'
+      },
       keyframes: {
         shimmer: {
           "100%": {
