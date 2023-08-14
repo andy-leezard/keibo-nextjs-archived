@@ -102,10 +102,11 @@ export async function GET(request: Request) {
   }
   const size = toPositiveInt(searchParams.get("size"), 5)
   const page = toPositiveInt(searchParams.get("page"), 0)
+  const page_ended = !Boolean(output.slice((page + 1) * size).length)
   output = output.slice(page * size, (page + 1) * size)
   const message = {
     metadata: {
-      page_ended: output.length < size,
+      page_ended,
     },
     data: output,
   }
