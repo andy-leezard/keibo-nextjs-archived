@@ -68,20 +68,42 @@ declare global {
     | "cny"
     | "cad"
     | "inr"
-  type WalletConstructor = {
-    /**
-     * Define the platform (which bank? which crypto/stock platform?) and the name.
-     * @example bnp-paribas | binance | coinbase | ledger-wallet | undetermined
-     */
-    provider: string
+  type WalletBase = {
     /**
      * Define the asset (which currency? which cryptocurrency?)
      * @example usd, eur, krw, jpy, bitcoin, ethereum...
      */
     asset_id: string
-    asset_quantity: number
+    /**
+     * Define the platform (which bank? which crypto/stock platform?) and the name.
+     * @example bnp-paribas | binance | coinbase | ledger-wallet | undetermined
+     */
+    provider: string
+
+    name: string
     category: "cash" | "equity" | "crypto" | "fund" | "other"
-    display_name: string
+    /** holding quantity */
+    balance: number
+  }
+  type SerializedWallet = WalletBase & {
+    id: number
+    is_public: boolean
+
+    /** 
+     * int between 1 - 4 all included.
+     * 
+     * Represents what role does the user have to the wallet
+     * 
+     * 1: viewer
+     * 2: editor
+     * 3: manager (will be counted as co-property)
+     * 4: owner
+     */
+    role: number
+
+    icon?: string
+  }
+  type WalletConstructor = WalletBase & {
     cash_input: Array<{
       currency: FiatCurrency
       input: number
@@ -94,16 +116,6 @@ declare global {
       email: string
       role: "viewer" | "editor" | "admin"
     }>
-  }
-  type Wallet = {
-    uid: string
-
-    // metadata
-    created_at: string // ISODateString
-    created_at_unix: number
-
-    // ownership
-    owner_id: string
   }
 }
 
