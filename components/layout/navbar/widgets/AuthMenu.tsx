@@ -47,14 +47,15 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
         <>
           <DropdownMenu
             mode="hover"
+            href="/accounts/overview"
             disableMiddleAnchor
             thresholdWidth={200}
             thresholdHeight={300}
             displayNode={
               <BiSolidWallet
+                className="m-1 pointer-events-none"
                 color={pathname.includes("accounts") ? PALETTE.MINT : "#ffffff"}
                 size={28}
-                style={{ margin: "4px" }}
               />
             }
             dropdownClassName={"bg-zinc-700 dark:bg-zinc-800"}
@@ -88,6 +89,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
           </DropdownMenu>
           <DropdownMenu
             mode="hover"
+            href="/my/dashboard"
             disableMiddleAnchor
             thresholdWidth={300}
             thresholdHeight={300}

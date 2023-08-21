@@ -4,6 +4,7 @@ import { useState, MouseEvent as ReactMouseEvent } from "react"
 import { domRectToStyle } from "./constants"
 import type { DropdownMenuProps, THoverState } from "./types"
 import DropdownWidget from "./DropdownWidget"
+import { useRouter } from "next/navigation"
 
 const INITIAL_HOVER_STATE: THoverState = {
   display: false,
@@ -17,6 +18,9 @@ const DropdownMenu = ({
   thresholdHeight,
   displayNode,
   children,
+
+  // Optional (Router)
+  href,
 
   // Optional (UI)
   marginX = 0,
@@ -35,6 +39,7 @@ const DropdownMenu = ({
   const [hoverPos, setHoverPos] = useState<THoverState>(INITIAL_HOVER_STATE)
   const [clientRect, setClientRect] = useState<DOMRect | null>(null)
   const [parentRect, setParentRect] = useState<DOMRect | null>(null)
+  const router = useRouter()
   const {
     nativeTransformParentColor = "orange",
     offsetParentColor = "red",
@@ -126,9 +131,16 @@ const DropdownMenu = ({
         className={className}
         style={style}
         onMouseEnter={(e) => {
+          if(href){
+            router.prefetch(href)
+          }
           if (mode === "hover") show(e)
         }}
         onClick={(e) => {
+          if (e.target === e.currentTarget && href) {
+            router.push(href)
+            return
+          }
           if (mode !== "click") return
           if (!hoverPos.display) {
             show(e)

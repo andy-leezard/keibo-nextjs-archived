@@ -102,7 +102,7 @@ export function Label({ children }: PropsWithChildren) {
   return <div {...labelProps}>{children}</div>
 }
 
-const StyledDescription = styled.div`
+const StyledDescription = styled.span`
   font-weight: normal;
   font-size: 12px;
 `

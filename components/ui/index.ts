@@ -1,4 +1,4 @@
-import Button from "./button"
+import ReactAriaButton from "./react-aria-button"
 import Popover from "./popover"
 import ListBox from "./listbox"
 import ComboBox from "./combo-box"
@@ -7,7 +7,7 @@ import { TextField, NumberField } from "./input-field"
 import Select, { Item } from "./select"
 
 export {
-  Button,
+  ReactAriaButton as Button,
   Popover,
   ListBox,
   ComboBox,

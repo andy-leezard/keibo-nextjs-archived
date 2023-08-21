@@ -8,8 +8,11 @@ import {
   RefObject,
 } from "react"
 import styles from "./Dialog.module.css"
-import Button from "../button"
+import Button from "../react-aria-button"
 import { WithLocale, t } from "@/i18n-config"
+import cn from "classnames"
+import ButtonNeutral from "../button/ButtonNeutral"
+import { ButtonForward } from "../button"
 
 type DialogProps = WithLocale &
   WithChildren & {
@@ -66,16 +69,21 @@ const DialogRef = (
       onTouchStart={(event) => onTouchStartBackdrop(event)}
     >
       <div
-        className={styles.modal_container}
+        className={cn(
+          "flex flex-col gap-2 p-4 rounded-xl overflow-hidden min-w-350 dark:bg-slate-800"
+        )}
       >
         {children}
-        <Button corner="rounded" onPress={() => closeDialog(ref)}>
+        <ButtonForward
+          className="p-2 rounded-md"
+          onClick={() => closeDialog(ref)}
+        >
           {t(currentLocale, {
             en: "Close",
             fr: "Fermer",
             ko: "닫기",
           })}
-        </Button>
+        </ButtonForward>
       </div>
     </dialog>
   )

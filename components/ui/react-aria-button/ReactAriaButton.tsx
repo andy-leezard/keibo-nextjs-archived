@@ -13,7 +13,8 @@ import {
   mergeProps,
   useFocusRing,
 } from "react-aria"
-import styles from "./Button.module.css"
+import styles from "./ReactAriaButton.module.css"
+import cn from "classnames"
 
 const ButtonRef = (
   props: AriaButtonProps<"button"> & {
@@ -38,6 +39,14 @@ const ButtonRef = (
   const { buttonProps } = useButton(rest, ref as RefObject<HTMLButtonElement>)
   const { focusProps, isFocusVisible } = useFocusRing()
 
+  const classname = cn(
+    "inline-flex relative flex-row items-center justify-center appearance-none font-bold",
+    {
+      "cursor-not-allowed": props.isDisabled,
+      "": theme !== "none" && styles.transparency
+    }
+  )
+
   return (
     <button
       {...mergeProps(buttonProps, focusProps)}
@@ -57,6 +66,6 @@ const ButtonRef = (
   )
 }
 
-const Button = forwardRef(ButtonRef)
+const ReactAriaButton = forwardRef(ButtonRef)
 
-export default Button
+export default ReactAriaButton

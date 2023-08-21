@@ -61,4 +61,7 @@ export type DropdownMenuProps = Required<PropsWithChildren> & {
     clientRectColor?: CSSProperties["color"]
   }
   useOffsetParent?: boolean
+
+  /** The primary button as a router link */
+  href?: string
 }

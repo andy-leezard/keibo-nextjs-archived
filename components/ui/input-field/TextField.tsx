@@ -1,59 +1,72 @@
 "use client"
 
-import { ForwardedRef, RefObject, forwardRef } from "react"
-import type { AriaTextFieldProps } from "react-aria"
-import { useTextField } from "react-aria"
-import styles from "./InputField.module.css"
-import { Label, Wrapper } from "../shared"
+import {
+  DetailedHTMLProps,
+  ForwardedRef,
+  InputHTMLAttributes,
+  forwardRef,
+} from "react"
+import cn from "classnames"
 
 // eslint-disable-next-line react/display-name
 const TextField = forwardRef(
   (
-    props: AriaTextFieldProps &
-      Partial<WithChildren> & {
-        width?: number
-        maxWidth?: number
-      },
+    props: Omit<
+      DetailedHTMLProps<
+        InputHTMLAttributes<HTMLInputElement>,
+        HTMLInputElement
+      >,
+      "onChange"
+    > & {
+      onChange?: (str: string) => void
+      label?: string
+      width?: number
+      maxWidth?: number
+    },
     ref: ForwardedRef<HTMLInputElement>
   ) => {
-    const { label } = props
-    const { children, width, maxWidth, ...rest } = props
-    const { labelProps, inputProps, descriptionProps, errorMessageProps } =
-      useTextField(rest, ref as RefObject<HTMLInputElement>)
+    const {
+      children,
+      label,
+      width,
+      maxWidth,
+      className,
+      onChange,
+      ...inputProps
+    } = props
 
     return (
-      <Wrapper
+      <div
+        className="relative flex flex-col flex-1"
         style={{
           ...(width ? { width: `${width}px` } : {}),
           ...(maxWidth ? { maxWidth: `${maxWidth}px` } : {}),
         }}
       >
-        {label ? <Label {...labelProps}>{label}</Label> : <></>}
-        <div className={`${styles.input_group} ${styles.text_input_group}`}>
+        {label ? <label className="block text-left text-sm">{label}</label> : <></>}
+        <div
+          className={cn(
+            "relative inline-flex items-center flex-row overflow-hidden mt-1 px-1.5 py-2 gap-2 rounded-md",
+            "bg-slate-100 dark:bg-slate-700"
+          )}
+        >
           <input
             {...inputProps}
+            onChange={(e) => {
+              if (onChange) {
+                onChange(e.target.value)
+              }
+            }}
+            className={cn(
+              "appearance-none flex-1 border-none border-transparent focus:ring-0 rounded-md",
+              "bg-slate-200 focus:bg-slate-300 dark:bg-slate-800 dark:focus:bg-slate-900",
+              className
+            )}
             ref={ref}
-            style={
-              props.children
-                ? {
-                    borderRight: "none",
-                  }
-                : {}
-            }
           />
           {props.children ?? <></>}
         </div>
-        {props.description && (
-          <div {...descriptionProps} style={{ fontSize: 12 }}>
-            {props.description}
-          </div>
-        )}
-        {props.errorMessage && (
-          <div {...errorMessageProps} style={{ color: "red", fontSize: 12 }}>
-            {props.errorMessage}
-          </div>
-        )}
-      </Wrapper>
+      </div>
     )
   }
 )

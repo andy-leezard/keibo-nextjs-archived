@@ -13,6 +13,7 @@ type ProfileWidgetProps = WithLocale & {}
 
 const ProfileWidget = ({ currentLocale }: ProfileWidgetProps) => {
   const { data: user, isLoading, isFetching } = useRetrieveUserQuery()
+
   return (
     <Container className="inline-flex font-medium pl-4 pt-4 pb-2 text-lg">
       {!user || isLoading || isFetching ? (

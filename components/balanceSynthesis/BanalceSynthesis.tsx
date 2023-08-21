@@ -7,7 +7,7 @@ import { Button } from "../ui"
 import { WithLocale, t } from "@/i18n-config"
 import { slogans } from "./constants"
 import { ColorfulSpinner } from "../ui/loaders"
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import Warning from "../warning/Warning"
 import Link from "next/link"
 import { useAppSelector } from "@/redux/hooks"
@@ -18,24 +18,12 @@ const BanalceSynthesis = ({ currentLocale }: banalceSynthesisProps) => {
   const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth)
 
   const router = useRouter()
-  const pathname = usePathname()
   const [wallets, setWallets] = useState<any | null>(null)
   const [fetchingWallets, setFetchingWallets] = useState(true)
   const [sessionError, setSessionError] = useState(false)
   const [textList] = useState(
     shuffleArray(slogans.map((s) => t(currentLocale, s)))
   )
-
-  const navigateToAddWalletPage = () => {
-    if (!pathname) {
-      return
-    }
-    const segments = pathname.split("/").slice(0, 2)
-    segments.push("add-wallet")
-    console.log(segments.join("/"))
-    router.push(segments.join("/"))
-    /* router.push(segments.join("/")) */
-  }
 
   useLayoutEffect(() => {
     const fetchWallets = async () => {
@@ -95,7 +83,7 @@ const BanalceSynthesis = ({ currentLocale }: banalceSynthesisProps) => {
                       })}
                     </p>
                     <Button
-                      onPress={() => navigateToAddWalletPage()}
+                      onPress={() => router.push("accounts/new-wallet")}
                       style={{ marginTop: "1rem" }}
                       corner="rounded"
                     >
@@ -143,32 +131,6 @@ const BanalceSynthesis = ({ currentLocale }: banalceSynthesisProps) => {
         )}
         {process.env.NODE_ENV !== "production" ? (
           <>
-            <Button
-              onPress={() => {
-                fetch(
-                  `http://localhost:${
-                    process.env.PORT ?? 3000
-                  }/api/assets/crypto?size=10&page=2`
-                )
-                  .then((response) => {
-                    if (!response.ok) {
-                      throw new Error("Network response was not ok")
-                    }
-                    return response.json()
-                  })
-                  .then((data) => {
-                    // You can work with your data here
-                    console.log(data)
-                  })
-                  .catch((error) => {
-                    console.log(error)
-                  })
-              }}
-              style={{ marginTop: "0.5rem" }}
-              corner="rounded"
-            >
-              API TEST
-            </Button>
             <code>Public host: {process.env.NEXT_PUBLIC_HOST}</code>
           </>
         ) : (
