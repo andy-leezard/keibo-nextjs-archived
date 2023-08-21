@@ -1,10 +1,7 @@
 "use client"
 
 import { PDictionary, WithLocale, t } from "@/i18n-config"
-import { useContext, useEffect, useMemo, useRef, useState } from "react"
-import sharedStyles from "../WalletCreator.module.css"
-import { Button } from "../../ui"
-import { isNoneArrayObject, normalize } from "@/utils"
+import { useContext, useEffect, useRef, useState } from "react"
 import { BsBank } from "react-icons/bs"
 import { TWalletProvider } from "../type"
 import { FaPlus } from "react-icons/fa"
@@ -12,6 +9,7 @@ import { WalletCreationContext } from "../context"
 import RowIcon from "../widgets/RowIcon"
 import { FilteredList, IconRenderer } from "../widgets"
 import { AwaitedData, fetchNewData } from "../utils"
+import { ButtonForward } from "@/components/ui/button"
 
 type WalletProviderProps = WithLocale & {}
 
@@ -44,11 +42,11 @@ const placeholders: Record<WalletConstructor["category"], PDictionary> = {
 }
 
 const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
-  const { category, update } = useContext(WalletCreationContext)
+  const { state, dispatch } = useContext(WalletCreationContext)
+  const { category } = state
   const [current, setCurrent] = useState<TWalletProvider | null>(null)
   const [keyword, setKeyword] = useState("")
   const [currentPage, setCurrentPage] = useState(0)
-  const [processing, setProcessing] = useState(false)
   const [displayData, setDisplayData] = useState<
     AwaitedData<Array<TWalletProvider>>
   >({
@@ -85,8 +83,8 @@ const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
   }, [category, currentPage, keyword])
 
   return (
-    <div className={sharedStyles.flex_col_container}>
-      <div className={sharedStyles.flex_row_container}>
+    <div className="flex flex-col m-4 gap-4">
+      <div className="flex justify-center items-center gap-4">
         {category ? (
           <RowIcon
             currentLocale={currentLocale}
@@ -110,43 +108,45 @@ const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
           <></>
         )}
       </div>
-      <FilteredList<TWalletProvider>
-        currentLocale={currentLocale}
-        placeholders={category ? placeholders[category.value] : undefined}
-        label={{
-          en: "Name of the financial institution",
-          fr: "Nom de l'institution financière",
-          ko: "금융기관명",
-        }}
-        data={displayData.data}
-        page={currentPage}
-        maxKnownPage={maxKnownPage.current}
-        pageEnded={displayData.metadata.page_ended}
-        onPage={setCurrentPage}
-        onNextPage={() => setCurrentPage((prev) => prev + 1)}
-        current={current}
-        onSelect={setCurrent}
-        setKeyword={setKeyword}
-        renderItem={({ image, display_name }) => {
-          return (
-            <>
-              <IconRenderer image={image} />
-              <span>{t(currentLocale, display_name)}</span>
-            </>
-          )
-        }}
-      />
-      <div className={sharedStyles.buttons_container}>
-        <Button
-          /* isDisabled={Boolean(
-            typeof currentIndex !== "number" ||
-              !indexIsValidForArray(wallet_categories, currentIndex)
-          )} */
-          corner="rounded"
-          className={sharedStyles.button}
-          onPress={() => {
-            update("provider", null)
-            update("category", null)
+      <div className="flex flex-col p-2 rounded-lg bg-slate-50 dark:bg-slate-800">
+        <FilteredList<TWalletProvider>
+          currentLocale={currentLocale}
+          placeholders={category ? placeholders[category.value] : undefined}
+          label={{
+            en: "Name of the financial institution",
+            fr: "Nom de l'institution financière",
+            ko: "금융기관명",
+          }}
+          data={displayData.data}
+          page={currentPage}
+          maxKnownPage={maxKnownPage.current}
+          pageEnded={displayData.metadata.page_ended}
+          onPage={setCurrentPage}
+          onNextPage={() => setCurrentPage((prev) => prev + 1)}
+          current={current}
+          onSelect={(item) => {
+            if (current?.value === item.value) {
+              setCurrent(null)
+            } else {
+              setCurrent(item)
+            }
+          }}
+          setKeyword={setKeyword}
+          renderItem={({ image, display_name }) => {
+            return (
+              <>
+                <IconRenderer image={image} />
+                <span>{t(currentLocale, display_name)}</span>
+              </>
+            )
+          }}
+        />
+      </div>
+      <div className="flex items-center justify-center gap-4 mb-4">
+        <ButtonForward
+          className="rounded-md p-2 min-w-90"
+          onClick={() => {
+            dispatch({ type: "BACK" })
           }}
         >
           {t(currentLocale, {
@@ -154,20 +154,19 @@ const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
             fr: "Retour",
             ko: "이전",
           })}
-        </Button>
-        <Button
-          isDisabled={Boolean(!current)}
-          corner="rounded"
-          className={sharedStyles.button}
-          onPress={() => update("provider", current)}
+        </ButtonForward>
+        <ButtonForward
+          className="rounded-md p-2 min-w-90"
+          disabled={Boolean(!current)}
           style={{ opacity: current ? 1 : 0.5 }}
+          onClick={() => dispatch({ type: "SET_PROVIDER", payload: current })}
         >
           {t(currentLocale, {
             en: "Next",
             fr: "Suivant",
             ko: "다음",
           })}
-        </Button>
+        </ButtonForward>
       </div>
     </div>
   )

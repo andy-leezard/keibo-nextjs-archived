@@ -1,9 +1,7 @@
 "use client"
 
 import { WithLocale } from "@/i18n-config"
-import Warning from "../warning"
-import styles from "./WalletCreator.module.css"
-import { useMemo, useState } from "react"
+import { useMemo, useReducer } from "react"
 import { indexIsValidForArray } from "@/utils/client"
 import { display_messages } from "./constants"
 import {
@@ -13,62 +11,32 @@ import {
   MetadataCreator,
 } from "./components"
 import {
+  INITIAL_WALLET_CREATION_CONTEXT,
   WalletCreationContext,
-  WalletCreationContextInterface,
+  reducer,
 } from "./context"
-import { useRetrieveUserQuery } from "@/redux/features/authApiSlice"
 
 type WalletCreatorProps = WithLocale
 // TODO : Add histories backwards.
 
 const WalletCreator = ({ currentLocale }: WalletCreatorProps) => {
-  const { data: user, isLoading, isFetching } = useRetrieveUserQuery()
-  const [category, setCategory] =
-    useState<WalletCreationContextInterface["category"]>(null)
-  const [provider, setProvider] =
-    useState<WalletCreationContextInterface["provider"]>(null)
-  const [asset, setAsset] =
-    useState<WalletCreationContextInterface["asset"]>(null)
-
-  const update = <T extends keyof WalletCreationContextInterface>(
-    key: T,
-    payload: WalletCreationContextInterface[T]
-  ) => {
-    switch (key) {
-      case "category":
-        setCategory(payload as WalletCreationContextInterface["category"])
-        break
-      case "provider":
-        setProvider(payload as WalletCreationContextInterface["provider"])
-        break
-      case "asset":
-        setAsset(payload as WalletCreationContextInterface["asset"])
-        break
-      default:
-        break
-    }
-  }
-
+  const [state, dispatch] = useReducer(reducer, INITIAL_WALLET_CREATION_CONTEXT)
+  const { category, provider, asset } = state
   const step = useMemo(() => {
     if (!category) return 0
     if (!provider) return 1
     if (!asset) return 2
-    return 5
+    return 3
   }, [category, provider, asset])
 
-  if (!user) {
-    return <Warning currentLocale={currentLocale} />
-  }
   return (
-    <WalletCreationContext.Provider
-      value={{ category, provider, asset, update }}
-    >
-      <div className={styles.wrapper}>
+    <WalletCreationContext.Provider value={{ state, dispatch }}>
+      <div className="flex flex-col rounded-lg p-4 m-auto">
         {/* <div className={styles.icon_container}>
         <FaWallet size={18} />
       </div> */}
         {indexIsValidForArray(display_messages, step) ? (
-          <span style={{ textAlign: "center" }}>
+          <span className="text-center text-xl font-semibold">
             {display_messages[step][currentLocale]}
           </span>
         ) : (
@@ -85,7 +53,7 @@ const WalletCreator = ({ currentLocale }: WalletCreatorProps) => {
         ) : (
           <></>
         )}
-        <span style={{ textAlign: "center" }}>{step}/5</span>
+        <span className="text-center">{step + 1}/4</span>
         {/* <input className={styles.input} type="text" placeholder=""/> */}
       </div>
     </WalletCreationContext.Provider>

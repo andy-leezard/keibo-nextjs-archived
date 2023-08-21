@@ -1,7 +1,7 @@
 "use client"
 
-import { WithLocale, t } from "@/i18n-config"
-import { FilteredList, IconRenderer } from "../widgets"
+import { WithLocale } from "@/i18n-config"
+import { FilteredList } from "../widgets"
 import {
   Dispatch,
   SetStateAction,
@@ -12,62 +12,71 @@ import {
 } from "react"
 import { FilterableItem } from "../type"
 import { FaPlus } from "react-icons/fa"
-import { Button, Dialog } from "@/components/ui"
+import { Dialog } from "@/components/ui"
 import { isValidEmailAddress } from "@/utils"
 import Participant from "../widgets/Participant"
+import cn from "classnames"
 
 type ParticipantsProps = WithLocale & {
-  participants: WalletConstructor["participants"]
+  participants: Array<TParticipant>
   setParticipants: Dispatch<SetStateAction<WalletConstructor["participants"]>>
 }
 
-type Participant = FilterableItem &
-  NonNullable<WalletConstructor["participants"]>[number]
+type TParticipant = {
+  email: string
+  first_name: string
+  id: number
+  is_active: boolean
+  is_staff: boolean
+  is_superuser: boolean
+  last_name: string
+}
+
+type TDisplayParticipant = FilterableItem & {}
 
 const Participants = ({
   currentLocale,
   participants,
   setParticipants,
 }: ParticipantsProps) => {
-  const [fetchedUsers, setFetchedUsers] = useState<Array<FilterableItem>>([])
+  const [fetchedUsers, setFetchedUsers] = useState<Array<TDisplayParticipant>>(
+    []
+  )
   const [participantKeyword, setParticipantKeyword] = useState("")
   const [userKeyword, setUserKeyword] = useState("")
   const [fetching, setFetching] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
 
-  const displayParticipants: Array<Participant> = useMemo(() => {
+  const displayParticipants: Array<TDisplayParticipant> = useMemo(() => {
     if (!participants?.length) return []
     return participants.map((p) => ({
-      ...p,
       value: p.email,
-      display_name: `${p.email} (${p.role})`,
+      display_name: `${p.email}`,
     }))
   }, [participants])
 
-  /* const displayFetchedUsers: Array<FilterableItem> = useMemo(() => {
-    if (!fetchedUsers?.length) return []
-    return fetchedUsers.map((p) => ({
-      ...p,
-      value: p.email,
-      display_name: `${p.email} (${p.role})`,
-    }))
-  }, [fetchedUsers]) */
-
   const fetchData = async () => {
     if (!isValidEmailAddress(userKeyword) || fetching) return
-    console.log(userKeyword)
-    /* setFetching(true)
-    const [data, error] = await searchUsersByEmail(userKeyword)
-    if (data) {
-      setFetchedUsers(
-        data.map((user) => ({
-          value: user.email,
-          image: user.image,
-          display_name: user.email,
-        }))
-      )
+    setFetching(true)
+    try {
+      const fetchURL = `${
+        process.env.NEXT_PUBLIC_HOST ?? 8000
+      }/api/search_users/${userKeyword}`
+      console.log(fetchURL)
+      const response = await fetch(fetchURL, {
+        credentials: "include",
+        method: "GET",
+      })
+      /* if (!response.ok) {
+        throw new Error("Network response was not ok")
+      } */
+      const fetched_users = await response.json()
+      setFetchedUsers(fetched_users)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setFetching(false)
     }
-    setFetching(false) */
   }
 
   useEffect(() => {
@@ -76,7 +85,7 @@ const Participants = ({
 
   return (
     <>
-      <FilteredList<Participant>
+      <FilteredList<TDisplayParticipant>
         currentLocale={currentLocale}
         data={displayParticipants}
         height={200}
@@ -87,15 +96,15 @@ const Participants = ({
         setKeyword={setParticipantKeyword}
         customElement={(className) => {
           return (
-            <Button
-              className={className}
-              theme="none"
-              onPress={() =>
+            <button
+              type="button"
+              className={cn(className, "m-auto")}
+              onClick={() =>
                 dialogRef?.current && dialogRef.current.showModal()
               }
             >
               <FaPlus size={24} style={{ margin: "auto" }} />
-            </Button>
+            </button>
           )
         }}
         renderItem={(props) => (

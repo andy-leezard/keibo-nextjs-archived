@@ -1,14 +1,7 @@
 "use client"
 
 import { PDictionary, WithLocale, t } from "@/i18n-config"
-import {
-  ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { WalletCreationContext } from "../context"
 import { FaPlus } from "react-icons/fa"
 import RowIcon from "../widgets/RowIcon"
@@ -19,10 +12,9 @@ import { IoLogoEuro, IoLogoUsd, IoLogoYen } from "react-icons/io"
 import { FilteredList, IconRenderer } from "../widgets"
 import { BiPound, BiRuble, BiWon } from "react-icons/bi"
 import { TbCoinRupee } from "react-icons/tb"
-import { isNoneArrayObject, normalize } from "@/utils"
-import { Button } from "@/components/ui"
-import sharedStyles from "../WalletCreator.module.css"
 import { AwaitedData, fetchNewData } from "../utils"
+import { ButtonForward } from "@/components/ui/button"
+import { IconBaseProps } from "react-icons"
 
 type AssetSelectionProps = WithLocale & {}
 
@@ -54,25 +46,25 @@ const placeholders: Record<WalletConstructor["category"], PDictionary> = {
   },
 }
 
-const iconMap: Map<string, Function> = new Map([
-  ["usd", IoLogoUsd],
-  ["eur", IoLogoEuro],
-  ["chf", MdCurrencyFranc],
-  ["gbp", BiPound],
-  ["jpy", IoLogoYen],
-  ["rub", BiRuble],
-  ["krw", BiWon],
-  ["cny", IoLogoYen],
-  ["cad", IoLogoUsd],
-  ["inr", TbCoinRupee],
+const iconMap: Map<string, (props: IconBaseProps) => JSX.Element> = new Map([
+  ["usd", (props) => <IoLogoUsd {...props} />],
+  ["eur", (props) => <IoLogoEuro {...props} />],
+  ["chf", (props) => <MdCurrencyFranc {...props} />],
+  ["gbp", (props) => <BiPound {...props} />],
+  ["jpy", (props) => <IoLogoYen {...props} />],
+  ["rub", (props) => <BiRuble {...props} />],
+  ["krw", (props) => <BiWon {...props} />],
+  ["cny", (props) => <IoLogoYen {...props} />],
+  ["cad", (props) => <IoLogoUsd {...props} />],
+  ["inr", (props) => <TbCoinRupee {...props} />],
 ])
 
 const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
-  const { category, provider, update } = useContext(WalletCreationContext)
+  const { state, dispatch } = useContext(WalletCreationContext)
+  const { category, provider } = state
   const [current, setCurrent] = useState<TAsset | null>(null)
   const [keyword, setKeyword] = useState("")
   const [currentPage, setCurrentPage] = useState(0)
-  const [pageEnded, setPageEnded] = useState(false)
   const [displayData, setDisplayData] = useState<AwaitedData<Array<TAsset>>>({
     metadata: {
       page_ended: false,
@@ -95,6 +87,7 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
         }?size=5&page=${currentPage}&keyword=${keyword}`
       )
       if (res && mounted) {
+        console.log(`Page ended ${res.metadata.page_ended}`)
         if (currentPage > maxKnownPage.current && res.data.length) {
           maxKnownPage.current = currentPage
         }
@@ -109,8 +102,8 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
   }, [category, currentPage, keyword])
 
   return (
-    <div className={sharedStyles.flex_col_container}>
-      <div className={sharedStyles.flex_row_container}>
+    <div className="flex flex-col m-4 gap-4">
+      <div className="flex justify-center items-center gap-4 min-h-90">
         {category ? (
           <RowIcon
             currentLocale={currentLocale}
@@ -140,7 +133,11 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
             <FaPlus size={24} />
             <RowIcon
               currentLocale={currentLocale}
-              image={current.image}
+              image={
+                iconMap.has(current.symbol)
+                  ? iconMap.get(current.symbol)!({ size: 24 })
+                  : undefined
+              }
               displayName={current.display_name}
               fallbackIcon={<MdOutlineAccountBalanceWallet size={48} />}
               size={"regular_size"}
@@ -165,12 +162,24 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
         onPage={setCurrentPage}
         onNextPage={() => setCurrentPage((prev) => prev + 1)}
         current={current}
-        onSelect={setCurrent}
+        onSelect={(item) => {
+          if (current?.value === item.value) {
+            setCurrent(null)
+          } else {
+            setCurrent(item)
+          }
+        }}
         setKeyword={setKeyword}
         renderItem={({ image, display_name, symbol }) => {
           return (
             <>
-              <IconRenderer image={image} />
+              <IconRenderer
+                image={
+                  iconMap.has(symbol)
+                    ? iconMap.get(symbol)!({ size: 24 })
+                    : undefined
+                }
+              />
               <span>{symbol.toUpperCase()}</span>
               <span>({t(currentLocale, display_name)})</span>
               <></>
@@ -178,17 +187,11 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
           )
         }}
       />
-      <div className={sharedStyles.buttons_container}>
-        <Button
-          /* isDisabled={Boolean(
-            typeof currentIndex !== "number" ||
-              !indexIsValidForArray(wallet_categories, currentIndex)
-          )} */
-          corner="rounded"
-          className={sharedStyles.button}
-          onPress={() => {
-            update("provider", null)
-            update("asset", null)
+      <div className="flex items-center justify-center gap-4 mb-4">
+        <ButtonForward
+          className="rounded-md p-2 min-w-90"
+          onClick={() => {
+            dispatch({ type: "BACK" })
           }}
         >
           {t(currentLocale, {
@@ -196,12 +199,11 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
             fr: "Retour",
             ko: "이전",
           })}
-        </Button>
-        <Button
-          isDisabled={Boolean(!current)}
-          corner="rounded"
-          className={sharedStyles.button}
-          onPress={() => update("asset", current)}
+        </ButtonForward>
+        <ButtonForward
+          disabled={Boolean(!current)}
+          className="rounded-md p-2 min-w-90"
+          onClick={() => dispatch({ type: "SET_ASSET", payload: current })}
           style={{ opacity: current ? 1 : 0.5 }}
         >
           {t(currentLocale, {
@@ -209,7 +211,7 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
             fr: "Suivant",
             ko: "다음",
           })}
-        </Button>
+        </ButtonForward>
       </div>
     </div>
   )

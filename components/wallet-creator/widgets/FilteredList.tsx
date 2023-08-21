@@ -1,11 +1,12 @@
 import { ReactNode, useMemo, useRef } from "react"
 import { PDictionary, WithLocale, t } from "@/i18n-config"
 import { FiSearch } from "react-icons/fi"
-import { Button, TextField } from "../../ui"
+import { TextField } from "../../ui"
 import { FilterableItem } from "../type"
 import styles from "./FilteredList.module.css"
 import { generateNextArray, generatePreviousArray } from "../utils"
 import { isValidEmailAddress } from "@/utils"
+import cn from "classnames"
 
 type FilteredListProps<T> = WithLocale & {
   data: Array<T>
@@ -80,41 +81,50 @@ const FilteredList = <T extends FilterableItem>({
         maxLength={32}
         placeholder={placeholders ? t(currentLocale, placeholders) : ""}
         label={label ? t(currentLocale, label) : ""}
-        maxWidth={400}
-        onChange={(str: string) => setKeyword(str)}
+        onChange={setKeyword}
         onKeyDown={(event) => {
           onSearch && event.key === "Enter" && onSearch()
         }}
       >
         {onSearch ? (
-          <Button
-            corner="rounded"
-            isDisabled={
+          <button
+            type="button"
+            className="cursor-pointer"
+            disabled={
               searchFormat === "email"
                 ? !isValidEmailAddress(inputRef?.current?.value ?? "")
                 : !Boolean(inputRef?.current?.value)
             }
-            onPress={() => onSearch()}
+            onClick={() => onSearch()}
           >
             <FiSearch />
-          </Button>
+          </button>
         ) : (
-          <FiSearch />
+          <FiSearch className="w-5 h-5 mr-1" />
         )}
       </TextField>
       {/* RESULT FIELD */}
       <div
-        className={styles.filtered_list}
-        style={{ height: `${height ?? 300}px` }}
+        className="flex flex-col overflow-y-auto rounded-lg-200 mt-2 bg-slate-200 dark:bg-slate-800 rounded-md"
+        style={{ height: `${height ?? 256}px` }}
       >
         <div
-          className={styles.filtered_list_container}
+          className="flex flex-1 flex-col gap-1"
           style={{
             justifyContent: data.length || customElement ? "normal" : "center",
             alignItems: data.length || customElement ? "normal" : "center",
           }}
         >
-          {customElement ? customElement(styles.filtered_list_item) : <></>}
+          {customElement ? (
+            customElement(
+              cn(
+                styles.filtered_list_item,
+                "flex items-center p-2 rounded-lg gap-2"
+              )
+            )
+          ) : (
+            <></>
+          )}
           {processing ? (
             Array.from({ length: 5 }, (_, i) => i).map((i) => (
               <div
@@ -125,15 +135,20 @@ const FilteredList = <T extends FilterableItem>({
           ) : data.length ? (
             data.map((p, idx) => {
               return (
-                <Button
+                <button
+                  type="button"
                   key={idx}
-                  className={`${styles.filtered_list_item} ${
-                    p.value === current?.value
-                      ? styles.selected
-                      : styles.unselected
-                  }`}
-                  theme="none"
-                  onPress={() => {
+                  className={cn(
+                    "flex items-center p-2 rounded-lg gap-2 ",
+                    styles.filtered_list_item,
+                    {
+                      "bg-slate-400 dark:bg-slate-700 hover:bg-slate-500 dark:hover:bg-slate-600":
+                        p.value === current?.value,
+                      "hover:bg-slate-400 dark:hover:bg-slate-700":
+                        p.value !== current?.value,
+                    }
+                  )}
+                  onClick={() => {
                     if (!onSelect) return
                     if (inputRef?.current) {
                       inputRef.current.value = t(currentLocale, p.display_name)
@@ -142,7 +157,7 @@ const FilteredList = <T extends FilterableItem>({
                   }}
                 >
                   {renderItem ? renderItem(p) : <></>}
-                </Button>
+                </button>
               )
             })
           ) : !customElement ? (
@@ -165,22 +180,22 @@ const FilteredList = <T extends FilterableItem>({
             {previousPageArray?.length && onPage ? (
               previousPageArray.map((p, i) => {
                 return (
-                  <Button
+                  <button
+                    type="button"
                     key={`prev-${i}`}
-                    theme="none"
-                    onPress={() => onPage(p)}
+                    onClick={() => onPage(p)}
                   >
                     {p + 1}
-                  </Button>
+                  </button>
                 )
               })
             ) : (
               <></>
             )}
             {page - pageRange > 0 && onPage ? (
-              <Button theme="none" onPress={() => onPage(0)}>
+              <button type="button" onClick={() => onPage(0)}>
                 1...
-              </Button>
+              </button>
             ) : (
               <></>
             )}
@@ -190,19 +205,19 @@ const FilteredList = <T extends FilterableItem>({
             {onPage && nextPageArray?.length ? (
               nextPageArray.map((p, i) => {
                 return (
-                  <Button
+                  <button
                     key={`next-${i}`}
-                    theme="none"
-                    onPress={() => onPage(p)}
+                    type="button"
+                    onClick={() => onPage(p)}
                   >
                     {p + 1}
-                  </Button>
+                  </button>
                 )
               })
             ) : !pageEnded && onNextPage ? (
-              <Button theme="none" onPress={() => onNextPage()}>
+              <button type="button" onClick={() => onNextPage()}>
                 {page + 2}
-              </Button>
+              </button>
             ) : (
               <></>
             )}

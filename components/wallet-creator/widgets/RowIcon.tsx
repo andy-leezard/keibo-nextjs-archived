@@ -24,9 +24,9 @@ const RowIcon = ({
   return (
     <>
       <div
-        className={`${styles.flex_grid_item} ${
-          size ? styles[size] : styles.big_size
-        }`}
+        className={`flex flex-col justify-center items-center ${
+          styles.flex_grid_item
+        } ${size ? styles[size] : styles.big_size}`}
       >
         {typeof image === "string" ? (
           <div className={globalStyles.image_container}>

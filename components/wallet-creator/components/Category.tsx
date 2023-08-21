@@ -1,18 +1,18 @@
 "use client"
 
 import { WithLocale, t } from "@/i18n-config"
-import { Button } from "../../ui"
 import { Description } from "../../ui/listbox/ListBox"
 import { Label } from "../../ui/shared"
 import { useContext, useState } from "react"
 import { indexIsValidForArray } from "@/utils/client"
-import globalStyles from "../WalletCreator.module.css"
 import styles from "./Category.module.css"
 import { WalletCreationContext } from "../context"
 import { TWalletCategory } from "../type"
 import { BsBank2, BsCashStack, BsPiggyBankFill } from "react-icons/bs"
 import { AiOutlineStock } from "react-icons/ai"
 import { FaBitcoin } from "react-icons/fa"
+import { ButtonForward } from "@/components/ui/button"
+import cn from "classnames"
 
 type CategoryProps = WithLocale & {}
 
@@ -85,20 +85,23 @@ const wallet_categories: Array<TWalletCategory> = [
 ]
 
 const Category = ({ currentLocale }: CategoryProps) => {
-  const { update } = useContext(WalletCreationContext)
+  const { dispatch } = useContext(WalletCreationContext)
   const [currentIndex, setCurrentIndex] = useState<number | null>(null)
   return (
     <>
-      <div className={styles.flex_grid_container}>
+      <div
+        className={cn(styles.flex_grid_container, "m-4 flex flex-wrap gap-4")}
+      >
         {wallet_categories.map((cat, i) => {
+          const selected = i === currentIndex
           return (
-            <Button
-              corner="rounded"
+            <ButtonForward
               key={i}
-              className={`${styles.flex_grid_item} ${
-                i === currentIndex ? styles.current_item : ""
-              }`}
-              onPress={() => setCurrentIndex(i)}
+              className={cn(styles.flex_grid_item, "rounded-md p-2")}
+              orientation="vertical"
+              withShadow={selected}
+              focused={selected}
+              onClick={() => setCurrentIndex(i)}
             >
               {cat.image ?? <></>}
               <Label>{t(currentLocale, cat.display_name)}</Label>
@@ -107,26 +110,30 @@ const Category = ({ currentLocale }: CategoryProps) => {
               ) : (
                 <></>
               )}
-            </Button>
+            </ButtonForward>
           )
         })}
       </div>
-      <div className={globalStyles.buttons_container}>
-        <Button
-          isDisabled={Boolean(
+      <div className="flex items-center justify-center gap-4 mb-4">
+        <ButtonForward
+          className="rounded-md p-2 min-w-90"
+          disabled={Boolean(
             typeof currentIndex !== "number" ||
               !indexIsValidForArray(wallet_categories, currentIndex)
           )}
-          corner="rounded"
-          className={globalStyles.button}
-          onPress={() => update("category", wallet_categories[currentIndex!])}
+          onClick={() =>
+            dispatch({
+              type: "SET_CAT",
+              payload: wallet_categories[currentIndex!],
+            })
+          }
         >
           {t(currentLocale, {
             en: "Next",
             fr: "Suivant",
             ko: "다음",
           })}
-        </Button>
+        </ButtonForward>
       </div>
     </>
   )
