@@ -19,12 +19,13 @@ declare global {
   type FocusableElement = any
 
   /** auth session utils */
-  type User = {
+  type SerializedUser = {
     first_name: string
     last_name: string
+    id: number
     email: string
   }
-  type TWithSession = { user?: User; isLoading: boolean; isFetching: boolean }
+  type TWithSession = { user?: SerializedUser; isLoading: boolean; isFetching: boolean }
 
   /** React utils */
   type WithChildren = { children: ReactNode }
@@ -89,17 +90,19 @@ declare global {
     id: number
     is_public: boolean
 
-    /** 
+    /**
      * int between 1 - 4 all included.
-     * 
+     *
      * Represents what role does the user have to the wallet
-     * 
+     *
      * 1: viewer
      * 2: editor
      * 3: manager (will be counted as co-property)
      * 4: owner
      */
     role: number
+    /** Django Decimal field is string when fetched. */
+    balance: string
 
     icon?: string
   }
@@ -116,6 +119,11 @@ declare global {
       email: string
       role: "viewer" | "editor" | "admin"
     }>
+  }
+  type TGenericFetchResponse = {
+    statusCode: number
+    networkError: boolean
+    data: SerializedUser
   }
 }
 

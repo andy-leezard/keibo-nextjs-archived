@@ -1,24 +1,14 @@
-"use client"
-
 import { redirect } from "next/navigation"
-import { useAppSelector } from "@/redux/hooks"
-import { ColorfulSpinner } from "../ui/loaders"
 import { PropsWithChildren } from "react"
+import { cookies } from "next/headers"
+import { validate } from "@/utils/server/auth"
 
 type RequireAuthProps = PropsWithChildren & {}
 
-export default function RequireAuth({ children }: RequireAuthProps) {
-  const { isLoading, isAuthenticated } = useAppSelector((state) => state.auth)
+export default async function RequireAuth({ children }: RequireAuthProps) {
+  const isAuthenticated = await validate(cookies())
 
-  if (isLoading) {
-    return (
-      <div className="m-auto">
-        <ColorfulSpinner size={64} withShadow />
-      </div>
-    )
-  }
-
-  if (!isAuthenticated) {
+  if (!isAuthenticated.data) {
     redirect("/auth/login")
   }
 

@@ -8,55 +8,23 @@ import Image from "next/image"
 import classNames from "classnames"
 import Link from "next/link"
 
-type WalletListProps = WithLocale
+type WalletListProps = WithLocale & {
+  statusCode: number
+  networkError: boolean
+  wallets: Array<SerializedWallet> | null
+}
 
-export default function WalletList({ currentLocale }: WalletListProps) {
-  const [statusCode, setStatusCode] = useState(0)
-  const [networkError, setNetworkError] = useState(false)
-  const [wallets, setWallets] = useState<Array<SerializedWallet> | null>(null)
-
-  useEffect(() => {
-    const getWallets = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_HOST}/api/get_wallets/4/-2`,
-          {
-            credentials: "include",
-            method: "GET",
-          }
-        )
-        setStatusCode(response.status)
-        if (!response.ok) {
-          throw new Error("Network response was not ok")
-        }
-        setNetworkError(false)
-        const as_json = await response.json()
-        setWallets(as_json)
-      } catch (error) {
-        console.error(error)
-        setNetworkError(true)
-        setWallets(null)
-      }
-    }
+export default function WalletList({
+  currentLocale,
+  statusCode,
+  networkError,
+  wallets,
+}: WalletListProps) {
+  /* useEffect(() => {
+    const getWallets = async () => {}
     getWallets()
-    fetch(`${process.env.NEXT_PUBLIC_HOST}/api/get_wallets/4/-2`, {
-      credentials: "include",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok")
-        }
-        return response.json()
-      })
-      .then((data) => {
-        // You can work with your data here
-        console.log(data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
     return () => {}
-  }, [])
+  }, []) */
 
   return (
     <>
