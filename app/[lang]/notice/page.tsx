@@ -1,5 +1,4 @@
 import { Locale } from "@/i18n-config"
-import { getDictionary } from "@/utils/server/get-dictionary"
 
 type PageProps = {
   params: { lang: Locale }
