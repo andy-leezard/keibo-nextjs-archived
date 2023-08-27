@@ -1,5 +1,4 @@
 import { apiSlice } from "../services/apiSlice"
-import { User } from "../types"
 
 interface SocialAuthArgs {
   provider: string
@@ -9,7 +8,7 @@ interface SocialAuthArgs {
 
 interface CreateUseResponse {
   success: boolean
-  user: User
+  user: SerializedUser
 }
 
 /**
@@ -17,7 +16,7 @@ interface CreateUseResponse {
  * */
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    retrieveUser: builder.query<User, void>({
+    retrieveUser: builder.query<SerializedUser, void>({
       query: () => "/users/me/",
     }),
     socialAuthenticate: builder.mutation<CreateUseResponse, SocialAuthArgs>({

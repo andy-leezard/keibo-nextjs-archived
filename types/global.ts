@@ -20,10 +20,10 @@ declare global {
 
   /** auth session utils */
   type SerializedUser = {
+    email: string
     first_name: string
     last_name: string
     id: number
-    email: string
   }
   type TWithSession = { user?: SerializedUser; isLoading: boolean; isFetching: boolean }
 
@@ -120,10 +120,10 @@ declare global {
       role: "viewer" | "editor" | "admin"
     }>
   }
-  type TGenericFetchResponse = {
+  type TGenericFetchResponse<T> = {
     statusCode: number
     networkError: boolean
-    data: SerializedUser
+    data: T | null
   }
 }
 
