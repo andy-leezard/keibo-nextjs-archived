@@ -3,9 +3,6 @@
 import NavLink from "./NavLink"
 import { WithLocale, t } from "@/i18n-config"
 import { usePathname } from "next/navigation"
-import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { useLogoutMutation } from "@/redux/features/authApiSlice"
-import { logout as setLogout } from "@/redux/features/authSlice"
 import { getLastPath } from "@/utils"
 import { FaCircleUser } from "react-icons/fa6"
 import { GiExitDoor } from "react-icons/gi"
@@ -15,6 +12,8 @@ import { BiSolidWallet } from "react-icons/bi"
 import { TbReportMoney } from "react-icons/tb"
 import { PiSlidersHorizontalBold } from "react-icons/pi"
 import { PALETTE } from "@/lib/palette"
+import { useSession } from "next-auth/react"
+import { logout } from "@/utils/client/auth"
 import ProfileWidget from "./ProfileWidget"
 
 type AuthMenuProps = WithLocale & {
@@ -24,26 +23,16 @@ type AuthMenuProps = WithLocale & {
 
 const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
   const pathname = usePathname()
-  const dispatch = useAppDispatch()
-
-  const [logout] = useLogoutMutation()
-
-  const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth)
+  const { data: session, status, update } = useSession()
 
   const isSelected = (path: string) => Boolean(getLastPath(pathname) === path)
-  const handleLogout = () => {
-    logout(undefined)
-      .unwrap()
-      .then(() => {
-        dispatch(setLogout())
-      })
-  }
-  if (isLoading) {
+
+  if (status === "loading") {
     return <></>
   }
   return (
     <>
-      {isAuthenticated ? (
+      {status === "authenticated" ? (
         <>
           <DropdownMenu
             mode="hover"
@@ -102,7 +91,10 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
             }
             dropdownClassName={"bg-zinc-700 dark:bg-zinc-800"}
           >
-            <ProfileWidget currentLocale={currentLocale} />
+            <ProfileWidget
+              currentLocale={currentLocale}
+              user={session.user as SerializedUser}
+            />
             <NavLink
               isSelected={isSelected("dashboard")}
               isMobile={isMobile}
@@ -153,7 +145,7 @@ const AuthMenu = ({ currentLocale, isMobile }: AuthMenuProps) => {
                 </span>
               </div>
             </NavLink>
-            <NavLink isMobile={isMobile} nested onClick={handleLogout}>
+            <NavLink isMobile={isMobile} nested onClick={() => logout()}>
               <div className="flex gap-2">
                 <GiExitDoor size={16} />
                 <span>

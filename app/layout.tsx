@@ -32,11 +32,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         )}
       >
         <div className="relative flex flex-1 flex-col overflow-y-auto">
-          <Providers>
-            {/* <AriaSSRProvider> */}
-            {children}
-            {/* </AriaSSRProvider> */}
-          </Providers>
+          <Providers>{children}</Providers>
         </div>
       </body>
     </html>

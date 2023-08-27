@@ -9,7 +9,7 @@ export default async function Layout({ children, params }: LayoutProps) {
   return (
     <main className="flex flex-1 flex-col sm:flex-row">
       <AccountsPageSidebar currentLocale={params.lang} />
-      <RequireAuth>{children}</RequireAuth>
+      {children}
     </main>
   )
 }

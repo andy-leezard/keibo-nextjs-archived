@@ -1,19 +1,15 @@
 import { WalletList } from "@/components/wallt-list"
 import { WithLocaleParam } from "@/i18n-config"
-import { getUser } from "@/utils/server/auth"
 import { cookies } from "next/headers"
 
 export default async function Page({ params }: WithLocaleParam) {
   const { lang } = params
 
-  let user = null
   let statusCode = 0
   let networkError = false
   let wallets: Array<SerializedWallet> | null = null
 
   try {
-    user = await getUser(cookies())
-    console.log(user)
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_HOST}/api/get_wallets/4/-2`,
       {

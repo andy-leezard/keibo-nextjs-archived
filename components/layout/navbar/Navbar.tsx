@@ -4,7 +4,7 @@ import { WithLocale } from "@/i18n-config"
 import Image from "next/image"
 import Link from "next/link"
 import { AuthMenu, BurgerButton } from "./widgets"
-import { useLayoutEffect, useState } from "react"
+import { useState } from "react"
 import ThemeSwitcher from "@/components/user-prefs/theme/ThemeSwitcher"
 import { usePathname, useSearchParams } from "next/navigation"
 import { LocaleSwitcher } from "@/components/user-prefs"
@@ -17,7 +17,7 @@ export default function Navbar({ currentLocale }: NavBarProps) {
   const [open, setOpen] = useState(false)
 
   if (
-    pathname.endsWith("google") &&
+    (pathname.endsWith("google") || pathname.endsWith("github")) &&
     searchParams.get("state") &&
     searchParams.get("code")
   ) {
