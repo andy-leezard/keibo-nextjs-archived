@@ -48,6 +48,7 @@ export default function useLogin() {
         callbackUrl: `${window.location.origin}/my/dashboard`,
       })
     } else {
+      setIsLoading(false)
       toast.error(`Uncaught error`)
     }
   }

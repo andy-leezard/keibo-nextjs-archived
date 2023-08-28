@@ -1,5 +1,4 @@
 import { AccountsPageSidebar } from "@/components/layout/sidebar"
-import { RequireAuth } from "@/components/utils"
 import { WithLocaleParam } from "@/i18n-config"
 import { PropsWithChildren } from "react"
 

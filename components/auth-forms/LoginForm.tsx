@@ -1,6 +1,6 @@
 'use client';
 
-import { useLogin } from '@/hooks/redux';
+import { useLogin } from '@/hooks/auth';
 import { Form } from '@/components/auth-forms';
 
 export default function LoginForm() {
