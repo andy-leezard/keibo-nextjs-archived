@@ -102,7 +102,7 @@ declare global {
      */
     role: number
     /** Django Decimal field is string when fetched. */
-    balance: string
+    balance: string | number
 
     icon?: string
   }
