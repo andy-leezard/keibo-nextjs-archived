@@ -16,47 +16,6 @@ interface CreateUseResponse {
  * */
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    retrieveUser: builder.query<SerializedUser, void>({
-      query: () => "/users/me/",
-    }),
-    socialAuthenticate: builder.mutation<CreateUseResponse, SocialAuthArgs>({
-      query: ({ provider, state, code }) => ({
-        url: `/o/${provider}/?state=${encodeURIComponent(
-          state
-        )}&code=${encodeURIComponent(code)}`,
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }),
-    }),
-    login: builder.mutation({
-      query: ({ email, password }) => ({
-        url: "/jwt/create/",
-        method: "POST",
-        body: { email, password },
-      }),
-    }),
-    register: builder.mutation({
-      query: ({ first_name, last_name, email, password, re_password }) => ({
-        url: "/users/",
-        method: "POST",
-        body: { first_name, last_name, email, password, re_password },
-      }),
-    }),
-    verify: builder.mutation({
-      query: () => ({
-        url: "/jwt/verify/",
-        method: "POST",
-      }),
-    }),
-    logout: builder.mutation({
-      query: () => ({
-        url: "/logout/",
-        method: "POST",
-      }),
-    }),
     activation: builder.mutation({
       query: ({ uid, token }) => ({
         url: "/users/activation/",
@@ -82,12 +41,6 @@ const authApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-  useRetrieveUserQuery,
-  useSocialAuthenticateMutation,
-  useLoginMutation,
-  useRegisterMutation,
-  useVerifyMutation,
-  useLogoutMutation,
   useActivationMutation,
   useResetPasswordMutation,
   useResetPasswordConfirmMutation,

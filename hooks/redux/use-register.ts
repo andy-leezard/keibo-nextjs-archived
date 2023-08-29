@@ -1,12 +1,11 @@
 import { useState, ChangeEvent, FormEvent } from "react"
 import { useRouter } from "next/navigation"
-import { useRegisterMutation } from "@/redux/features/authApiSlice"
 import { toast } from "react-toastify"
+import { registerUser } from "@/utils/client/auth"
 
 export default function useRegister() {
   const router = useRouter()
-  const [register, { isLoading }] = useRegisterMutation()
-
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -23,18 +22,49 @@ export default function useRegister() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
-    register({ first_name, last_name, email, password, re_password })
-      .unwrap()
-      .then(() => {
-        toast.success("Please check email to verify account")
-        router.push("/auth/login")
-      })
-      .catch(() => {
-        toast.error("Failed to register account")
-      })
+    if (!first_name) {
+      toast.warn("Field required: first_name")
+      return
+    }
+    if (!last_name) {
+      toast.warn("Field required: last_name")
+      return
+    }
+    if (!email) {
+      toast.warn("Field required: email")
+      return
+    }
+    if (!password) {
+      toast.warn("Field required: password")
+      return
+    }
+    if (!re_password) {
+      toast.warn("Field required: password confirmation")
+      return
+    }
+    if (password !== re_password) {
+      toast.warn("Password confirmation does not match password")
+      return
+    }
+    setIsLoading(true)
+    const { statusCode, networkError, data } = await registerUser(formData)
+    if (networkError) {
+      setIsLoading(false)
+      toast.error(
+        `Network error occurred ${
+          statusCode ? `with status Code: ${statusCode}` : ""
+        }`
+      )
+      return
+    }
+    if (data) {
+      router.push("/auth/login?register=true")
+    } else {
+      setIsLoading(false)
+      toast.error(`Uncaught error`)
+    }
   }
 
   return {

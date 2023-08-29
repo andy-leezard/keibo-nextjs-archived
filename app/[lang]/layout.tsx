@@ -2,7 +2,6 @@ import { PropsWithChildren } from "react"
 import { WithLocaleParam } from "../../i18n-config"
 import type { Metadata, ResolvingMetadata } from "next/types"
 import { getDictionary } from "@/utils/server/get-dictionary"
-import { Setup } from "@/components/utils"
 import { Footer, Navbar } from "@/components/layout"
 
 export async function generateMetadata(
@@ -28,7 +27,6 @@ export default function HomeLayout({ children, params }: HomeLayoutProps) {
     <>
       <Navbar currentLocale={params.lang} />
       {children}
-      <Setup />
       <Footer currentLocale={params.lang} />
     </>
   )

@@ -1,13 +1,27 @@
+"use client"
+
 import { LoginForm } from "@/components/auth-forms"
 import { SocialButtons } from "@/components/common"
 import { WithLocaleParam, t } from "@/i18n-config"
 import classNames from "classnames"
 import Link from "next/link"
+import { useLayoutEffect } from "react"
+import { toast } from "react-toastify"
 
-type PageProps = WithLocaleParam & {}
+type PageProps = WithLocaleParam & {
+  searchParams?: { [key: string]: string | string[] | undefined }
+}
 
-function Page({ params }: PageProps) {
+function Page({ params, searchParams }: PageProps) {
   const { lang } = params
+
+  useLayoutEffect(() => {
+    if (searchParams?.register === "true") {
+      toast.success("Please check email to verify account")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       <h2 className="mt-10 text-center text-xl sm:text-2xl font-bold leading-9 tracking-tight">

@@ -54,3 +54,52 @@ export const socialSignin = async (args: {
     data,
   }
 }
+
+export const registerUser = async (args: {
+  first_name: string
+  last_name: string
+  email: string
+  password: string
+  re_password: string
+}) => {
+  /* const {
+    first_name,
+    last_name,
+    email,
+    password,
+    re_password,
+  } = args */
+  let statusCode = 0
+  let networkError = false
+  let data: any = null
+  const uri = `${BASE_URL}/users/`
+  const init = {
+    ...REQUEST_INIT,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify(args),
+  }
+  try {
+    const response = await fetch(uri, init)
+    statusCode = response.status
+    if (!response.ok) {
+      throw new Error(
+        `Network response was not ok with status ${statusCode} - ${response.statusText}`
+      )
+    }
+    const as_json = await response.json()
+    data = as_json
+  } catch (error) {
+    console.error(error)
+    if (!statusCode) {
+      networkError = true
+    }
+  }
+  return {
+    statusCode,
+    networkError,
+    data,
+  }
+}
