@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from "react"
 import { toast } from "react-toastify"
 import { signIn } from "next-auth/react"
-import { jwtCreate } from "@/utils/common/auth"
+import { jwtCreate } from "@/utils/client/auth"
 
 export default function useLogin() {
   const [isLoading, setIsLoading] = useState(false)

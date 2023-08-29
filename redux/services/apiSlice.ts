@@ -4,60 +4,51 @@ import type {
   FetchArgs,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query"
-import { setAuth, logout } from "../features/authSlice"
 import { Mutex } from "async-mutex"
+import { logout } from "@/utils/client/auth"
 
 const mutex = new Mutex()
-const baseQuery = fetchBaseQuery({
+const tailoredFetchBaseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_HOST}/api`,
   /** attach cookies automatically to the requests for handling CORS */
   credentials: "include",
 })
-const baseQueryWithReauth: BaseQueryFn<
+const baseQuery: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   // wait until the mutex is available without locking it
+  const start_at = Date.now()
+  console.log("waiting for mutex to be available")
   await mutex.waitForUnlock()
-  let result = await baseQuery(args, api, extraOptions)
-  if (result.error) {
-    const access_expired =
-      typeof args === "object" &&
-      args.url === "/jwt/verify/" &&
-      result.error.status === 400
-    const refresh_expired = result.error.status === 401
-    if (access_expired || refresh_expired) {
-      // checking whether the mutex is locked
-      if (!mutex.isLocked()) {
-        const release = await mutex.acquire()
-        try {
-          const refreshResult = await baseQuery(
-            {
-              url: "/jwt/refresh/",
-              method: "POST",
-            },
-            api,
-            extraOptions
-          )
-          if (refreshResult.data) {
-            api.dispatch(setAuth())
-            // retry the initial query
-            result = await baseQuery(args, api, extraOptions)
-          } else {
-            api.dispatch(logout())
-          }
-        } catch (e) {
-          console.error(e)
-        } finally {
-          // release must be called once the mutex should be released again.
-          release()
-        }
+  const waited_ms = Date.now() - start_at
+  console.log(`mutex availability check took ${waited_ms}ms`)
+  let result = await tailoredFetchBaseQuery(args, api, extraOptions)
+  if (result.error && result.error.status === 401) {
+    // checking whether the mutex is locked
+    await mutex.waitForUnlock()
+    const release = await mutex.acquire()
+    try {
+      const refreshResult = await tailoredFetchBaseQuery(
+        {
+          url: "/jwt/refresh/",
+          method: "POST",
+        },
+        api,
+        extraOptions
+      )
+      if (refreshResult.data) {
+        // retry the initial query
+        result = await tailoredFetchBaseQuery(args, api, extraOptions)
       } else {
-        // wait until the mutex is available without locking it
-        await mutex.waitForUnlock()
-        result = await baseQuery(args, api, extraOptions)
+        await logout()
       }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      // release must be called once the mutex should be released again.
+      release()
     }
   }
   return result
@@ -65,6 +56,6 @@ const baseQueryWithReauth: BaseQueryFn<
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: baseQueryWithReauth,
+  baseQuery,
   endpoints: (builder) => ({}),
 })

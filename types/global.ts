@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 
 declare global {
   /** Layout */
-  type SearchParams = Record<string, string>
+  type SearchParams = { [key: string]: string | string[] | undefined }
   type WithSearchParams = { searchParams: SearchParams }
 
   /** Utils */
