@@ -1,10 +1,7 @@
-import { Locale } from "@/i18n-config"
+import { WithLocaleParam } from "@/i18n-config"
 import BanalceSynthesis from "@/components/balanceSynthesis"
 
-type PageProps = {
-  params: { lang: Locale }
-  searchParams: SearchParams
-}
+type PageProps = WithLocaleParam & WithSearchParams
 
 export default function Page({ params, searchParams }: PageProps) {
   return (

@@ -15,7 +15,7 @@ export default function Page({ params }: WithLocaleParam) {
         </div>
         <div className="flex flex-1 flex-col"></div>
       </div> */}
-      <WalletCreator currentLocale={params.lang} />
+      <WalletCreator currentLocale={lang} />
     </div>
   )
 }

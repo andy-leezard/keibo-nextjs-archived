@@ -1,14 +1,11 @@
 import { Wallet } from "@/components/wallet"
-import WalletCreator from "@/components/wallet-creator"
 import { WithLocaleParam } from "@/i18n-config"
 
-type WithWalletParam = {
-  params: {
-    id: string
-  }
-}
+type PageProps = WithLocaleParam<{
+  id: string
+}>
 
-export default function Page({ params }: WithLocaleParam & WithWalletParam) {
+export default function Page({ params }: PageProps) {
   const { lang, id } = params
 
   return (

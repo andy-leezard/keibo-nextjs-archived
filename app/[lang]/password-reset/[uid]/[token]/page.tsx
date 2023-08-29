@@ -16,15 +16,12 @@ export async function generateMetadata(
   }
 }
 
-interface Props {
-  params: {
-    lang: Locale
-    uid: string
-    token: string
-  }
-}
-
-export default function Page({ params: { lang, uid, token } }: Props) {
+export default function Page({
+  params: { lang, uid, token },
+}: WithLocaleParam<{
+  uid: string
+  token: string
+}>) {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -44,7 +41,11 @@ export default function Page({ params: { lang, uid, token } }: Props) {
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <PasswordResetConfirmForm currentLocale={lang} uid={uid} token={token} />
+        <PasswordResetConfirmForm
+          currentLocale={lang}
+          uid={uid}
+          token={token}
+        />
       </div>
     </div>
   )

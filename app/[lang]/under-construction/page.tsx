@@ -1,12 +1,9 @@
 "use client"
 
 import { UnderConstruction } from "@/components/placeholders"
-import { Locale } from "@/i18n-config"
+import { WithLocaleParam } from "@/i18n-config"
 
-type PageProps = {
-  params: { lang: Locale }
-  searchParams: SearchParams
-}
+type PageProps = WithLocaleParam & WithSearchParams
 
 export default function Page({ params }: PageProps) {
   const { lang } = params

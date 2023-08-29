@@ -8,9 +8,7 @@ import { signIn } from "next-auth/react"
 import { toast } from "react-toastify"
 import { socialSignin } from "@/utils/client/auth"
 
-type PageProps = WithLocaleParam & {
-  searchParams?: { [key: string]: string | string[] | undefined }
-}
+type PageProps = WithLocaleParam & WithSearchParams
 
 export default function Page({ params, searchParams }: PageProps) {
   const { state, code } = searchParams ?? {}

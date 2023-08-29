@@ -1,14 +1,7 @@
-import { Locale } from "@/i18n-config"
+import { WithLocaleParam } from "@/i18n-config"
 
-type PageProps = {
-  params: { lang: Locale }
-  searchParams: SearchParams
-}
+type PageProps = WithLocaleParam & WithSearchParams
 
 export default function Page({ params, searchParams }: PageProps) {
-  return (
-    <main style={{ display: "flex", flex: 1 }}>
-      Conditions of Use
-    </main>
-  )
+  return <main style={{ display: "flex", flex: 1 }}>Conditions of Use</main>
 }

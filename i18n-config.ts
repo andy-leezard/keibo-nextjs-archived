@@ -5,7 +5,9 @@ export const i18n = {
 
 export type Locale = (typeof i18n)["locales"][number]
 export type WithLocale = { currentLocale: Locale }
-export type WithLocaleParam = { params: { lang: Locale } }
+export type WithLocaleParam<T extends {} = {}> = {
+  params: { lang: Locale } & T
+}
 export type PDictionary = PartiallyRequired<
   Partial<Record<Locale, string>>,
   (typeof i18n)["defaultLocale"]

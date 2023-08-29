@@ -8,9 +8,7 @@ import Link from "next/link"
 import { useLayoutEffect } from "react"
 import { toast } from "react-toastify"
 
-type PageProps = WithLocaleParam & {
-  searchParams?: { [key: string]: string | string[] | undefined }
-}
+type PageProps = WithLocaleParam & WithSearchParams
 
 function Page({ params, searchParams }: PageProps) {
   const { lang } = params

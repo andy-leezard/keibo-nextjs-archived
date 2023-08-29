@@ -1,12 +1,10 @@
 import { RegisterForm } from "@/components/auth-forms"
 import { SocialButtons } from "@/components/common"
-import { Locale, t } from "@/i18n-config"
+import { WithLocaleParam, t } from "@/i18n-config"
 import Link from "next/link"
 import classNames from "classnames"
 
-type PageProps = {
-  params: { lang: Locale }
-}
+type PageProps = WithLocaleParam
 
 function Page({ params }: PageProps) {
   const { lang } = params
@@ -20,7 +18,7 @@ function Page({ params }: PageProps) {
         })}
       </h2>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <RegisterForm />
+        <RegisterForm currentLocale={lang} />
         <p className="mt-10 text-center text-sm text-gray-600 dark:text-gray-300">
           {t(lang, {
             en: "Already have an account?",
