@@ -3,7 +3,7 @@
 import { ColorfulSpinner } from "@/components/ui/loaders"
 import { FcGoogle } from "react-icons/fc"
 import { WithLocaleParam, t } from "@/i18n-config"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { signIn } from "next-auth/react"
 import { toast } from "react-toastify"
 import { socialSignin } from "@/utils/client/auth"
@@ -15,7 +15,6 @@ type PageProps = WithLocaleParam & {
 export default function Page({ params, searchParams }: PageProps) {
   const { state, code } = searchParams ?? {}
   const { lang } = params
-  // const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (
