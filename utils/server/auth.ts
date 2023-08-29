@@ -3,7 +3,9 @@ import "server-only"
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies"
 import { BASE_URL, REQUEST_INIT } from "../constants"
 
-export const validate = async (cookie: ReadonlyRequestCookies) => {
+export const validate = async (
+  cookie: ReadonlyRequestCookies
+): Promise<TGenericFetchResponse<object>> => {
   const access = cookie.get("access")
   const refresh = cookie.get("refresh")
   const sessionid = cookie.get("sessionid")
