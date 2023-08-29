@@ -1,4 +1,5 @@
 import { Unauthorized, UncaughtError } from "@/components/placeholders"
+import { Transactions } from "@/components/transactions"
 import { WithLocaleParam } from "@/i18n-config"
 import { cookies } from "next/headers"
 
@@ -46,6 +47,7 @@ export default async function Page({ params }: PageProps) {
             </h1>
           </div>
           <pre>{JSON.stringify(wallet, null, 4)}</pre>
+          <Transactions wallet_id={wallet_id} />
         </>
       ) : (
         <UncaughtError currentLocale={lang} statusCode={statusCode} />

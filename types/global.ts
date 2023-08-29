@@ -125,6 +125,22 @@ declare global {
     networkError: boolean
     data: T | null
   }
+  type SerializedTransaction = {
+    /** ex: tax, rent fees */
+    category: string
+    /** UID of the recipient Wallet */
+    recipient: string
+    /** UID of the recipient Wallet */
+    sender: string
+    confirmed_by_recipient: boolean
+    confirmed_by_sender: boolean
+    gross_amount: number
+    net_amount: number
+    transaction_fee: number
+    /** unix millis */
+    date: number
+    description: string
+  }
 }
 
 /** export any type to declare this file */
