@@ -5,17 +5,21 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { BsDiscord } from "react-icons/bs"
 
-type UncaughtErrorProps = WithLocale & {}
+type UncaughtErrorProps = WithLocale & {
+  statusCode?: number
+}
 
-const UncaughtError = ({ currentLocale }: UncaughtErrorProps) => {
+const UncaughtError = ({ currentLocale, statusCode }: UncaughtErrorProps) => {
   const router = useRouter()
   return (
     <div className="flex flex-1 flex-col text-center m-auto justify-center">
       <p className="text-base font-semibold text-indigo-600 dark:text-indigo-400">
         {t(currentLocale, {
-          en: `Access denied`,
-          fr: `Accès refusé`,
-          ko: `허가되지 않은 접근입니다.`,
+          en: `Uncaught error ${statusCode ? `(${statusCode})` : ""}`,
+          fr: `Erreur ${statusCode ? `(${statusCode})` : ""}`,
+          ko: `예기치 않은 오류가 발생했습니다. ${
+            statusCode ? `(${statusCode})` : ""
+          }`,
         })}
       </p>
       <Image
@@ -25,20 +29,20 @@ const UncaughtError = ({ currentLocale }: UncaughtErrorProps) => {
         width={200}
         height={200}
       />
-      <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
+      {/* <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
         {t(currentLocale, {
           en: "You don't have permission to view the content of this page.",
           fr: "Vous n'êtes pas autorisé à consulter le contenu de cette page.",
           ko: "해당 내용에 관한 권한이 없습니다.",
         })}
-      </h1>
-      <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-300">
+      </h1> */}
+      {/* <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-300">
         {t(currentLocale, {
           en: "Please double-check the user account you are currently using.",
           fr: "Veuillez vérifier le compte d'utilisateur que vous utilisez actuellement.",
           ko: "현재 사용중인 아이디를 재확인하십시오.",
         })}
-      </p>
+      </p> */}
       <div className="mt-10 flex items-center justify-center gap-x-6">
         <button
           type="button"
@@ -63,10 +67,7 @@ const UncaughtError = ({ currentLocale }: UncaughtErrorProps) => {
             ko: "고객지원",
           })}{" "}
           <span aria-hidden="true">&nbsp;&nbsp;&rarr;&nbsp;&nbsp;</span>
-          <BsDiscord
-            size={30}
-            color={"#5662f6"}
-          />
+          <BsDiscord size={30} color={"#5662f6"} />
         </a>
       </div>
     </div>
