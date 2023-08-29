@@ -1,18 +1,42 @@
 import "server-only"
 
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies"
-import { BASE_URL, REQUEST_INIT } from "../constants"
+import { BASE_URL, REQUEST_INIT, baseFetchQuery } from "../constants"
+
+export const getServerUser = async (
+  /** Stringified Cookie containing `access` and `refresh` */
+  cookie: ReadonlyRequestCookies
+): Promise<TGenericFetchResponse<SerializedUser>> => {
+  const access = cookie.get("access")
+  const refresh = cookie.get("refresh")
+  if (!access || !refresh) {
+    return {
+      statusCode: 401,
+      networkError: false,
+      data: null,
+    }
+  }
+  const uri = `${BASE_URL}/users/me/`
+  const init = {
+    ...REQUEST_INIT,
+    headers: { Cookie: cookie.toString() },
+    method: "GET",
+  }
+  return await baseFetchQuery<SerializedUser>({
+    uri,
+    init,
+  })
+}
 
 export const validate = async (
   cookie: ReadonlyRequestCookies
 ): Promise<TGenericFetchResponse<object>> => {
   const access = cookie.get("access")
   const refresh = cookie.get("refresh")
-  const sessionid = cookie.get("sessionid")
   let statusCode = 0
   let networkError = false
   let data: any = null
-  if (!access || !refresh || !sessionid) {
+  if (!access || !refresh) {
     return {
       statusCode: 401,
       networkError,
