@@ -126,6 +126,7 @@ declare global {
     data: T | null
   }
   type SerializedTransaction = {
+    id: string
     /** ex: tax, rent fees */
     category: string
     /** UID of the recipient Wallet */
