@@ -47,7 +47,7 @@ export default async function Page({ params }: PageProps) {
             </h1>
           </div>
           <pre>{JSON.stringify(wallet, null, 4)}</pre>
-          <Transactions wallet_id={wallet_id} />
+          <Transactions wallet_id={wallet_id} currentLocale={lang} />
         </>
       ) : (
         <UncaughtError currentLocale={lang} statusCode={statusCode} />

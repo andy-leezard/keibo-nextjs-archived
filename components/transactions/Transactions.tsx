@@ -3,12 +3,17 @@
 import { getTransactionsFromWallet } from "@/utils/client/transaction"
 import cn from "classnames"
 import { useLayoutEffect, useState } from "react"
+import Transaction from "./Transaction"
+import { WithLocale } from "@/i18n-config"
+import { TransactionsContext } from "./context"
 
-type TransactionsProps = {
+type TransactionsProps = WithLocale & {
   wallet_id: string
 }
 
-const Transactions = ({ wallet_id }: TransactionsProps) => {
+const base_td_classname = "py-2 px-2 border-b dark:border-b-zinc-700"
+
+const Transactions = ({ currentLocale, wallet_id }: TransactionsProps) => {
   const [transactions, setTransactions] = useState<
     Array<SerializedTransaction>
   >([])
@@ -20,61 +25,54 @@ const Transactions = ({ wallet_id }: TransactionsProps) => {
         setTransactions(dat.data)
       }
     })
-    return () => {}
   }, [wallet_id])
 
   return (
-    <div className="p-8">
-      <h2>Register transactions (new)</h2>
-      <h2>Register transactions (retro)</h2>
-      <div className={cn("")}></div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b">Category</th>
-              <th className="py-2 px-4 border-b">Recipient</th>
-              <th className="py-2 px-4 border-b">Sender</th>
-              <th className="py-2 px-4 border-b">Confirmed By Recipient</th>
-              <th className="py-2 px-4 border-b">Confirmed By Sender</th>
-              <th className="py-2 px-4 border-b">Gross Amount</th>
-              <th className="py-2 px-4 border-b">Net Amount</th>
-              <th className="py-2 px-4 border-b">Transaction Fee</th>
-              <th className="py-2 px-4 border-b">Date</th>
-              <th className="py-2 px-4 border-b">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction, index) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b">{transaction.category}</td>
-                <td className="py-2 px-4 border-b">{transaction.recipient}</td>
-                <td className="py-2 px-4 border-b">{transaction.sender}</td>
-                <td className="py-2 px-4 border-b">
-                  {transaction.confirmed_by_recipient ? "Yes" : "No"}
-                </td>
-                <td className="py-2 px-4 border-b">
-                  {transaction.confirmed_by_sender ? "Yes" : "No"}
-                </td>
-                <td className="py-2 px-4 border-b">
-                  {transaction.gross_amount}
-                </td>
-                <td className="py-2 px-4 border-b">{transaction.net_amount}</td>
-                <td className="py-2 px-4 border-b">
-                  {transaction.transaction_fee}
-                </td>
-                <td className="py-2 px-4 border-b">
-                  {new Date(transaction.date).toLocaleString()}
-                </td>
-                <td className="py-2 px-4 border-b">
-                  {transaction.description}
-                </td>
+    <TransactionsContext.Provider value={{ transactions, setTransactions }}>
+      <div className="p-2">
+        <h2>Register transactions (new)</h2>
+        <h2>Register transactions (retro)</h2>
+        {/* <div className={cn("")}></div> */}
+        <div>
+          <table className="min-w-full bg-slate-100 dark:bg-zinc-800">
+            <thead>
+              <tr>
+                <th className={cn(base_td_classname)}>Date</th>
+                <th className={cn(base_td_classname)}>Category</th>
+                {/* <th className={cn(base_td_classname)}>Gross Amount</th> */}
+                <th className={cn(base_td_classname)}>Net Amount</th>
+                <th className={cn(base_td_classname)}>Transaction Fee</th>
+                {/* <th className={cn(base_td_classname)}>Recipient</th>
+            <th className={cn(base_td_classname)}>Sender</th> */}
+                <th className={cn(base_td_classname)}>Confirmed</th>
+                <th className={cn(base_td_classname)}>Description</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {transactions?.length
+                ? transactions.map((transaction, index) => (
+                    <Transaction
+                      key={index}
+                      tdClassName={base_td_classname}
+                      transaction={transaction}
+                      userWalletID={wallet_id}
+                      currentLocale={currentLocale}
+                    />
+                  ))
+                : Array.from(Array(5).keys()).map((val) => (
+                    <Transaction
+                      key={val}
+                      tdClassName={base_td_classname}
+                      transaction={{}}
+                      userWalletID={wallet_id}
+                      currentLocale={currentLocale}
+                    />
+                  ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </TransactionsContext.Provider>
   )
 }
 

@@ -1,5 +1,5 @@
 import { List } from "@/components/common"
-import { getUser } from "@/utils/common/auth"
+import { getServerUser } from "@/utils/server/auth"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
@@ -8,7 +8,7 @@ export default async function Page() {
     networkError,
     statusCode,
     data: user,
-  } = await getUser(cookies().toString())
+  } = await getServerUser(cookies())
 
   if (!user) {
     redirect("/auth/login")
