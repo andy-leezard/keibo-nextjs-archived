@@ -1,3 +1,4 @@
+import { isNullish } from "@/utils"
 import cn from "classnames"
 import { PropsWithChildren } from "react"
 import { base_td_classname } from "./constants"
@@ -6,17 +7,17 @@ type SkeletonProps = PropsWithChildren & {
   className?: string
 }
 
-const Skeleton = ({ children, className }: SkeletonProps) => {
+const SkeletonTd = ({ children, className }: SkeletonProps) => {
   return (
-    <div
+    <td
       className={cn(
-        ...base_td_classname,
+        ...(isNullish(children) ? base_td_classname : []),
         className
       )}
     >
       {children}
-    </div>
+    </td>
   )
 }
 
-export default Skeleton
+export default SkeletonTd

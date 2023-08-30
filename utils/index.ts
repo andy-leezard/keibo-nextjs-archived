@@ -76,3 +76,6 @@ export function formatDateToLiteral(locale = "en-US", unixTimestamp?: number) {
     return `${month} ${day}, ${year}`
   }
 }
+export const isNullish = (input: any) => {
+  return input === null || input === undefined
+}
