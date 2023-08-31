@@ -17,7 +17,7 @@ export const updateTransaction = async (
     transaction_id: string
   }
 ) => {
-  const { transaction_id, ...payload} = args
+  const { transaction_id, ...payload } = args
   const uri = `${BASE_URL}/transaction/${transaction_id}/`
   const init = {
     ...REQUEST_INIT,
@@ -27,7 +27,11 @@ export const updateTransaction = async (
     method: "PATCH",
     body: JSON.stringify(payload),
   }
-  return await baseFetchQuery<SerializedTransaction>({
+  return await baseFetchQuery<
+    SerializedTransaction & {
+      new_balance: number | null
+    }
+  >({
     uri,
     init,
   })

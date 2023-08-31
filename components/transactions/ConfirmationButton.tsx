@@ -7,8 +7,9 @@ import { BiError, BiTime } from "react-icons/bi"
 import { Tooltip as ReactTooltip } from "react-tooltip"
 import classNames from "classnames"
 import { WithLocale, t } from "@/i18n-config"
-import { useTransactionContext } from "./context"
+import { useTransactionsContext } from "./context"
 import { updateTransaction } from "@/utils/client/transaction"
+import { useWalletContext } from "@/contexts/WalletContext"
 
 type ConfirmationButtonProps = WithLocale & {
   transaction_id?: string
@@ -22,10 +23,11 @@ const ConfirmationButton = ({
   currentLocale,
   confirmed,
 }: ConfirmationButtonProps) => {
+  const { setWallet } = useWalletContext()
   const [isLoading, setIsLoading] = useState(false)
   const [networkError, setNetworkError] = useState(false)
   const [statusCode, setStatusCode] = useState(0)
-  const { transactions, setTransactions } = useTransactionContext()
+  const { transactions, setTransactions } = useTransactionsContext()
   const handleClick = async () => {
     setIsLoading(true)
     const payload: Partial<SerializedTransaction> = {}
@@ -38,7 +40,7 @@ const ConfirmationButton = ({
       const {
         statusCode: code,
         networkError: error,
-        data: new_transaction,
+        data,
       } = await updateTransaction({
         ...payload,
         transaction_id,
@@ -50,8 +52,13 @@ const ConfirmationButton = ({
         }
         throw new Error(`Error with status (${code})`)
       }
-      if (new_transaction) {
+      if (data) {
+        const { new_balance, ...new_transaction } = data
+        console.log(data)
         const idx = transactions.findIndex((tr) => tr.id === transaction_id)
+        if (typeof new_balance === "number") {
+          setWallet((prev) => (prev ? { ...prev, balance: new_balance } : prev))
+        }
         if (idx >= 0) {
           setTransactions((prev) => {
             prev[idx] = new_transaction

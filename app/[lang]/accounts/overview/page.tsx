@@ -1,35 +1,19 @@
 import { WalletList } from "@/components/wallt-list"
 import { WithLocaleParam } from "@/i18n-config"
+import { getWallets } from "@/utils/common/wallet"
 import { cookies } from "next/headers"
 
 export default async function Page({ params }: WithLocaleParam) {
   const { lang } = params
-
-  let statusCode = 0
-  let networkError = false
-  let wallets: Array<SerializedWallet> | null = null
-
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST}/api/get_wallets/4/-2`,
-      {
-        headers: { Cookie: cookies().toString() },
-        credentials: "include",
-        method: "GET",
-      }
-    )
-    statusCode = response.status
-    if (!response.ok) {
-      throw new Error("Network response was not ok")
-    }
-    networkError = false
-    const as_json = await response.json()
-    wallets = as_json
-  } catch (error) {
-    console.error(error)
-    networkError = true
-    wallets = null
-  }
+  const {
+    statusCode,
+    networkError,
+    data: wallets,
+  } = await getWallets({
+    target: 4,
+    range: -2,
+    cookie: cookies(),
+  })
 
   return (
     <div className="flex flex-1 flex-col">

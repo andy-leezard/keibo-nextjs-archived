@@ -15,6 +15,7 @@ const Transaction = ({
   tdClassName,
   transaction,
 }: TransactionProps) => {
+  
   const isSkeleton = !Object.keys(transaction).length || !transaction.id
   const isRecipient = transaction.recipient === userWalletID
   const confirmed =
