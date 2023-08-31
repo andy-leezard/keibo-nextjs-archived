@@ -4,7 +4,6 @@ import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adap
 import { BASE_URL, REQUEST_INIT, baseFetchQuery } from "../constants"
 
 export const getServerUser = async (
-  /** Stringified Cookie containing `access` and `refresh` */
   cookie: ReadonlyRequestCookies
 ): Promise<TGenericFetchResponse<SerializedUser>> => {
   const access = cookie.get("access")
