@@ -1,18 +1,8 @@
-import { BASE_URL, REQUEST_INIT, baseFetchQuery } from "../constants"
+"use client"
 
-export const getTransactionsFromWallet = async (wallet_id: string) => {
-  const uri = `${BASE_URL}/get_transactions/${wallet_id}/`
-  const init = {
-    ...REQUEST_INIT,
-    method: "GET",
-  }
-  return await baseFetchQuery<Array<SerializedTransaction>>({
-    uri,
-    init,
-  })
-}
+import { BASE_URL, REQUEST_INIT, baseFetchQuery } from "../../constants"
 
-export const updateTransaction = async (
+export const updateClientTransaction = async (
   args: Partial<SerializedTransaction> & {
     transaction_id: string
   }

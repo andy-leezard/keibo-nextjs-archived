@@ -13,8 +13,8 @@ import { TbReportMoney } from "react-icons/tb"
 import { PiSlidersHorizontalBold } from "react-icons/pi"
 import { PALETTE } from "@/lib/palette"
 import { useSession } from "next-auth/react"
-import { logout } from "@/utils/client/auth"
 import ProfileWidget from "./ProfileWidget"
+import { logout } from "@/utils-api/client/auth/logout"
 
 type AuthMenuProps = WithLocale & {
   /** sm */

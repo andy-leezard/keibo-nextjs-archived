@@ -1,5 +1,5 @@
 import { WithLocaleParam, t } from "@/i18n-config"
-import { activateAccount } from "@/utils/client/auth"
+import { activateAccount } from "@/utils-api/client/auth/activateAccount"
 import { redirect } from "next/navigation"
 
 type PageProps = WithLocaleParam<{

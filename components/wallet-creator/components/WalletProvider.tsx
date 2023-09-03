@@ -8,38 +8,54 @@ import { FaPlus } from "react-icons/fa"
 import { WalletCreationContext } from "../context"
 import RowIcon from "../widgets/RowIcon"
 import { FilteredList, IconRenderer } from "../widgets"
-import { AwaitedData, fetchNewData } from "../utils"
+import { AwaitedArrayData, fetchEdgeDataAsArray } from "../utils"
 import { ButtonForward } from "@/components/ui/button"
+import { assetCategoryIconMap } from "@/constants/client/icons"
 
 type WalletProviderProps = WithLocale & {}
 
-const placeholders: Record<WalletConstructor["category"], PDictionary> = {
-  cash: {
-    en: "JPMorgan Chase, Paypal, Coinbase, etc...",
-    fr: "BNP Paribas, Paypal, etc...",
-    ko: "국민은행, 카카오뱅크 등",
-  },
-  crypto: {
-    en: "Coinbase, Binance US, Ledger, etc...",
-    fr: "Binance, Ledger, Coinbase, etc...",
-    ko: "업비트, 레저, 바이낸스 등",
-  },
-  equity: {
-    en: "Robinhood, Fidelity, etc...",
-    fr: "Boursorama, Etoro, etc...",
-    ko: "삼성증권, 미래에셋증권, 키움증권 등",
-  },
-  fund: {
-    en: "Vanguard, Fidelity, etc...",
-    fr: "Boursorama, Linxea, etc...",
-    ko: "삼성증권, 하나은행, KB증권 등",
-  },
-  other: {
-    en: "Commodities, Derivatives, etc...",
-    fr: "Matières premières, produits dérivés, etc...",
-    ko: "원자재, 파생상품, 옵션 등",
-  },
-}
+const placeholders: Readonly<Map<AssetCategory, PDictionary>> = new Map([
+  [
+    "cash",
+    {
+      en: "JPMorgan Chase, Paypal, Coinbase, etc...",
+      fr: "BNP Paribas, Paypal, etc...",
+      ko: "국민은행, 카카오뱅크 등",
+    },
+  ],
+  [
+    "crypto",
+    {
+      en: "Coinbase, Binance US, Ledger, etc...",
+      fr: "Binance, Ledger, Coinbase, etc...",
+      ko: "업비트, 레저, 바이낸스 등",
+    },
+  ],
+  [
+    "equity",
+    {
+      en: "Robinhood, Fidelity, etc...",
+      fr: "Boursorama, Etoro, etc...",
+      ko: "삼성증권, 미래에셋증권, 키움증권 등",
+    },
+  ],
+  [
+    "fund",
+    {
+      en: "Vanguard, Fidelity, etc...",
+      fr: "Boursorama, Linxea, etc...",
+      ko: "삼성증권, 하나은행, KB증권 등",
+    },
+  ],
+  [
+    "other",
+    {
+      en: "Commodities, Derivatives, etc...",
+      fr: "Matières premières, produits dérivés, etc...",
+      ko: "원자재, 파생상품, 옵션 등",
+    },
+  ],
+])
 
 const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
   const { state, dispatch } = useContext(WalletCreationContext)
@@ -48,7 +64,7 @@ const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
   const [keyword, setKeyword] = useState("")
   const [currentPage, setCurrentPage] = useState(0)
   const [displayData, setDisplayData] = useState<
-    AwaitedData<Array<TWalletProvider>>
+    AwaitedArrayData<TWalletProvider>
   >({
     metadata: {
       page_ended: false,
@@ -61,12 +77,10 @@ const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
     let mounted = true
     const fetchData = async () => {
       if (!category?.value) return
-      const [res, _error] = await fetchNewData<Array<TWalletProvider>>(
-        `http://localhost:${
-          process.env.PORT ?? 3000
-        }/api/wallet-providers?category=${
+      const [res, _error] = await fetchEdgeDataAsArray<TWalletProvider>(
+        `${process.env.NEXTAUTH_URL}/api/wallet-providers?category=${
           category.value
-        }&size=5&page=${currentPage}&keyword=${keyword}`
+        }&size=5&page=${currentPage}${keyword ? `&keyword=${keyword}` : ""}`
       )
       if (res && mounted) {
         if (currentPage > maxKnownPage.current && res.data.length) {
@@ -88,7 +102,11 @@ const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
         {category ? (
           <RowIcon
             currentLocale={currentLocale}
-            image={category.image}
+            image={
+              assetCategoryIconMap.has(category.value)
+                ? assetCategoryIconMap.get(category.value)!()
+                : null
+            }
             displayName={category.display_name}
           />
         ) : (
@@ -111,7 +129,11 @@ const WalletProvider = ({ currentLocale }: WalletProviderProps) => {
       <div className="flex flex-col p-2 rounded-lg bg-slate-50 dark:bg-slate-800">
         <FilteredList<TWalletProvider>
           currentLocale={currentLocale}
-          placeholders={category ? placeholders[category.value] : undefined}
+          placeholders={
+            category && placeholders.has(category.value)
+              ? placeholders.get(category.value)
+              : undefined
+          }
           label={{
             en: "Name of the financial institution",
             fr: "Nom de l'institution financière",

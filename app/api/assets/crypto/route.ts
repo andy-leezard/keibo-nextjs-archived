@@ -1,4 +1,4 @@
-import { toPositiveInt } from "@/utils/server"
+import { toPositiveInt } from "@/utils"
 import data from "./list.json"
 
 export const runtime = "edge"

@@ -6,7 +6,7 @@ import { VscGithub } from "react-icons/vsc"
 import { useEffect } from "react"
 import { signIn } from "next-auth/react"
 import { toast } from "react-toastify"
-import { socialSignin } from "@/utils/client/auth"
+import { socialSignin } from "@/utils-api/client/auth/socialSignIn"
 
 type PageProps = WithLocaleParam & WithSearchParams
 

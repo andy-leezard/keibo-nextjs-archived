@@ -1,6 +1,6 @@
 import { WalletList } from "@/components/wallt-list"
 import { WithLocaleParam } from "@/i18n-config"
-import { getWallets } from "@/utils/common/wallet"
+import { getServerWallets } from "@/utils-api/server/wallet/getServerWallets"
 import { cookies } from "next/headers"
 
 export default async function Page({ params }: WithLocaleParam) {
@@ -9,7 +9,7 @@ export default async function Page({ params }: WithLocaleParam) {
     statusCode,
     networkError,
     data: wallets,
-  } = await getWallets({
+  } = await getServerWallets({
     target: 4,
     range: -2,
     cookie: cookies(),
@@ -27,11 +27,11 @@ export default async function Page({ params }: WithLocaleParam) {
             {wallets
               ? wallets
                   .reduce(
-                    (accumulator, w) => accumulator + Number(w.balance),
+                    (accumulator, w) => accumulator + Number(w.val_usd),
                     0
                   )
                   .toFixed(2)
-              : "0"}
+              : "0"}$
           </h2>
         </div>
         <div className="flex flex-1 flex-col"></div>

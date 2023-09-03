@@ -1,6 +1,6 @@
 "use client"
 
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
+import { FaXmark, FaBars } from "react-icons/fa6"
 import { WithLocale, t } from "@/i18n-config"
 import { Dispatch, SetStateAction } from "react"
 
@@ -23,9 +23,9 @@ const BurgerButton = ({ currentLocale, open, setOpen }: BurgerButtonProps) => {
         })}
       </span>
       {open ? (
-        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+        <FaXmark className="block h-6 w-6" aria-hidden="true" />
       ) : (
-        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+        <FaBars className="block h-6 w-6" aria-hidden="true" />
       )}
     </button>
   )

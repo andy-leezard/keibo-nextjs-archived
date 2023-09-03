@@ -1,6 +1,6 @@
 "use client"
 
-import { getTransactionsFromWallet } from "@/utils/client/transaction"
+import { getClientTransactions } from "@/utils-api/client/transaction/getClientTransactions"
 import {
   Dispatch,
   PropsWithChildren,
@@ -31,19 +31,23 @@ export const TransactionsProvider = ({
   const [transactions, setTransactions] = useState<
     Array<SerializedTransaction>
   >([])
+  const [loaded, setLoaded] = useState(false)
 
   useLayoutEffect(() => {
-    getTransactionsFromWallet(wallet_id).then((dat) => {
-      console.log(dat)
-      if (dat.data) {
-        setTransactions(dat.data)
-      }
-    })
+    getClientTransactions(wallet_id)
+      .then((dat) => {
+        console.log(dat)
+        if (dat.data) {
+          setTransactions(dat.data)
+        }
+      })
+      .finally(() => setLoaded(true))
   }, [wallet_id])
 
   return (
     <TransactionsContext.Provider value={{ transactions, setTransactions }}>
       {children}
+      {loaded && !transactions.length ? <span className="p-4 text-center" >No result</span> : <></>}
     </TransactionsContext.Provider>
   )
 }

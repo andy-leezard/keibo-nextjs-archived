@@ -1,6 +1,6 @@
 import type { TWalletProvider } from "@/components/wallet-creator/type"
 
-const data:Array<TWalletProvider> = [
+const data: Array<TWalletProvider> = [
   {
     value: "bank_of_america",
     image: "/icons/bank_of_america.svg",
@@ -15,21 +15,19 @@ const data:Array<TWalletProvider> = [
   },
   {
     value: "bnp_paribas",
-    image: "/icons/bnp.svg",
+    image: "/icons/bnp_paribas.svg",
     supported_categories: ["cash", "equity", "fund"],
     display_name: { en: "BNP Paribas" },
   },
   {
     value: "boursorama",
-    image:
-      "https://groupe.boursorama.fr/theme_front/theme_front_1/image/bandeau/logo-forme.svg",
+    image: "/icons/boursorama.svg",
     supported_categories: ["cash", "equity", "fund"],
     display_name: { en: "Boursorama" },
   },
   {
     value: "citibank",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Citi.svg/300px-Citi.svg.png?20210120214333",
+    image: "/icons/citibank.png",
     supported_categories: ["cash", "equity", "fund"],
     display_name: { en: "Citibank", ko: "씨티은행" },
   },
@@ -53,15 +51,13 @@ const data:Array<TWalletProvider> = [
   },
   {
     value: "kakao_bank",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/5/52/Kakao_Bank_of_Korea_Logo.jpg?20200417085722",
+    image: "/icons/kakao_bank.jpg",
     supported_categories: ["cash"],
     display_name: { en: "Kakao Bank", ko: "카카오뱅크" },
   },
   {
     value: "orange_bank",
-    image:
-      "https://upload.wikimedia.org/wikipedia/fr/thumb/0/09/Orange_Bank_2017.png/600px-Orange_Bank_2017.png?20171101143914",
+    image: "/icons/orange_bank.png",
     supported_categories: ["cash"],
     display_name: { en: "Orange Bank" },
   },
@@ -73,7 +69,7 @@ const data:Array<TWalletProvider> = [
   },
   {
     value: "shinhan_bank",
-    image: "https://s3-symbol-logo.tradingview.com/shinhan-financial--big.svg",
+    image: "/icons/shinhan_bank.svg",
     supported_categories: ["cash"],
     display_name: { en: "Shinhan Bank", ko: "신한은행" },
   },
@@ -85,8 +81,7 @@ const data:Array<TWalletProvider> = [
   },
   {
     value: "wells_fargo",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Wells_Fargo_Bank.svg/302px-Wells_Fargo_Bank.svg.png?20200414151837",
+    image: "/icons/wells_fargo.png",
     supported_categories: ["cash", "equity", "fund"],
     display_name: { en: "Wells Fargo", ko: "웰스 파고" },
   },

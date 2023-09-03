@@ -1,7 +1,7 @@
 import { WithLocaleParam } from "@/i18n-config"
 import BanalceSynthesis from "@/components/balanceSynthesis"
 import { cookies } from "next/headers"
-import { getServerUser } from "@/utils/server/auth"
+import { getServerUser } from "@/utils-api/server/auth/getServerUser"
 
 type PageProps = WithLocaleParam & WithSearchParams
 

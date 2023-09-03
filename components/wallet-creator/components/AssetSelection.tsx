@@ -6,19 +6,19 @@ import { WalletCreationContext } from "../context"
 import { FaPlus } from "react-icons/fa"
 import RowIcon from "../widgets/RowIcon"
 import { BsBank } from "react-icons/bs"
-import { MdCurrencyFranc, MdOutlineAccountBalanceWallet } from "react-icons/md"
+import {  MdOutlineAccountBalanceWallet } from "react-icons/md"
 import { TAsset } from "../type"
-import { IoLogoEuro, IoLogoUsd, IoLogoYen } from "react-icons/io"
 import { FilteredList, IconRenderer } from "../widgets"
-import { BiPound, BiRuble, BiWon } from "react-icons/bi"
-import { TbCoinRupee } from "react-icons/tb"
-import { AwaitedData, fetchNewData } from "../utils"
+import { AwaitedArrayData, fetchEdgeDataAsArray } from "../utils"
 import { ButtonForward } from "@/components/ui/button"
-import { IconBaseProps } from "react-icons"
+import {
+  fiatIconMap,
+  assetCategoryIconMap,
+} from "@/constants/client/icons"
 
 type AssetSelectionProps = WithLocale & {}
 
-const placeholders: Record<WalletConstructor["category"], PDictionary> = {
+const placeholders: Record<AssetCategory, PDictionary> = {
   cash: {
     en: "USD, EUR, JPY, KRW, etc...",
     fr: "USD, EUR, JPY, KRW, etc...",
@@ -46,26 +46,13 @@ const placeholders: Record<WalletConstructor["category"], PDictionary> = {
   },
 }
 
-const iconMap: Map<string, (props: IconBaseProps) => JSX.Element> = new Map([
-  ["usd", (props) => <IoLogoUsd {...props} />],
-  ["eur", (props) => <IoLogoEuro {...props} />],
-  ["chf", (props) => <MdCurrencyFranc {...props} />],
-  ["gbp", (props) => <BiPound {...props} />],
-  ["jpy", (props) => <IoLogoYen {...props} />],
-  ["rub", (props) => <BiRuble {...props} />],
-  ["krw", (props) => <BiWon {...props} />],
-  ["cny", (props) => <IoLogoYen {...props} />],
-  ["cad", (props) => <IoLogoUsd {...props} />],
-  ["inr", (props) => <TbCoinRupee {...props} />],
-])
-
 const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
   const { state, dispatch } = useContext(WalletCreationContext)
   const { category, provider } = state
   const [current, setCurrent] = useState<TAsset | null>(null)
   const [keyword, setKeyword] = useState("")
   const [currentPage, setCurrentPage] = useState(0)
-  const [displayData, setDisplayData] = useState<AwaitedData<Array<TAsset>>>({
+  const [displayData, setDisplayData] = useState<AwaitedArrayData<TAsset>>({
     metadata: {
       page_ended: false,
     },
@@ -81,10 +68,8 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
         (category.value !== "crypto" && category.value !== "cash")
       )
         return
-      const [res, _error] = await fetchNewData<Array<TAsset>>(
-        `http://localhost:${process.env.PORT ?? 3000}/api/assets/${
-          category.value
-        }?size=5&page=${currentPage}&keyword=${keyword}`
+      const [res, _error] = await fetchEdgeDataAsArray<TAsset>(
+        `${process.env.NEXTAUTH_URL}/api/assets/${category.value}?size=5&page=${currentPage}&keyword=${keyword}`
       )
       if (res && mounted) {
         console.log(`Page ended ${res.metadata.page_ended}`)
@@ -107,7 +92,11 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
         {category ? (
           <RowIcon
             currentLocale={currentLocale}
-            image={category.image}
+            image={
+              assetCategoryIconMap.has(category.value)
+                ? assetCategoryIconMap.get(category.value)!()
+                : null
+            }
             displayName={category.display_name}
             size={"regular_size"}
           />
@@ -134,9 +123,10 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
             <RowIcon
               currentLocale={currentLocale}
               image={
-                iconMap.has(current.symbol)
-                  ? iconMap.get(current.symbol)!({ size: 24 })
-                  : undefined
+                current.image ??
+                (fiatIconMap.has(current.symbol)
+                  ? fiatIconMap.get(current.symbol)!({ size: 24 })
+                  : undefined)
               }
               displayName={current.display_name}
               fallbackIcon={<MdOutlineAccountBalanceWallet size={48} />}
@@ -175,9 +165,10 @@ const AssetSelection = ({ currentLocale }: AssetSelectionProps) => {
             <>
               <IconRenderer
                 image={
-                  iconMap.has(symbol)
-                    ? iconMap.get(symbol)!({ size: 24 })
-                    : undefined
+                  image ??
+                  (fiatIconMap.has(symbol)
+                    ? fiatIconMap.get(symbol)!({ size: 24 })
+                    : undefined)
                 }
               />
               <span>{symbol.toUpperCase()}</span>

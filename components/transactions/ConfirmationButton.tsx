@@ -8,7 +8,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip"
 import classNames from "classnames"
 import { WithLocale, t } from "@/i18n-config"
 import { useTransactionsContext } from "./context"
-import { updateTransaction } from "@/utils/client/transaction"
+import { updateClientTransaction } from "@/utils-api/client/transaction/updateClientTransaction"
 import { useWalletContext } from "@/contexts/WalletContext"
 
 type ConfirmationButtonProps = WithLocale & {
@@ -41,7 +41,7 @@ const ConfirmationButton = ({
         statusCode: code,
         networkError: error,
         data,
-      } = await updateTransaction({
+      } = await updateClientTransaction({
         ...payload,
         transaction_id,
       })

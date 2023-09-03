@@ -1,7 +1,9 @@
+"use client"
+
 import { useState, ChangeEvent, FormEvent } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
-import { registerUser } from "@/utils/client/auth"
+import { registerUser } from "@/utils-api/client/auth/registerUser"
 
 export default function useRegister() {
   const router = useRouter()

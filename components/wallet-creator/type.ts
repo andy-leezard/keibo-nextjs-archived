@@ -1,9 +1,7 @@
 import { PDictionary } from "@/i18n-config"
-import { ReactNode } from "react"
 
 export type TWalletCategory = {
-  value: WalletConstructor["category"]
-  image?: ReactNode
+  value: AssetCategory
   display_name: PDictionary
   description?: PDictionary
 }
@@ -16,7 +14,7 @@ export type FilterableItem = {
 }
 
 export interface TWalletProvider extends FilterableItem {
-  supported_categories: Array<Exclude<WalletConstructor["category"], "other">>
+  supported_categories: Array<Exclude<AssetCategory, "other">>
 }
 
 export type TAsset = FilterableItem & {

@@ -11,6 +11,9 @@ import { NumberField, TextField } from "@/components/ui"
 import { ButtonForward } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { ColorfulSpinner } from "@/components/ui/loaders"
+import {
+  assetCategoryIconMap,
+} from "@/constants/client/icons"
 
 type MetadataCreatorProps = WithLocale & {}
 
@@ -43,18 +46,18 @@ const MetadataCreator = ({ currentLocale }: MetadataCreatorProps) => {
     )
       return
     let created_wallet_id = ""
+    console.log(`create balance ${asset.quantity} (${typeof asset.quantity})`)
+    console.log(`create balance ${asset.quantity} (${typeof asset.quantity})`)
+    console.log(`create balance ${asset.quantity} (${typeof asset.quantity})`)
     try {
       const uri = `${process.env.NEXT_PUBLIC_HOST}/api/wallet/`
       const body: Partial<SerializedWallet> = {
         provider: provider.value,
         category: category.value,
-        asset_id: asset.value,
+        asset: asset.value,
         balance: asset.quantity,
         name: displayNameInputRef.current?.value,
         is_public: false,
-      }
-      if (provider.image) {
-        body.icon = provider.image
       }
       setProcessing(true)
       const response = await fetch(uri, {
@@ -75,13 +78,12 @@ const MetadataCreator = ({ currentLocale }: MetadataCreatorProps) => {
       if (as_json.id) {
         created_wallet_id = as_json.id
       }
-    } catch (error) {
-      console.error(error)
-    } finally {
       /* setProcessing(false) */
       if (created_wallet_id) {
         router.replace(`/accounts/wallets/${created_wallet_id}`)
       }
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -91,7 +93,11 @@ const MetadataCreator = ({ currentLocale }: MetadataCreatorProps) => {
         {category ? (
           <RowIcon
             currentLocale={currentLocale}
-            image={category.image}
+            image={
+              assetCategoryIconMap.has(category.value)
+                ? assetCategoryIconMap.get(category.value)!()
+                : null
+            }
             displayName={category.display_name}
             size={"regular_size"}
           />

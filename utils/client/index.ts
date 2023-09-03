@@ -1,10 +1,5 @@
 "use client"
 
-import continueWithSocialAuth, {
-  continueWithGoogle,
-  continueWithGithub,
-} from "./continue-with-social-auth"
-
 const RN_LOG_LEVEL = {
   debug: 0,
   warn: 1,
@@ -63,5 +58,3 @@ export const shuffleArray = (unshuffled: any) => {
 export const indexIsValidForArray = (arr: Array<any>, index: number) => {
   return arr.length && index >= 0 && arr.length > index
 }
-
-export { continueWithSocialAuth, continueWithGoogle, continueWithGithub }

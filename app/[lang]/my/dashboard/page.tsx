@@ -1,5 +1,5 @@
 import { List } from "@/components/common"
-import { getServerUser } from "@/utils/server/auth"
+import { getServerUser } from "@/utils-api/server/auth/getServerUser"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 

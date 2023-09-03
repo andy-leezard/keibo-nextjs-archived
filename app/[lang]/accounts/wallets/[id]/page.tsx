@@ -3,7 +3,7 @@ import { Transactions } from "@/components/transactions"
 import WalletInfo from "@/components/wallet/WalletInfo"
 import { WalletProvider } from "@/contexts/WalletContext"
 import { WithLocaleParam } from "@/i18n-config"
-import { getWallet } from "@/utils/common/wallet"
+import { getServerWallet } from "@/utils-api/server/wallet/getServerWallet"
 import { cookies } from "next/headers"
 
 type PageProps = WithLocaleParam<{
@@ -16,7 +16,7 @@ export default async function Page({ params }: PageProps) {
     statusCode,
     networkError,
     data: wallet,
-  } = await getWallet({
+  } = await getServerWallet({
     wallet_id,
     cookie: cookies(),
   })
@@ -27,12 +27,12 @@ export default async function Page({ params }: PageProps) {
       networkError={networkError}
       initial_wallet={wallet}
     >
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col p-4">
         {statusCode === 401 || statusCode === 403 ? (
           <Unauthorized currentLocale={lang} statusCode={statusCode} />
         ) : wallet ? (
           <>
-            <WalletInfo />
+            <WalletInfo currentLocale={lang} />
             <Transactions wallet_id={wallet_id} currentLocale={lang} />
           </>
         ) : (

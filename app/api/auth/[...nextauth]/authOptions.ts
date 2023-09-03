@@ -1,4 +1,3 @@
-import { getUser } from "@/utils/common/auth"
 import type { DefaultUser, NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
@@ -29,17 +28,30 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         if (!credentials?.access || !credentials?.refresh) return null
-        const user = await getUser(
-          `access=${credentials.access}; refresh=${credentials.refresh}`
-        )
-        if (user.data) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user.data as DefaultUser & SerializedUser
+        let statusCode = 0
+        let data = null
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users/me/`, {
+            credentials: "include",
+            headers: {Cookie: `access=${credentials.access}; refresh=${credentials.refresh}`},
+            method: "GET",
+            mode: "cors",
+          })
+          statusCode = response.status
+          if (!response.ok) {
+            throw new Error(
+              `Network response was not ok with status ${statusCode} - ${response.statusText}`
+            )
+          }
+          const as_json = await response.json()
+          data = as_json
+        } catch (error) {
+          console.error(error)
+        }
+        if (data) {
+          return data as DefaultUser & SerializedUser
         } else {
-          // If you return null then an error will be displayed advising the user to check their details.
           return null
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
     }),
@@ -47,8 +59,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt(args) {
       const { user, token, account } = args
-      console.log("JWT JWT JWT")
-      console.log(args)
+      /* console.log("JWT JWT JWT")
+      console.log(args) */
       if (user) {
         // Note that this if condition is needed
         token.user = { ...user }
@@ -57,8 +69,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session(args) {
       const { session, token, user } = args
-      console.log("session session session")
-      console.log(args)
+      /* console.log("session session session")
+      console.log(args) */
       if (token?.user) {
         // Note that this if condition is needed
         session.user = token.user

@@ -8,18 +8,15 @@ import { indexIsValidForArray } from "@/utils/client"
 import styles from "./Category.module.css"
 import { WalletCreationContext } from "../context"
 import { TWalletCategory } from "../type"
-import { BsBank2, BsCashStack, BsPiggyBankFill } from "react-icons/bs"
-import { AiOutlineStock } from "react-icons/ai"
-import { FaBitcoin } from "react-icons/fa"
 import { ButtonForward } from "@/components/ui/button"
 import cn from "classnames"
+import { assetCategoryIconMap } from "@/constants/client/icons"
 
 type CategoryProps = WithLocale & {}
 
 const wallet_categories: Array<TWalletCategory> = [
   {
     value: "cash",
-    image: <BsCashStack />,
     display_name: {
       en: "Fiat currency",
       fr: "Monnaie",
@@ -33,7 +30,6 @@ const wallet_categories: Array<TWalletCategory> = [
   },
   {
     value: "equity",
-    image: <AiOutlineStock />,
     display_name: {
       en: "Equity",
       fr: "Action",
@@ -47,7 +43,6 @@ const wallet_categories: Array<TWalletCategory> = [
   },
   {
     value: "crypto",
-    image: <FaBitcoin />,
     display_name: {
       en: "Cryptocurreny",
       fr: "Cryptomonnaie",
@@ -61,7 +56,6 @@ const wallet_categories: Array<TWalletCategory> = [
   },
   {
     value: "fund",
-    image: <BsBank2 />,
     display_name: {
       en: "Funds",
       fr: "Fonds",
@@ -75,7 +69,6 @@ const wallet_categories: Array<TWalletCategory> = [
   },
   {
     value: "other",
-    image: <BsPiggyBankFill />,
     display_name: {
       en: "Other",
       fr: "Autre",
@@ -103,7 +96,11 @@ const Category = ({ currentLocale }: CategoryProps) => {
               focused={selected}
               onClick={() => setCurrentIndex(i)}
             >
-              {cat.image ?? <></>}
+              {assetCategoryIconMap.has(cat.value) ? (
+                assetCategoryIconMap.get(cat.value)!()
+              ) : (
+                <></>
+              )}
               <Label>{t(currentLocale, cat.display_name)}</Label>
               {cat.description ? (
                 <Description>{t(currentLocale, cat.description)}</Description>

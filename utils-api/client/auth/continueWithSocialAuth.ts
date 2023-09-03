@@ -33,8 +33,3 @@ export default async function continueWithSocialAuth(
     toast.error("Something went wrong")
   }
 }
-export const continueWithGoogle = () =>
-  continueWithSocialAuth("google-oauth2", "google")
-
-export const continueWithGithub = () =>
-  continueWithSocialAuth("github", "github")

@@ -79,3 +79,9 @@ export function formatDateToLiteral(locale = "en-US", unixTimestamp?: number) {
 export const isNullish = (input: any) => {
   return input === null || input === undefined
 }
+export function toPositiveInt<T>(str: string | null, fallbackValue: T) {
+  if (str === null) return fallbackValue
+  const num = parseInt(str, 10)
+  if (isNaN(num)) return fallbackValue
+  return num
+}

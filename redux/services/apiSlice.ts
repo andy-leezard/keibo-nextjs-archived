@@ -5,7 +5,7 @@ import type {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query"
 import { Mutex } from "async-mutex"
-import { logout } from "@/utils/client/auth"
+import { logout } from "@/utils-api/client/auth/logout"
 
 const mutex = new Mutex()
 const tailoredFetchBaseQuery = fetchBaseQuery({

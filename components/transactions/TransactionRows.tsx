@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Transaction from "./Transaction"
 import { base_td_classname } from "./constants"
 import { WithLocale } from "@/i18n-config"
@@ -15,19 +15,27 @@ const TransactionRows = ({
   wallet_id,
 }: TransactionRowsProps) => {
   const { transactions } = useTransactionsContext()
+  const [loaded, setLoaded] = useState(false)
+  useEffect(() => {
+    if (!loaded) {
+      setLoaded(true)
+    }
+  }, [transactions, loaded])
   return (
     <tbody>
-      {transactions?.length
-        ? transactions.map((transaction, index) => (
-            <Transaction
-              key={index}
-              tdClassName={base_td_classname}
-              transaction={transaction}
-              userWalletID={wallet_id}
-              currentLocale={currentLocale}
-            />
-          ))
-        : Array.from(Array(5).keys()).map((val) => (
+      {transactions?.length ? (
+        transactions.map((transaction, index) => (
+          <Transaction
+            key={index}
+            tdClassName={base_td_classname}
+            transaction={transaction}
+            userWalletID={wallet_id}
+            currentLocale={currentLocale}
+          />
+        ))
+      ) : (
+        <>
+          {Array.from(Array(loaded ? 0 : 5).keys()).map((val) => (
             <Transaction
               key={val}
               tdClassName={base_td_classname}
@@ -36,6 +44,8 @@ const TransactionRows = ({
               currentLocale={currentLocale}
             />
           ))}
+        </>
+      )}
     </tbody>
   )
 }

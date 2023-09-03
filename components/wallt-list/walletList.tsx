@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { ColorfulSpinner } from "../ui/loaders"
 import { Unauthorized, UncaughtError } from "../placeholders"
 import { WithLocale } from "@/i18n-config"
 import Image from "next/image"
 import classNames from "classnames"
 import Link from "next/link"
+import { providerIconMap } from "@/constants/wallet-providers"
 
 type WalletListProps = WithLocale & {
   statusCode: number
@@ -45,9 +45,9 @@ export default function WalletList({
                   "hover:bg-zinc-300 dark:hover:bg-zinc-600"
                 )}
               >
-                {w.icon ? (
+                {providerIconMap.has(w.provider) ? (
                   <Image
-                    src={w.icon}
+                    src={providerIconMap.get(w.provider)!}
                     alt={w.name}
                     width={32}
                     height={32}

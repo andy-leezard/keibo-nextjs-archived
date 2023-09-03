@@ -1,7 +1,9 @@
+"use client"
+
 import { useState, ChangeEvent, FormEvent } from "react"
 import { toast } from "react-toastify"
 import { signIn } from "next-auth/react"
-import { jwtCreate } from "@/utils/client/auth"
+import { jwtCreate } from "@/utils-api/client/auth/jwtCreate"
 
 export default function useLogin() {
   const [isLoading, setIsLoading] = useState(false)

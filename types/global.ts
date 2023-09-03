@@ -56,6 +56,7 @@ declare global {
     wallets?: string[]
   }
 
+  type AssetCategory = "cash" | "equity" | "crypto" | "fund" | "other"
   /** Core */
   type FiatCurrency =
     | "usd"
@@ -74,7 +75,7 @@ declare global {
      * Define the asset (which currency? which cryptocurrency?)
      * @example usd, eur, krw, jpy, bitcoin, ethereum...
      */
-    asset_id: string
+    asset: string
     /**
      * Define the platform (which bank? which crypto/stock platform?) and the name.
      * @example bnp-paribas | binance | coinbase | ledger-wallet | undetermined
@@ -82,11 +83,13 @@ declare global {
     provider: string
 
     name: string
-    category: "cash" | "equity" | "crypto" | "fund" | "other"
     /** holding quantity */
     balance: number
   }
-  type SerializedWallet = WalletBase & {
+  type WalletConstructor = WalletBase & {
+    category: AssetCategory
+  }
+  type SerializedWallet = WalletConstructor & {
     id: number
     is_public: boolean
 
@@ -101,24 +104,8 @@ declare global {
      * 4: owner
      */
     role: number
-    /** Django Decimal field is string when fetched. */
-    balance: string | number
 
-    icon?: string
-  }
-  type WalletConstructor = WalletBase & {
-    cash_input: Array<{
-      currency: FiatCurrency
-      input: number
-    }>
-    /**
-     * people who have access to the wallet
-     * @example { [user_uid:string]: 'admin' }
-     */
-    participants: Array<{
-      email: string
-      role: "viewer" | "editor" | "admin"
-    }>
+    val_usd?: number
   }
   type TGenericFetchResponse<T> = {
     statusCode: number

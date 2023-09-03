@@ -1,5 +1,5 @@
 import { PasswordResetConfirmForm } from "@/components/auth-forms"
-import { Locale, WithLocaleParam, t } from "@/i18n-config"
+import { WithLocaleParam, t } from "@/i18n-config"
 import { getDictionary } from "@/utils/server/get-dictionary"
 import type { Metadata, ResolvingMetadata } from "next"
 import Image from "next/image"
