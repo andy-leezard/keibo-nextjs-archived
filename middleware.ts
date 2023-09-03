@@ -25,7 +25,7 @@ export default withAuth(
     const pathnameIsMissingLocale = i18n.locales.every(
       (locale) =>
         !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-    )
+    )/*  && !pathname.includes("api") */
 
     // Redirect if there is no locale
     if (pathnameIsMissingLocale) {
@@ -76,7 +76,7 @@ function getLocale(request: NextRequest): string | undefined {
   return matchLocale(languages, locales, i18n.defaultLocale)
 }
 
-/* export const config = {
+export const config = {
   // Matcher ignoring `/_next/` and `/api/`
-  matcher: ["/my", "/accounts"],
-} */
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+}
