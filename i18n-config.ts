@@ -14,7 +14,8 @@ export type PDictionary = PartiallyRequired<
 >
 
 /** Takes a dictionary and conditionally return the corresponding output */
-export const t = (locale: Locale, dictionary: PDictionary | string): string => {
+export const t = (locale: Locale, dictionary: PDictionary | string | undefined): string => {
+  if (!dictionary) return ""
   if (typeof dictionary === "string") return dictionary
   if (Object.prototype.hasOwnProperty.call(dictionary, locale)) {
     return dictionary[locale] as string
