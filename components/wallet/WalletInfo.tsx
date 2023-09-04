@@ -7,7 +7,7 @@ import Image from "next/image"
 import { fiatIconMap, assetCategoryIconMap } from "@/constants/client/icons"
 import { providerIconMap } from "@/constants/wallet-providers"
 import { isNullish } from "@/utils"
-import { assetMetaMap } from "@/constants/assets"
+import { assetIconMap, assetMetaMap } from "@/constants/assets"
 
 type WalletInfoProps = WithLocale & {}
 
@@ -62,11 +62,11 @@ const WalletInfo = ({ currentLocale }: WalletInfoProps) => {
           ) : (
             <></>
           )}
-          {wallet?.asset_icon ? (
+          {wallet?.asset && assetIconMap.has(wallet.asset) ? (
             <Image
               width={50}
               height={50}
-              src={wallet.asset_icon}
+              src={assetIconMap.get(wallet.asset)!}
               alt={t(currentLocale, wallet.provider)}
               style={{ borderRadius: "1rem" }}
             />
@@ -90,7 +90,8 @@ const WalletInfo = ({ currentLocale }: WalletInfoProps) => {
         )}
         {!isNullish(wallet?.val_usd) ? (
           <span className="text-base font-bold mt-0">
-            {" "}({wallet!.val_usd!.toFixed(2)}
+            {" "}
+            ({wallet!.val_usd!.toFixed(2)}
             {"USD"})
           </span>
         ) : (
